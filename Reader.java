@@ -1,4 +1,4 @@
-package task1;
+package main;
 
 import java.io.File;
 import java.util.Scanner;
@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 public class Reader {
 
 	Scanner keyboard = new Scanner(System.in);
-	Driver driver = new Driver();
+	Main main = new Main();
 
 	public void read() {
 		String customerFile = "customerinfo.txt";
@@ -29,14 +29,10 @@ public class Reader {
 				String address = stringToken.nextToken();
 				String contactNumber = stringToken.nextToken();
 
-				/*System.out.println(username + " " + password + " " + firstName + " " + lastName + " " + address + " "
-						+ contactNumber);*/
-
 				Customer customer = new Customer(username, password, firstName, lastName, address, contactNumber);
 				// eg in the text file:
 				// username:password:firstName:secondName:address:contactNumber
-				driver.getCustomerArray().add(customer);
-				// System.out.println(driver.getCustomerArray().get(0).getUsername());
+				main.getCustomerArray().add(customer);
 			}
 			while (inputStream2.hasNextLine()) {
 				String line = inputStream2.nextLine();
@@ -50,14 +46,11 @@ public class Reader {
 				String contactNumber = stringToken.nextToken();
 				String businessName = stringToken.nextToken();
 
-				/*System.out.println(username + " " + password + " " + firstName + " " + lastName + " " + address + " "
-						+ contactNumber+" "+businessName);*/
-
 				Owner owner = new Owner(username, password, firstName, lastName, address, contactNumber, businessName);
 				// eg in the text file:
 				// username:password:firstName:secondName:address:contactNumber:businessName
-				driver.getOwnerArray().add(owner);
-				System.out.println(driver.getOwnerArray().get(0).getBusinessName());
+				main.getOwnerArray().add(owner);
+				
 			}
 		} catch (Exception e) {
 			System.out.println(e);
