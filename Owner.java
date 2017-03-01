@@ -1,4 +1,4 @@
-package task1;
+package main;
 
 public class Owner extends Member {
 	
