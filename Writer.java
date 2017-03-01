@@ -21,9 +21,9 @@ public class Writer {
 			writerCustomers.newLine();
 			// write to holdings_backup.txt
 			i++;
-			writerCustomers.close();
 			System.out.println("Files saved.");
 		}
+		writerCustomers.close();
 
 	}
 
