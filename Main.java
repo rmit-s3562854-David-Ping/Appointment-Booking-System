@@ -3,6 +3,9 @@ package main;
 import java.util.Scanner;
 
 public class Main {
+	
+	private ArrayList<Customer> customerArray = new ArrayList<Customer>();
+	private ArrayList<Owner> ownerArray = new ArrayList<Owner>();
 
 	public static void main(String[] args) {
 		// create input variable to record input from user.
@@ -33,5 +36,13 @@ public class Main {
 		System.out.println("0.   Exit\n");
 		System.out.println("**********************************************************");
 		
+	}
+	
+	public ArrayList<Customer> getCustomerArray(){
+		return customerArray;
+	}
+	
+	public ArrayList<Owner> getOwnerArray(){
+		return ownerArray;
 	}
 }
