@@ -1,4 +1,4 @@
-package task1;
+package main;
 
 public class Customer extends Member {
 
