@@ -51,7 +51,6 @@ public class Reader {
 				// eg in the text file:
 				// username:password:firstName:secondName:address:contactNumber:businessName
 				main.getOwnerArray().add(owner);
-				
 			}
 		} catch (Exception e) {
 			System.out.println(e);

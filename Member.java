@@ -1,47 +1,52 @@
 package main;
 
+import java.util.ArrayList;
+
 public abstract class Member {
-	
+
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String address;
 	private String contactNumber;
-	
-	public Member(String username, String password, String firstName, String lastName, String address, String contactNumber){
-		this.username=username;
-		this.password=password;
-		this.firstName=firstName;
-		this.lastName=lastName;
-		this.address=address;
-		this.contactNumber=contactNumber;
+
+	public Member(String username, String password, String firstName, String lastName, String address,
+			String contactNumber) {
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.contactNumber = contactNumber;
 	}
-	
-	
-	public void login(){}
-	public void register(){}
-	
-	
-	
-	
-	
-	public String getUsername(){
+
+	public abstract Boolean login(String username, String password);
+
+	public void register() {
+	}
+
+	public String getUsername() {
 		return username;
 	}
-	public String getPassword(){
+
+	public String getPassword() {
 		return password;
 	}
-	public String getFirstName(){
+
+	public String getFirstName() {
 		return firstName;
 	}
-	public String getLastname(){
+
+	public String getLastname() {
 		return lastName;
 	}
-	public String getAddress(){
+
+	public String getAddress() {
 		return address;
 	}
-	public String getContactNumber(){
+
+	public String getContactNumber() {
 		return contactNumber;
 	}
 }
