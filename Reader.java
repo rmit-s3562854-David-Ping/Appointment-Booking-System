@@ -34,6 +34,7 @@ public class Reader {
 				// username:password:firstName:secondName:address:contactNumber
 				main.getCustomerArray().add(customer);
 			}
+			
 			while (inputStream2.hasNextLine()) {
 				String line = inputStream2.nextLine();
 				StringTokenizer stringToken = new StringTokenizer(line, ":");
