@@ -3,7 +3,6 @@ package main;
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Main {
 
@@ -16,8 +15,6 @@ public class Main {
 		Member owner = new Owner();
 		
 		reader.read();
-		
-		Main main = new Main();
 		
 		// create input variable to record input from user.
 		Scanner input = new Scanner(System.in);
@@ -40,9 +37,6 @@ public class Main {
 			}else{
 				System.out.println("Login failed");
 			}
-			
-			
-
 		}
 		if (selection == 0) {
 			// closes the program.
