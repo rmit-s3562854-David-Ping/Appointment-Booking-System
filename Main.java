@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Main {
 
+
 	private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
 
@@ -15,7 +16,7 @@ public class Main {
 		Member owner = new Owner();
 		
 		reader.read();
-		
+
 		// create input variable to record input from user.
 		Scanner input = new Scanner(System.in);
 		String username = "";
@@ -37,6 +38,7 @@ public class Main {
 			}else{
 				System.out.println("Login failed");
 			}
+
 		}
 		if (selection == 0) {
 			// closes the program.
@@ -62,5 +64,4 @@ public class Main {
 		return ownerArray;
 	}
 
-	
 }
