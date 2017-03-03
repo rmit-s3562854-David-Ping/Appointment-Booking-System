@@ -6,10 +6,17 @@ import java.util.ArrayList;
 
 public class Main {
 
-	private ArrayList<Customer> customerArray = new ArrayList<Customer>();
-	private ArrayList<Owner> ownerArray = new ArrayList<Owner>();
+
+	private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
+	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
 
 	public static void main(String[] args) throws IOException {
+		Reader reader = new Reader();
+		Member customer = new Customer();
+		Member owner = new Owner();
+		
+		reader.read();
+
 		// create input variable to record input from user.
 		Scanner input = new Scanner(System.in);
 		String username = "";
@@ -23,7 +30,14 @@ public class Main {
 			username = input.next();
 			System.out.println("Please enter password: ");
 			password = input.next();
-			arraySearch(username, password);
+			
+			if(owner.login(username, password)){
+				System.out.println("Owner has logged in");
+			}else if(customer.login(username, password)){
+				System.out.println("Customer has logged in");
+			}else{
+				System.out.println("Login failed");
+			}
 
 		}
 		if (selection == 0) {
@@ -50,29 +64,4 @@ public class Main {
 		return ownerArray;
 	}
 
-	public static String arraySearch(String username, String password) {
-		Main driver = new Main();
-		ArrayList<String> MembersSearch = new ArrayList<String>();
-		// Just some dummy customers to test login.
-		Customer customer2 = new Customer("somethingElse", "password", "John", "Smith", "1 test rd", "12345");
-		Customer customer = new Customer("username", "password", "John", "Smith", "1 test rd", "12345");
-		ArrayList<Customer> customerArray = driver.getCustomerArray();
-		customerArray.add(customer2);
-		customerArray.add(customer);
-
-		int index = 0;
-		while (index < customerArray.size()) {
-			MembersSearch.add(customerArray.get(index).getUsername() + customerArray.get(index).getPassword());
-
-			if (MembersSearch.contains(username + password)) {
-				System.out.println("Login Successful");
-				return "";
-			} else {
-			}
-			index++;
-		}
-
-		System.out.println("Error: user not found, please check login details.");
-		return "";
-	}
 }
