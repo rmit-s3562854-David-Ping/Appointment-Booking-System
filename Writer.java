@@ -10,17 +10,17 @@ public class Writer {
 	
 
 	public void save(ArrayList<Customer> customers) throws IOException {
-		// Save holding array to holdings.txt and holdings_backup.txt via
-		// BufferedWriter.
-		BufferedWriter writerCustomers = new BufferedWriter(new FileWriter("customers.txt"));
+
+		BufferedWriter writerCustomers = new BufferedWriter(new FileWriter("customerinfo.txt"));
+    
 		int i = 0;
 		// A loop that writes each element of the array line by line to both
 		// files.
 		while (i < customers.size()) {
-			// Write to holdings.txt
+			// Write to customerInfo.txt
 			writerCustomers.write(customers.get(i).toString());
 			writerCustomers.newLine();
-			// write to holdings_backup.txt
+
 			i++;
 			System.out.println("Files saved.");
 		}
