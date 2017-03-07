@@ -1,14 +1,15 @@
-package writer;
+package main;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import members.Customers;
+
 
 public class Writer {
+	
 
-	public void save(ArrayList<Customers> customers) throws IOException {
+	public void save(ArrayList<Customer> customers) throws IOException {
 		// Save holding array to holdings.txt and holdings_backup.txt via
 		// BufferedWriter.
 		BufferedWriter writerCustomers = new BufferedWriter(new FileWriter("customers.txt"));

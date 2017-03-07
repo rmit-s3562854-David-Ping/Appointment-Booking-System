@@ -54,7 +54,6 @@ public class Customer extends Member {
 		// re-enter password
 		String firstName, lastName, address, contactNumber, username, password, password2;
 
-		System.out.println("**********************************************************");
 		System.out.println("                      REGISTRATION");
 		System.out.println("**********************************************************");
 		System.out.println("First Name:");

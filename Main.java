@@ -46,7 +46,7 @@ public class Main {
 			}
 			case 3: {
 				// closes the program.
-				System.out.println("System Closed....Please close the program.");
+				System.out.println("System Closed");
 				System.exit(0);
 			}
 			default:
