@@ -7,9 +7,12 @@ import java.util.ArrayList;
 
 
 public class Writer {
+	
 
 	public void save(ArrayList<Customer> customers) throws IOException {
+
 		BufferedWriter writerCustomers = new BufferedWriter(new FileWriter("customerinfo.txt"));
+    
 		int i = 0;
 		// A loop that writes each element of the array line by line to both
 		// files.
