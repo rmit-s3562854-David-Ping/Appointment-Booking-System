@@ -2,9 +2,8 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
 public class Owner extends Member {
-
+	Test test = new Test();
 	private static ArrayList<Employee> employeeArray = new ArrayList<Employee>();
 
 	private String businessName;
@@ -23,7 +22,9 @@ public class Owner extends Member {
 		return businessName;
 	}
 
-	public void createEmployee() {
+	public void createEmployee(String id, String name) {
+		getEmployeeArray().add(new Employee(id,name));
+		System.out.println("Employee " + name + "added.");
 	}
 
 	public void addWorkingTimes() {
