@@ -2,12 +2,13 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
 public class Owner extends Member {
-	Test test = new Test();
+
 	private static ArrayList<Employee> employeeArray = new ArrayList<Employee>();
 
 	private String businessName;
-
+	Scanner input = new Scanner(System.in);
 	public Owner() {
 		super(null, null, null, null, null, null);
 	}
@@ -22,10 +23,17 @@ public class Owner extends Member {
 		return businessName;
 	}
 
-	public void createEmployee(String id, String name) {
+	public void createEmployee() {
+		System.out.println("Employee ID: ");
+		String id = input.nextLine();
+		System.out.println("Employee name: ");
+		String name = input.nextLine();
 		getEmployeeArray().add(new Employee(id,name));
-		System.out.println("Employee " + name + "added.");
+
+		System.out.println("Employee " + name + " added.");
+
 	}
+
 
 	public void addWorkingTimes() {
 	}
