@@ -8,7 +8,7 @@ public class Owner extends Member {
 	private static ArrayList<Employee> employeeArray = new ArrayList<Employee>();
 
 	private String businessName;
-
+	Scanner input = new Scanner(System.in);
 	public Owner() {
 		super(null, null, null, null, null, null);
 	}
@@ -24,7 +24,16 @@ public class Owner extends Member {
 	}
 
 	public void createEmployee() {
+		System.out.println("Employee ID: ");
+		String id = input.nextLine();
+		System.out.println("Employee name: ");
+		String name = input.nextLine();
+		getEmployeeArray().add(new Employee(id,name));
+
+		System.out.println("Employee " + name + " added.");
+
 	}
+
 
 	public void addWorkingTimes() {
 	}
