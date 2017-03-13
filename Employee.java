@@ -9,11 +9,13 @@ public class Employee {
 	private static ArrayList<LocalDateTime> endTimes = new ArrayList<LocalDateTime>();
 	
 	private String id;
-	private String name;
+	private String firstName;
+	private String lastName;
 	
-	public Employee(String name, String id) {
+	public Employee(String firstName, String lastName, String id) {
 		this.id=id;
-		this.name=name;
+		this.firstName=firstName;
+		this.lastName=lastName;
 	}
 	
 	public Employee(){}
@@ -30,8 +32,12 @@ public class Employee {
 		return id;
 	}
 	
-	public String getName(){
-		return name;
+	public String getFirstName(){
+		return firstName;
+	}
+	
+	public String getLastName(){
+		return lastName;
 	}
 
 

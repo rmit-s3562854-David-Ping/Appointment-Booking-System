@@ -31,9 +31,17 @@ public class Main {
 
 			switch (selection) {
 			case 1: {
-				if (owner.login()) {
+				String username = "";
+				String password = "";
+
+				System.out.println("Please enter username: ");
+				username = input.next();
+				System.out.println("Please enter password: ");
+				password = input.next();
+				
+				if (owner.login(username, password)) {
 					System.out.println("Owner has logged in");
-				} else if (customer.login()) {
+				} else if (customer.login(username, password)) {
 					System.out.println("Customer has logged in");
 				} else {
 					System.out.println("Login failed");

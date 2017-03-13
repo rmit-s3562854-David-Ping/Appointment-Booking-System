@@ -21,7 +21,7 @@ public abstract class Member {
 		this.contactNumber = contactNumber;
 	}
 
-	public abstract Boolean login();
+	public abstract Boolean login(String username, String password);
 
 	public Boolean register() {
 		return null;
