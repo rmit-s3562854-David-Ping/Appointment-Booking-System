@@ -18,31 +18,20 @@ public class Customer extends Member {
 		super(username, password, firstName, lastName, address, contactNumber);
 	}
 
-	public Boolean login() {
+	public Boolean login(String username, String password) {
 		Main driver = new Main();
 		ArrayList<String> MembersSearch = new ArrayList<String>();
 		ArrayList<Customer> customerArray = driver.getCustomerArray();
 
-		// create input variable to record input from user.
-		Scanner input = new Scanner(System.in);
-		String username = "";
-		String password = "";
-
-		System.out.println("Please enter username: ");
-		username = input.next();
-		System.out.println("Please enter password: ");
-		password = input.next();
-
 		int index = 0;
 		while (index < customerArray.size()) {
 			MembersSearch.add(customerArray.get(index).getUsername() + customerArray.get(index).getPassword());
-
-			if (MembersSearch.contains(username + password)) {
-				System.out.println("Login Successful (Customer)");
-				// Put Customer menu here
-				return true;
-			}
 			index++;
+		}
+		if (MembersSearch.contains(username + password)) {
+			System.out.println("Login Successful (Customer)");
+			// Put Customer menu here
+			return true;
 		}
 		return false;
 	}
@@ -93,6 +82,104 @@ public class Customer extends Member {
 		driver.getCustomerArray().add(customer);
 		System.out.println("Registration complete");
 		return true;
+	}
+
+	public void viewAppointments() {
+		Customer customer = new Customer();
+		Owner owner = new Owner();
+		Appointment appointment = new Appointment();
+		Business business = new Business();
+
+		LocalDateTime currentTime = LocalDateTime.now();
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
+		String formattedDateTime = currentTime.format(formatter);
+		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
+		String formattedDateTime2 = currentTime.format(formatter2);
+
+		if (owner.getEmployeeArray().isEmpty()) {
+			System.out.println("No employees working for this company");
+			return;
+		}
+
+		if (currentTime.toLocalTime().compareTo(business.getClosingTime()) == 1) {
+			currentTime = currentTime.plusHours(24 - currentTime.getHour());
+		}
+
+		Boolean open = null;
+		Boolean appointmentPrinted = null;//
+		int counter = 0;
+
+		while (counter < 7) {
+
+			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
+			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
+			currentTime = currentTime.withSecond(0).withNano(0);
+
+			while (now.getDayOfWeek().equals(currentTime.getDayOfWeek()) && now.getHour() >= currentTime.getHour()
+					&& now.getDayOfYear() == currentTime.getDayOfYear()) {
+				if (now.getHour() >= currentTime.getHour()) {
+					currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+				}
+			}
+
+			open = null;
+			for (int i = 0; i < business.getOpeningDays().length; i++) {
+				if (i == business.getOpeningDays().length - 1
+						&& !(business.getOpeningDays()[i].equals(currentTime.getDayOfWeek()))) {
+					open = false;
+				} else if (business.getOpeningDays()[i].equals(currentTime.getDayOfWeek())) {
+					open = true;
+					break;
+				}
+			}
+
+			if (open == false) {
+				currentTime = currentTime.plusHours(24 - currentTime.getHour());
+			} else if (open == true) {
+
+				System.out.println("================");
+				System.out.println(formattedDateTime2);
+				System.out.println("================");
+
+				while (currentTime.toLocalTime().compareTo(business.getClosingTime()) == -1
+						|| currentTime.getHour() == 0) {
+					if (!(customer.getAppointmentArray().isEmpty())) {
+						for (int i = 0; i < customer.getAppointmentArray().size(); i++) {
+							if (customer.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)) {
+								currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+								i = 0;
+							}
+						}
+					}
+
+					appointmentPrinted = false;
+
+					for (int j = 0; j < owner.getEmployeeArray().size(); j++) {
+						if (appointmentPrinted == true) {
+							appointmentPrinted = false;
+							break;
+						}
+						for (int k = 0; k < owner.getEmployeeArray().get(j).getStartTimes().size(); k++) {
+							if ((owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == 0
+									|| owner.getEmployeeArray().get(j).getStartTimes().get(k)
+											.compareTo(currentTime) == -1)
+									&& ((owner.getEmployeeArray().get(j).getEndTimes().get(k).compareTo(
+											currentTime.plusMinutes(appointment.getAppointmentDuration())) == 0)
+											|| owner.getEmployeeArray().get(j).getEndTimes().get(k)
+													.compareTo(currentTime
+															.plusMinutes(appointment.getAppointmentDuration())) == 1)) {
+								System.out.println(formattedDateTime);
+								appointmentPrinted = true;
+							}
+						}
+					}
+					currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+				}
+				currentTime = currentTime.plusHours(24 - currentTime.getHour());
+			}
+			counter++;
+		}
 	}
 
 	public ArrayList<Appointment> getAppointmentArray() {
