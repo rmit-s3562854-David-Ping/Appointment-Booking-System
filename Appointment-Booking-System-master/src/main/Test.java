@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+//test class
 public class Test {
 	private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 
