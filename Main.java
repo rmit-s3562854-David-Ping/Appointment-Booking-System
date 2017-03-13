@@ -13,6 +13,7 @@ public class Main {
 		Reader reader = new Reader();
 		Member customer = new Customer();
 		Member owner = new Owner();
+	
 		Scanner input = new Scanner(System.in);
 
 		reader.read();
@@ -20,28 +21,40 @@ public class Main {
 		// function to create menu UI.
 		createMenu();
 
-		int selection = 0;
-
+		int selection;
+		String select;
 		do {
+			selection = 0;
+			select = null;
 			try {
-				selection = input.nextInt();
+				select = input.nextLine();
+				selection = Integer.parseInt(select);
 			} catch (Exception e) {
-				input.nextLine();
+
 			}
 
 			switch (selection) {
 			case 1: {
-				if (owner.login()) {
-					System.out.println("Owner has logged in");
-				} else if (customer.login()) {
-					System.out.println("Customer has logged in");
-				} else {
-					System.out.println("Login failed");
-				}
+				
+				do {
+					String username = "";
+					String password = "";
+					System.out.println("Please enter username: ");
+					username = input.nextLine();
+					System.out.println("Please enter password: ");
+					password = input.nextLine();
+					if (!owner.login(username, password) && !customer.login(username, password)) {
+						System.out.println("Invalid login");
+					}else{
+						break;
+					}
+				} while (true);
+				createMenu();
 				break;
 			}
 			case 2: {
 				customer.register();
+				createMenu();
 				break;
 			}
 			case 3: {
@@ -51,6 +64,7 @@ public class Main {
 			}
 			default:
 				System.out.println("Invalid Input, please try again:");
+				break;
 			}
 		} while (!(selection == 3));
 	}
@@ -61,7 +75,18 @@ public class Main {
 		System.out.println("2.   Register");
 		System.out.println("3.   Exit\n");
 		System.out.println("**********************************************************");
+	}
 
+	public void createOwnerMenu() {
+		System.out.println("*************** Appointment Booking System ***************\n");
+		System.out.println("Owner's Page\n");
+		System.out.println("1.   Add employee");
+		System.out.println("2.   Add employee working times");
+		System.out.println("3.   Show employee availability times");
+		System.out.println("4.   View booking summary");
+		System.out.println("5.   View upcoming appointments");
+		System.out.println("6.   Exit\n");
+		System.out.println("**********************************************************");
 	}
 
 	public ArrayList<Customer> getCustomerArray() {
