@@ -52,18 +52,39 @@ public class Customer extends Member {
 		Main driver = new Main();
 		// first name, last name, address, contact details, username, password,
 		// re-enter password
-		String firstName, lastName, address, contactNumber, username, password, password2;
+		String firstName, lastName, address, contactNumber, username, password, password2 = null;
 
 		System.out.println("                      REGISTRATION");
 		System.out.println("**********************************************************");
+		//if input is null it should not be accepted 
 		System.out.println("First Name:");
-		firstName = keyboard.nextLine();
+		firstName = null;
+		while((firstName == null) || (firstName.trim().isEmpty()))
+		{
+			System.out.println("Could you please enter a valid data");
+			firstName = keyboard.nextLine();
+		}
 		System.out.println("Last Name:");
-		lastName = keyboard.nextLine();
+		lastName = null;
+		while((lastName == null) || (lastName.trim().isEmpty()))
+		{
+			System.out.println("Could you please enter a valid data");
+			lastName = keyboard.nextLine();
+		}
 		System.out.println("Address:");
-		address = keyboard.nextLine();
+		address = null;
+		while((address == null) || (address.trim().isEmpty()))
+		{
+			System.out.println("Could you please enter a valid data");
+			address = keyboard.nextLine();
+		}
 		System.out.println("Contact Number:");
-		contactNumber = keyboard.nextLine();
+		contactNumber = null;
+		while((contactNumber == null) || (contactNumber.trim().isEmpty()))
+		{
+			System.out.println("Could you please enter a valid data");
+			contactNumber = keyboard.nextLine();
+		}
 
 		// If username already exists
 		int index = 0;
@@ -86,7 +107,12 @@ public class Customer extends Member {
 		} while (duplicate == true);
 
 		System.out.println("Password:");
-		password = keyboard.nextLine();
+		password = null;
+		while((password == null) || (password.trim().isEmpty()))
+		{
+			System.out.println("Could you please enter a valid data");
+			password = keyboard.nextLine();
+		}
 
 		Customer customer = new Customer(username, password, firstName, lastName, address, contactNumber);
 
