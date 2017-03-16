@@ -84,7 +84,7 @@ public class Customer extends Member {
 		return true;
 	}
 
-	public void viewAppointments() {
+	public void viewAppointmentTimes() {
 		Customer customer = new Customer();
 		Owner owner = new Owner();
 		Appointment appointment = new Appointment();
@@ -93,36 +93,27 @@ public class Customer extends Member {
 		LocalDateTime currentTime = LocalDateTime.now();
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
-		String formattedDateTime = currentTime.format(formatter);
 		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		String formattedDateTime2 = currentTime.format(formatter2);
-
+		Boolean open, appointmentPrinted;
+		int counter = 0;
+		String dateAndDay, formattedTime;
 		if (owner.getEmployeeArray().isEmpty()) {
 			System.out.println("No employees working for this company");
 			return;
 		}
-
 		if (currentTime.toLocalTime().compareTo(business.getClosingTime()) == 1) {
 			currentTime = currentTime.plusHours(24 - currentTime.getHour());
 		}
-
-		Boolean open = null;
-		Boolean appointmentPrinted = null;//
-		int counter = 0;
-
-		while (counter < 7) {
-
+		while (counter < 10) {
 			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
 			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
 			currentTime = currentTime.withSecond(0).withNano(0);
-
 			while (now.getDayOfWeek().equals(currentTime.getDayOfWeek()) && now.getHour() >= currentTime.getHour()
 					&& now.getDayOfYear() == currentTime.getDayOfYear()) {
 				if (now.getHour() >= currentTime.getHour()) {
 					currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
 				}
 			}
-
 			open = null;
 			for (int i = 0; i < business.getOpeningDays().length; i++) {
 				if (i == business.getOpeningDays().length - 1
@@ -133,13 +124,12 @@ public class Customer extends Member {
 					break;
 				}
 			}
-
 			if (open == false) {
 				currentTime = currentTime.plusHours(24 - currentTime.getHour());
 			} else if (open == true) {
-
+				dateAndDay = currentTime.format(formatter2);
 				System.out.println("================");
-				System.out.println(formattedDateTime2);
+				System.out.println(dateAndDay);
 				System.out.println("================");
 
 				while (currentTime.toLocalTime().compareTo(business.getClosingTime()) == -1
@@ -152,9 +142,7 @@ public class Customer extends Member {
 							}
 						}
 					}
-
 					appointmentPrinted = false;
-
 					for (int j = 0; j < owner.getEmployeeArray().size(); j++) {
 						if (appointmentPrinted == true) {
 							appointmentPrinted = false;
@@ -169,7 +157,8 @@ public class Customer extends Member {
 											|| owner.getEmployeeArray().get(j).getEndTimes().get(k)
 													.compareTo(currentTime
 															.plusMinutes(appointment.getAppointmentDuration())) == 1)) {
-								System.out.println(formattedDateTime);
+								formattedTime = currentTime.format(formatter);
+								System.out.println(formattedTime);
 								appointmentPrinted = true;
 							}
 						}
