@@ -124,4 +124,8 @@ public class Customer extends Member {
 	public ArrayList<Appointment> getAppointmentArray() {
 		return appointmentArray;
 	}
+
+	public String toString() {
+		return this.getUsername()+":"+this.getPassword()+":"+this.getFirstName()+":"+this.getLastname()+":"+this.getAddress()+":"+this.getContactNumber();
+	}
 }
