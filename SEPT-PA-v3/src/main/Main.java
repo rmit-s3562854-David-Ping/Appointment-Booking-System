@@ -13,6 +13,7 @@ public class Main {
 		Reader reader = new Reader();
 		Member customer = new Customer();
 		Member owner = new Owner();
+		Utility util = new Utility();
 	
 		Scanner input = new Scanner(System.in);
 
@@ -41,6 +42,10 @@ public class Main {
 					String password = "";
 					System.out.println("Please enter username: ");
 					username = input.nextLine();
+					if((util.quitFunction(username))==true)
+					{
+						break;
+					}
 					System.out.println("Please enter password: ");
 					password = input.nextLine();
 					if (!owner.login(username, password) && !customer.login(username, password)) {
