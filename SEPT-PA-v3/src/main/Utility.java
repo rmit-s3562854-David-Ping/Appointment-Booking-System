@@ -7,11 +7,11 @@ public class Utility {
 	//when user inputs 'q' for input quit task
 	public boolean quitFunction(String input){
 		String quit = "q";
-		System.out.println("quit function here");
+		//System.out.println("quit function here");
 		boolean exit = false;
 		if(input.equals(quit))
 		{
-			System.out.println("exit is true");
+			//System.out.println("exit is true");
 			exit = true;
 		}
 		return exit;
