@@ -12,7 +12,8 @@ public class Employee {
 	private static ArrayList<LocalDateTime> endTimes = new ArrayList<LocalDateTime>();
 
 	private String id;
-	
+	private String firstName;
+	private String lastName;
 
 	public Employee(String firstName, String lastName, String id) {
 		this.id = id;
