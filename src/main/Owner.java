@@ -69,7 +69,7 @@ public class Owner extends Member {
 			}
 		}
 
-		Employee newEmployee = new Employee(firstName, lastName, id);
+		Employee newEmployee = new Employee(firstName, lastName, id, null, null);
 
 		getEmployeeArray().add(newEmployee);
 
@@ -84,79 +84,165 @@ public class Owner extends Member {
 	}
 
 	public void viewBookingSummary() {
-	}
-
-	public void viewUpcomingBookings() {
 		Main main = new Main();
-		Customer customer = new Customer();
 		Owner owner = new Owner();
 		Appointment appointment = new Appointment();
 		Business business = new Business();
-
-		LocalDateTime currentTime = LocalDateTime.now();
-		LocalDateTime now = LocalDateTime.now();
+		String formattedTime, formattedTimePlusDuration, dateAndDay;
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
 		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		String time, time2;
-		String dateAndDay;
+		int counter = main.getAppointmentArray().size();
+		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
+		Boolean open = null;
+	
+		if (main.getAppointmentArray().isEmpty()) {
+			System.out.println("No appointments made yet");
+			return;
+		}
+		currentTime = owner.setEarliestDate(currentTime);	
+		System.out.println("Booking Summary");
+		while (counter > 0) {
+			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
+			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
+			open = owner.validateDayOfWeek(currentTime);
+			if (open == false) {
+				currentTime = currentTime.plusHours(24 - currentTime.getHour());
+				continue;
+			} else if (open == true) {
+				dateAndDay = currentTime.format(dateAndDayFormat);
+				System.out.println("==================================================");
+				System.out.println(dateAndDay);
+				System.out.println("==================================================");
+			}
+			while (currentTime.toLocalTime().compareTo(business.getClosingTime()) == -1 || currentTime.getHour() == 0) {
+				for (int i = 0; i < main.getAppointmentArray().size(); i++) {
+					if (main.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)) {
+						formattedTime = currentTime.format(timeFormat);
+						formattedTimePlusDuration = currentTime.plusMinutes(appointment.getAppointmentDuration())
+								.format(timeFormat);
+						System.out.println("--------------------------------------------------");
+						System.out.println(formattedTime + "-" + formattedTimePlusDuration);
+						owner.printAppointmentDetails(i);
+						System.out.println("--------------------------------------------------");
+						counter--;
+						currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+						i = 0;
+					}
+				}
+				currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+			}
+			currentTime = currentTime.plusHours(24 - currentTime.getHour());
+		}
+		return;
+	}
+	
+	//Test
+	public LocalDateTime setEarliestDate(LocalDateTime currentTime){
+		Main main = new Main();
+		for (int i = 0; i < main.getAppointmentArray().size(); i++) {
+			if (main.getAppointmentArray().get(i).getDateAndTime().compareTo(currentTime) < 0) {
+				currentTime = main.getAppointmentArray().get(i).getDateAndTime();
+			} 
+		}
+		return currentTime;
+	}
+	
+	//Test
+	public boolean validateDayOfWeek(LocalDateTime currentTime) {
+		Business business = new Business();
+		for (int i = 0; i < business.getOpeningDays().length; i++) {
+			if (business.getOpeningDays()[i].equals(currentTime.getDayOfWeek())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void viewUpcomingBookings() {
+		Main main = new Main();
+		Owner owner = new Owner();
+		Appointment appointment = new Appointment();
+		Business business = new Business();
+		
+		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
+		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
+		String formattedTime, formattedTimePlusDuration, dateAndDay;	
+		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
+		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+		int counter = 0;
 
-		System.out.println("Bookings over the next week");
-
-		currentTime = currentTime.withSecond(0).withNano(0);
-		now = now.withSecond(0).withNano(0);
-
+		if (main.getAppointmentArray().isEmpty()) {
+			System.out.println("No appointments made yet");
+			return;
+		}
 		if (currentTime.toLocalTime().compareTo(business.getClosingTime()) > 0) {
 			currentTime = currentTime.plusHours(24 - currentTime.getHour());
 		}
-
+		System.out.println("Bookings over the next week");
 		while (currentTime.compareTo(now.plusDays(7)) < 0) {
+			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
+			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
+			currentTime = owner.adjustTimePresentDay(currentTime);	
 			dateAndDay = currentTime.format(dateAndDayFormat);
 			System.out.println("==================================================");
 			System.out.println(dateAndDay);
 			System.out.println("==================================================");
 
-			for (int i = 0; i < customer.getAppointmentArray().size(); i++) {
-				if (currentTime
-						.getDayOfYear() == (customer.getAppointmentArray().get(i).getDateAndTime().getDayOfYear())) {
-					time = customer.getAppointmentArray().get(i).getDateAndTime().format(timeFormat);
-					time2 = customer.getAppointmentArray().get(i).getDateAndTime()
+			while (!(currentTime.toLocalTime().compareTo(business.getClosingTime()) == 0)) {
+				if (currentTime.compareTo(main.getAppointmentArray().get(counter).getDateAndTime()) == 0) {
+					formattedTime = main.getAppointmentArray().get(counter).getDateAndTime().format(timeFormat);
+					formattedTimePlusDuration = main.getAppointmentArray().get(counter).getDateAndTime()
 							.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
 					System.out.println("--------------------------------------------------");
-					System.out.println(time + "-" + time2);
-
-					// for all customers in the customer array check if it is
-					// the same customer which is assigned the current
-					// appointment
-					for (int j = 0; j < main.getCustomerArray().size(); j++) {
-						if (main.getCustomerArray().get(j).getUsername()
-								.equals(customer.getAppointmentArray().get(i).getCustomerUsername())) {
-							System.out.print("Customer Name: ");
-							System.out.print(main.getCustomerArray().get(j).getFirstName());
-							System.out.print(" ");
-							System.out.println(main.getCustomerArray().get(j).getLastname());
-							break;
-						}
-					}
-
-					// for all employees in the employee array check if the same
-					// employee is assigned to the current appointment
-					for (int k = 0; k < owner.getEmployeeArray().size(); k++) {
-						if (owner.getEmployeeArray().get(k).getId()
-								.equals(customer.getAppointmentArray().get(i).getEmployeeId())) {
-							System.out.print("Employee Name: ");
-							System.out.print(owner.getEmployeeArray().get(k).getFirstName());
-							System.out.print(" ");
-							System.out.println(owner.getEmployeeArray().get(k).getLastName());
-							System.out.print("Employee ID: ");
-							System.out.println(owner.getEmployeeArray().get(k).getId());
-						}
-					}
+					System.out.println(formattedTime + "-" + formattedTimePlusDuration);
+					owner.printAppointmentDetails(counter);
 					System.out.println("--------------------------------------------------");
-
+				}
+				if (counter == main.getAppointmentArray().size() - 1) {
+					currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+					counter = 0;
+				} else {
+					counter++;
 				}
 			}
 			currentTime = currentTime.plusHours(24 - currentTime.getHour());
 		}
+		return;
+	}
+	
+	public void printAppointmentDetails(int counter) {
+		Main main = new Main();
+		Owner owner = new Owner();
+
+		for (int j = 0; j < main.getCustomerArray().size(); j++) {
+			if (main.getCustomerArray().get(j).getUsername()
+					.equals(main.getAppointmentArray().get(counter).getCustomerUsername())) {
+				System.out.println("Customer Name: " + main.getCustomerArray().get(j).getFirstName() + " "
+						+ main.getCustomerArray().get(j).getLastname());
+				System.out.println("Address: " + main.getCustomerArray().get(j).getAddress());
+				System.out.println("Contact Number: " + main.getCustomerArray().get(j).getContactNumber());
+			}
+		}
+		for (int k = 0; k < owner.getEmployeeArray().size(); k++) {
+			if (owner.getEmployeeArray().get(k).getId()
+					.equals(main.getAppointmentArray().get(counter).getEmployeeId())) {
+				System.out.println("Employee Name: " + owner.getEmployeeArray().get(k).getFirstName() + " "
+						+ owner.getEmployeeArray().get(k).getLastName());
+				System.out.println("Employee ID: " + owner.getEmployeeArray().get(k).getId());
+			}
+		}
+	}
+	
+	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime){
+		Appointment appointment = new Appointment();
+		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+		while (now.getDayOfWeek().equals(currentTime.getDayOfWeek()) && now.getHour() >= currentTime.getHour()
+				&& now.getDayOfYear() == currentTime.getDayOfYear()) {
+			if (now.getHour() >= currentTime.getHour()) {
+				currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+			}
+		}
+		return currentTime;
 	}
 
 	public Boolean login(String username, String password) {
