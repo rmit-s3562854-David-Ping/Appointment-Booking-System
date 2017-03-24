@@ -8,8 +8,6 @@ import java.util.Scanner;
 
 public class Customer extends Member {
 	
-	
-
 	public Customer() {
 		super(null, null, null, null, null, null);
 	}

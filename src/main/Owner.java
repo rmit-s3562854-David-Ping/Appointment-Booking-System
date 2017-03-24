@@ -1,6 +1,8 @@
 package main;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -31,40 +33,37 @@ public class Owner extends Member {
 		Utility util = new Utility();
 		System.out.println("Employee ID: ");
 		String id = input.nextLine();
-		
-		if(util.quitFunction(id)){
+
+		if (util.quitFunction(id)) {
 			return;
 		}
-		while(util.validateEmployeeId(id) == false)
-		{
+		while (util.validateMakeEmployeeId(id) == false) {
 			id = input.nextLine();
-			if(util.quitFunction(id)){
+			if (util.quitFunction(id)) {
 				return;
 			}
 		}
-		
+
 		System.out.println("Employee First Name: ");
 		String firstName = input.nextLine();
-		if(util.quitFunction(firstName)){
+		if (util.quitFunction(firstName)) {
 			return;
 		}
-		while(util.validateName(firstName) == false)
-		{
+		while (util.validateName(firstName) == false) {
 			firstName = input.nextLine();
-			if(util.quitFunction(firstName)){
+			if (util.quitFunction(firstName)) {
 				return;
 			}
 		}
-		
+
 		System.out.println("Employee Last Name: ");
 		String lastName = input.nextLine();
-		if(util.quitFunction(lastName)){
+		if (util.quitFunction(lastName)) {
 			return;
 		}
-		while(util.validateName(lastName) == false)
-		{
+		while (util.validateName(lastName) == false) {
 			lastName = input.nextLine();
-			if(util.quitFunction(lastName)){
+			if (util.quitFunction(lastName)) {
 				return;
 			}
 		}
@@ -78,6 +77,133 @@ public class Owner extends Member {
 	}
 
 	public void addWorkingTimes() {
+		Owner owner = new Owner();
+		Utility util = new Utility();
+		Scanner keyboard = new Scanner(System.in);
+		String employeeId, newDate, newTime;
+		DateTimeFormatter timeFormatter;
+		LocalDate date;
+		LocalTime startTime, endTime;
+		LocalDateTime startDateTime, endDateTime;
+		boolean validEntry;
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
+
+		System.out.println("Add employee work time");
+		System.out.println("*************************");
+		System.out.println("Employees");
+		System.out.println("=====================");
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			System.out.println("Name: " + owner.getEmployeeArray().get(i).getFirstName() + " "
+					+ owner.getEmployeeArray().get(i).getLastName());
+			System.out.println("Id:   " + owner.getEmployeeArray().get(i).getId());
+			System.out.println("---------------------");
+		}
+		System.out.println("Type in Id of the employee:");
+		do {
+			employeeId = keyboard.nextLine();
+			if (util.quitFunction(employeeId)) {
+				return;
+			}
+		} while (util.validateEmployeeId(employeeId) == false);
+
+		System.out.println("Type in new work date (day/month/year)");
+		do {
+			newDate = keyboard.nextLine();
+			if (util.quitFunction(newDate)) {
+				return;
+			}
+		} while (util.validateDate(newDate) == false);
+		date = LocalDate.parse(newDate, dateFormat);
+
+		System.out.println("Type in start time (hours:minutes)");
+		do {
+			newTime = keyboard.nextLine();
+			if (util.quitFunction(newTime)) {
+				return;
+			}
+		} while (util.validateTime(newTime) == false);
+		timeFormatter = assignTimeFormat(newTime);
+		startTime = LocalTime.parse(newTime, timeFormatter);
+
+		System.out.println("Type in end time (hours:minutes)");
+		do {
+			newTime = keyboard.nextLine();
+			if (util.quitFunction(newTime)) {
+				return;
+			}
+		} while (util.validateTime(newTime) == false);
+		timeFormatter = assignTimeFormat(newTime);
+		endTime = LocalTime.parse(newTime, timeFormatter);
+
+		startDateTime = LocalDateTime.of(date, startTime);
+		endDateTime = LocalDateTime.of(date, endTime);
+
+		validEntry = validateNewWorkTime(employeeId, startDateTime, endDateTime);
+		if (validEntry == true) {
+			System.out.println("New work hours added for " + employeeId);
+		} else {
+			System.out.println("New work hours were not added");
+		}
+		return;
+	}
+
+	public DateTimeFormatter assignTimeFormat(String time) {
+		LocalTime currentTime;
+		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("H:mm");
+		DateTimeFormatter timeFormat2 = DateTimeFormatter.ofPattern("h:mma");
+
+		try {
+			currentTime = LocalTime.parse(time, timeFormat);
+			return timeFormat;
+		} catch (Exception e) {}
+
+		try {
+			currentTime = LocalTime.parse(time, timeFormat2);
+			return timeFormat2;
+		} catch (Exception e) {}
+
+		return null;
+
+	}
+
+	public boolean validateNewWorkTime(String employeeId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+		Owner owner = new Owner();
+		Business business = new Business();
+		LocalDateTime now = LocalDateTime.now();
+
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
+				for (int j = 0; j < owner.getEmployeeArray().get(i).getStartTimes().size(); j++) {
+					if (owner.getEmployeeArray().get(i).getStartTimes().get(j).toLocalDate()
+							.equals(startDateTime.toLocalDate())) {
+						System.out.println("employee already working on this date");
+						return false;
+					}
+				}
+
+				if (startDateTime.compareTo(endDateTime) > 0) {
+					System.out.println("end time is before start time");
+					return false;
+				} else if (startDateTime.toLocalTime().isBefore(business.getOpeningTime())) {
+					System.out.println("cannot start before business is open");
+					return false;
+				} else if (endDateTime.toLocalTime().isAfter(business.getClosingTime())) {
+					System.out.println("cannot have end after business is closed");
+					return false;
+				} else if (startDateTime.toLocalDate().isBefore(now.toLocalDate())) {
+					System.out.println("cannot make work time in the past");
+					return false;
+				} else if(startDateTime.toLocalDate().isAfter(now.plusMonths(1).toLocalDate())){
+					System.out.println("cannot assign work time beyond one month");
+					return false;
+				}
+				owner.getEmployeeArray().get(i).getStartTimes().add(startDateTime);
+				owner.getEmployeeArray().get(i).getEndTimes().add(endDateTime);
+				System.out.print("new work time added");
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void showAllWorkerAvailability() {
@@ -94,12 +220,12 @@ public class Owner extends Member {
 		int counter = main.getAppointmentArray().size();
 		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
 		Boolean open = null;
-	
+
 		if (main.getAppointmentArray().isEmpty()) {
 			System.out.println("No appointments made yet");
 			return;
 		}
-		currentTime = owner.setEarliestDate(currentTime);	
+		currentTime = owner.setEarliestDate(currentTime);
 		System.out.println("Booking Summary");
 		while (counter > 0) {
 			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
@@ -135,19 +261,19 @@ public class Owner extends Member {
 		}
 		return;
 	}
-	
-	//Test
-	public LocalDateTime setEarliestDate(LocalDateTime currentTime){
+
+	// Test
+	public LocalDateTime setEarliestDate(LocalDateTime currentTime) {
 		Main main = new Main();
 		for (int i = 0; i < main.getAppointmentArray().size(); i++) {
 			if (main.getAppointmentArray().get(i).getDateAndTime().compareTo(currentTime) < 0) {
 				currentTime = main.getAppointmentArray().get(i).getDateAndTime();
-			} 
+			}
 		}
 		return currentTime;
 	}
-	
-	//Test
+
+	// Test
 	public boolean validateDayOfWeek(LocalDateTime currentTime) {
 		Business business = new Business();
 		for (int i = 0; i < business.getOpeningDays().length; i++) {
@@ -157,16 +283,16 @@ public class Owner extends Member {
 		}
 		return false;
 	}
-	
+
 	public void viewUpcomingBookings() {
 		Main main = new Main();
 		Owner owner = new Owner();
 		Appointment appointment = new Appointment();
 		Business business = new Business();
-		
+
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
 		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		String formattedTime, formattedTimePlusDuration, dateAndDay;	
+		String formattedTime, formattedTimePlusDuration, dateAndDay;
 		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
 		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
 		int counter = 0;
@@ -182,7 +308,7 @@ public class Owner extends Member {
 		while (currentTime.compareTo(now.plusDays(7)) < 0) {
 			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
 			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
-			currentTime = owner.adjustTimePresentDay(currentTime);	
+			currentTime = owner.adjustTimePresentDay(currentTime);
 			dateAndDay = currentTime.format(dateAndDayFormat);
 			System.out.println("==================================================");
 			System.out.println(dateAndDay);
@@ -209,7 +335,7 @@ public class Owner extends Member {
 		}
 		return;
 	}
-	
+
 	public void printAppointmentDetails(int counter) {
 		Main main = new Main();
 		Owner owner = new Owner();
@@ -232,8 +358,8 @@ public class Owner extends Member {
 			}
 		}
 	}
-	
-	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime){
+
+	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime) {
 		Appointment appointment = new Appointment();
 		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
 		while (now.getDayOfWeek().equals(currentTime.getDayOfWeek()) && now.getHour() >= currentTime.getHour()
