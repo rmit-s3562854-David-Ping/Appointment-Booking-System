@@ -18,9 +18,10 @@ public class Customer extends Member {
 	}
 
 	public Boolean login(String username, String password) {
-		Main driver = new Main();
+		Main main = new Main();
+		Scanner input = new Scanner(System.in);
 		ArrayList<String> MembersSearch = new ArrayList<String>();
-		ArrayList<Customer> customerArray = driver.getCustomerArray();
+		ArrayList<Customer> customerArray = main.getCustomerArray();
 
 		int index = 0;
 		while (index < customerArray.size()) {
@@ -29,10 +30,39 @@ public class Customer extends Member {
 		}
 		if (MembersSearch.contains(username + password)) {
 			System.out.println("Login Successful (Customer)");
-			// Put Customer menu here
-			return true;
+			
+			int selection;
+			String select;
+			do {
+				main.createCustomerMenu();
+				selection = 0;
+				select = null;
+				try {
+					select = input.nextLine();
+					selection = Integer.parseInt(select);
+				} catch (Exception e) {
+
+				}
+				switch (selection) {
+				case 1: {
+					viewAppointmentTimes();
+					break;
+				}
+				case 2: {
+					return true;
+				}
+				default: {
+					System.out.println("Invalid Input, please try again:");
+					break;
+				}
+				}
+
+			} while (selection != 2);
+			
+		}else{
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	public Boolean register(){

@@ -98,7 +98,7 @@ public class Owner extends Member {
 			System.out.println("Id:   " + owner.getEmployeeArray().get(i).getId());
 			System.out.println("---------------------");
 		}
-		System.out.println("Type in Id of the employee:");
+		System.out.println("Select an employee, input Id: ");
 		do {
 			employeeId = keyboard.nextLine();
 			if (util.quitFunction(employeeId)) {
@@ -180,6 +180,9 @@ public class Owner extends Member {
 						return false;
 					}
 				}
+				if(validateDayOfWeek(startDateTime)==false){
+					return false;
+				}
 
 				if (startDateTime.compareTo(endDateTime) > 0) {
 					System.out.println("end time is before start time");
@@ -197,6 +200,7 @@ public class Owner extends Member {
 					System.out.println("cannot assign work time beyond one month");
 					return false;
 				}
+				
 				owner.getEmployeeArray().get(i).getStartTimes().add(startDateTime);
 				owner.getEmployeeArray().get(i).getEndTimes().add(endDateTime);
 				System.out.print("new work time added");
