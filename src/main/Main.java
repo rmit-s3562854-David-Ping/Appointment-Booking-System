@@ -8,6 +8,8 @@ public class Main {
 
 	private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
+	
+	private static ArrayList<Appointment> appointmentArray = new ArrayList<Appointment>();
 
 	public static void main(String[] args) {
 		Reader reader = new Reader();
@@ -111,4 +113,7 @@ public class Main {
 		return ownerArray;
 	}
 
+	public ArrayList<Appointment> getAppointmentArray() {
+		return appointmentArray;
+	}
 }
