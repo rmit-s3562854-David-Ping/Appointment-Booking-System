@@ -211,8 +211,46 @@ public class Owner extends Member {
 	}
 
 	public void showAllWorkerAvailability() {
-	}
+		Owner owner = new Owner();
+		Utility util = new Utility();
+		Scanner keyboard = new Scanner(System.in);
+		String employeeId, newDate, newTime;
+		boolean validEntry;
+		ArrayList<Employee> employees = owner.getEmployeeArray();
+		System.out.println("View employee availability");
+		System.out.println("*************************");
+		int i=0;
+		while(i<employees.size()){
+			System.out.println(getEmployeeArray().get(i).getId() + "'s availability:");
+				if(owner.getEmployeeArray().get(i).getStartTimes().isEmpty()){
+					System.out.println(owner.getEmployeeArray().get(i).getId() + " has no work hours");
 
+				}
+				else{
+					ArrayList<LocalDateTime> startTimes= owner.getEmployeeArray().get(i).getStartTimes();
+					ArrayList<LocalDateTime> endTimes= owner.getEmployeeArray().get(i).getEndTimes();
+
+					int k = 0;
+					while (k <owner.getEmployeeArray().get(i).getStartTimes().size()) {
+						outputWorkHours(startTimes.get(k).toString()+endTimes.get(k).toString());
+						k++;
+
+					}
+					System.out.println("*************************");
+
+
+			}
+			i++;
+		}
+
+	}
+	public  void outputWorkHours(String workHours) {
+		String endTime = (workHours.substring(27,32));
+		String date = workHours.substring(1,10);
+		String startTime = workHours.substring(11,16);
+		System.out.println("Date: " + date + " from " +startTime + " to " + endTime);
+
+	}
 	public void viewBookingSummary() {
 		Main main = new Main();
 		Owner owner = new Owner();
