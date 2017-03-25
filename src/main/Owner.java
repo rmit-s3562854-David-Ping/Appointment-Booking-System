@@ -211,8 +211,58 @@ public class Owner extends Member {
 	}
 
 	public void showAllWorkerAvailability() {
-	}
+		Owner owner = new Owner();
+		Utility util = new Utility();
+		Scanner keyboard = new Scanner(System.in);
+		String employeeId, newDate, newTime;
+		boolean validEntry;
 
+		System.out.println("View employee work time");
+		System.out.println("*************************");
+		System.out.println("Employees");
+		System.out.println("=====================");
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			System.out.println("Name: " + owner.getEmployeeArray().get(i).getFirstName() + " "
+					+ owner.getEmployeeArray().get(i).getLastName());
+			System.out.println("Id:   " + owner.getEmployeeArray().get(i).getId());
+			System.out.println("---------------------");
+		}
+		System.out.println("Select an employee, input Id: ");
+		do {
+			employeeId = keyboard.nextLine();
+			if (util.quitFunction(employeeId)) {
+				return;
+			}
+		} while (util.validateEmployeeId(employeeId) == false);
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
+				if(owner.getEmployeeArray().get(i).getStartTimes().isEmpty()){
+					System.out.println(owner.getEmployeeArray().get(i).getId() + " has no work hours");
+
+				}
+				else{
+					ArrayList<LocalDateTime> startTimes= owner.getEmployeeArray().get(i).getStartTimes();
+					ArrayList<LocalDateTime> endTimes= owner.getEmployeeArray().get(i).getEndTimes();
+
+					int k = 0;
+					while (k <owner.getEmployeeArray().get(i).getStartTimes().size()) {
+						outputWorkHours(startTimes.get(k).toString()+endTimes.get(k).toString());
+						k++;
+
+					}
+
+				}
+			}
+		}
+
+	}
+	public  void outputWorkHours(String workHours) {
+		String endTime = (workHours.substring(27,32));
+		String date = workHours.substring(1,10);
+		String startTime = workHours.substring(11,16);
+		System.out.println("Date: " + date + " from " +startTime + " to " + endTime);
+
+	}
 	public void viewBookingSummary() {
 		Main main = new Main();
 		Owner owner = new Owner();
