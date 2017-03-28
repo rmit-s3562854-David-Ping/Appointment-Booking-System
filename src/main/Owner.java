@@ -221,7 +221,9 @@ public class Owner extends Member {
 		System.out.println("View employee availability");
 		System.out.println("*************************");
 		int i=0;
+		//Loops through employee array 'i' being the index of the current employee.
 		while(i<employees.size()){
+			//Print's out a msg if employees have no work hours in the next week. (may need to be removed if all employees are listed at once.
 			System.out.println(getEmployeeArray().get(i).getId() + "'s availability:");
 				if(owner.getEmployeeArray().get(i).getStartTimes().isEmpty()){
 					System.out.println(owner.getEmployeeArray().get(i).getId() + " has no work hours");
@@ -230,9 +232,11 @@ public class Owner extends Member {
 					ArrayList<LocalDateTime> startTimes= owner.getEmployeeArray().get(i).getStartTimes();
 					ArrayList<LocalDateTime> endTimes= owner.getEmployeeArray().get(i).getEndTimes();
 					int k = 0;
+					//Loops through each work time of an employee.
 					while (k <owner.getEmployeeArray().get(i).getStartTimes().size()) {
 						int week=1;
 						while(week<=7){
+						//Only prints the times within a week of the current day (now).
 						if(now.plusDays(week).toString().substring(0,10).equals(owner.getEmployeeArray().get(i).getStartTimes().toString().substring(1,11))){
 							outputWorkHours(startTimes.get(i).toString()+endTimes.get(k).toString());
 							}
@@ -247,6 +251,7 @@ public class Owner extends Member {
 
 	}
 	public  void outputWorkHours(String workHours) {
+		//Splits the string into date,start time and end time. Then outputs the information in specified format.
 		String endTime = (workHours.substring(27,32));
 		String date = workHours.substring(0,10);
 		String startTime = workHours.substring(11,16);
