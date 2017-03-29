@@ -28,51 +28,86 @@ public class Owner extends Member {
 		return businessName;
 	}
 
-	public void createEmployee() {
+	public Boolean createEmployee(){
+		System.out.println("                     Adding New Employee");
+		System.out.println("**********************************************************");
+		System.out.println("Enter 'q','b','quit' to exit at anytime ");
+		System.out.println("");
+		
+		Employee newEmployee;
+		newEmployee = getEmployeeInfo();
+		if(newEmployee == null){
+			System.out.println("Adding new emplyee failed");
+			return false;
+		}
+		addEmployee(newEmployee);
+			//getEmployeeArray().add(newEmployee);
+		System.out.println("Employee " + newEmployee.getFirstName() + " " + newEmployee.getLastName() + " added.");
+		return true;		
+	}
+	
+	public Boolean addEmployee(Employee employee){
+		if(employee == null){
+			return false;
+		}
+		getEmployeeArray().add(employee);
+		return true;
+	}
+
+	public Employee getEmployeeInfo() {
+		// Add error checking make sure id is unique
+
 		Utility util = new Utility();
 		System.out.println("Employee ID: ");
 		String id = input.nextLine();
 
 		if (util.quitFunction(id)) {
-			return;
+			return null;
 		}
 		while (util.validateMakeEmployeeId(id) == false) {
 			id = input.nextLine();
-			if (util.quitFunction(id)) {
-				return;
+			if (util.quitFunction(id)) 
+		  	return null;
 			}
 		}
 
 		System.out.println("Employee First Name: ");
 		String firstName = input.nextLine();
 		if (util.quitFunction(firstName)) {
-			return;
+			return null;
 		}
 		while (util.validateName(firstName) == false) {
 			firstName = input.nextLine();
 			if (util.quitFunction(firstName)) {
-				return;
+				return null;
 			}
 		}
 
 		System.out.println("Employee Last Name: ");
 		String lastName = input.nextLine();
 		if (util.quitFunction(lastName)) {
-			return;
+			return null;
 		}
 		while (util.validateName(lastName) == false) {
 			lastName = input.nextLine();
 			if (util.quitFunction(lastName)) {
-				return;
+				return null;
 			}
 		}
 
+		Employee employee = makeEmployeeObj(firstName, lastName, id);
+		return employee;
+	}
+
+	public Employee makeEmployeeObj(String firstName,String lastName, String id){
+		Utility util = new Utility();
+		if( (util.checkString(firstName)==false) || (util.checkString(lastName)==false) || (util.checkString(id) == false) ){
+			return null;
+		}
+		else{
 		Employee newEmployee = new Employee(firstName, lastName, id, null, null);
-
-		getEmployeeArray().add(newEmployee);
-
-		System.out.println("Employee " + firstName + " " + lastName + " added.");
-		return;
+		return newEmployee;
+		}
 	}
 
 	public void addWorkingTimes() {
@@ -88,9 +123,9 @@ public class Owner extends Member {
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
 
 		System.out.println("Add employee work time");
-		System.out.println("**********************************************************");
+		System.out.println("*************************");
 		System.out.println("Employees");
-		System.out.println("==========================================================");
+		System.out.println("=====================");
 		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
 			System.out.println("Name: " + owner.getEmployeeArray().get(i).getFirstName() + " "
 					+ owner.getEmployeeArray().get(i).getLastName());
@@ -154,14 +189,12 @@ public class Owner extends Member {
 		try {
 			currentTime = LocalTime.parse(time, timeFormat);
 			return timeFormat;
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 
 		try {
 			currentTime = LocalTime.parse(time, timeFormat2);
 			return timeFormat2;
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 
 		return null;
 
@@ -227,6 +260,7 @@ public class Owner extends Member {
 		LocalDateTime now = LocalDateTime.now();
 		System.out.println("View employee availability");
 		System.out.println("*************************");
+
 		int i = 0;
 		while (i < employees.size()) {
 			System.out.println(getEmployeeArray().get(i).getId() + "'s availability:");
@@ -251,17 +285,14 @@ public class Owner extends Member {
 			}
 			i++;
 		}
+	}
+	public  void outputWorkHours(String workHours) {
+		String endTime = (workHours.substring(27,32));
+		String date = workHours.substring(0,10);
+		String startTime = workHours.substring(11,16);
+		System.out.println("Date: " + date + " from " +startTime + " to " + endTime);
 
 	}
-
-	public void outputWorkHours(String workHours) {
-		String endTime = (workHours.substring(27, 32));
-		String date = workHours.substring(0, 10);
-		String startTime = workHours.substring(11, 16);
-		System.out.println("Date: " + date + " from " + startTime + " to " + endTime);
-
-	}
-
 	public void viewBookingSummary() {
 		Main main = new Main();
 		Owner owner = new Owner();
