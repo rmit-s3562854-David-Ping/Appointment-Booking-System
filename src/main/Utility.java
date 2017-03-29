@@ -1,5 +1,8 @@
 package main;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 
@@ -93,7 +96,7 @@ public class Utility {
         }
     }
     
-    public boolean validateEmployeeId(String id){
+    public boolean validateMakeEmployeeId(String id){
         Owner owner = new Owner();
         String pattern = "^e[0-9]{5}$";
 
@@ -110,6 +113,23 @@ public class Utility {
         return false;
     }
     
+    public boolean validateEmployeeId(String id){
+        Owner owner = new Owner();
+        String pattern = "^e[0-9]{5}$";
+
+        for(int i=0;i<owner.getEmployeeArray().size();i++){
+            if(owner.getEmployeeArray().get(i).getId().equals(id)&&id.matches(pattern)){
+                if(id.matches(pattern)){
+                    return true;
+                }else{
+                	System.out.println("Id is invalid, please enter in the format eXXXXX (X=[0-9])");
+                }
+            }
+        }
+        System.out.println("Id does not exist");
+        return false;
+    }
+    
     public boolean validateAddress(String address){
         String pattern = "^[0-9a-zA-Z0-9_ ]{5,45}$";
         if(address.matches(pattern)){
@@ -118,6 +138,39 @@ public class Utility {
         	System.out.println("please enter valid Address");
             return false;
         }
+    }
+    
+    public boolean validateDate(String date){
+    	LocalDate currentDate;
+    	DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
+    	try{
+    		currentDate = LocalDate.parse(date, dateFormat);
+    	}catch(Exception e){
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public boolean validateTime(String time){
+    	LocalTime currentTime;
+    	boolean valid =false;
+    	DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("H:mm");
+		DateTimeFormatter timeFormat2 = DateTimeFormatter.ofPattern("h:mma");
+		
+    	try{
+    		currentTime = LocalTime.parse(time, timeFormat);
+    		valid = true;
+    	}catch(Exception e){}
+    	
+    	try{
+    		currentTime = LocalTime.parse(time, timeFormat2);
+    		valid = true;
+    	}catch(Exception e){}
+    	
+    	if(valid==true){
+    		return true;
+    	}
+    	return false;
     }
 
 }

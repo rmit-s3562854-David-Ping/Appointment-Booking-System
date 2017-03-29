@@ -56,6 +56,7 @@ public class Owner extends Member {
 
 	public Employee getEmployeeInfo() {
 		// Add error checking make sure id is unique
+
 		Utility util = new Utility();
 		System.out.println("Employee ID: ");
 		String id = input.nextLine();
@@ -65,8 +66,8 @@ public class Owner extends Member {
 		}
 		while (util.validateMakeEmployeeId(id) == false) {
 			id = input.nextLine();
-			if (util.quitFunction(id)) {
-				return null;
+			if (util.quitFunction(id)) 
+		  	return null;
 			}
 		}
 
@@ -213,7 +214,7 @@ public class Owner extends Member {
 						return false;
 					}
 				}
-				if(validateDayOfWeek(startDateTime)==false){
+				if (validateDayOfWeek(startDateTime) == false) {
 					return false;
 				}
 
@@ -229,14 +230,20 @@ public class Owner extends Member {
 				} else if (startDateTime.toLocalDate().isBefore(now.toLocalDate())) {
 					System.out.println("cannot make work time in the past");
 					return false;
-				} else if(startDateTime.toLocalDate().isAfter(now.plusMonths(1).toLocalDate())){
+				} else if (startDateTime.toLocalDate().isAfter(now.plusMonths(1).toLocalDate())) {
 					System.out.println("cannot assign work time beyond one month");
 					return false;
+				} else if(endDateTime.getHour()-startDateTime.getHour()<3){
+					System.out.println("cannot work for less than 3 hours");
+					return false;
+				} else if(!endDateTime.toLocalDate().equals(startDateTime.toLocalDate())){
+					System.out.println("must work on the same day");
+					return false;
 				}
-				
+
 				owner.getEmployeeArray().get(i).getStartTimes().add(startDateTime);
 				owner.getEmployeeArray().get(i).getEndTimes().add(endDateTime);
-				System.out.print("new work time added");
+				System.out.println("new work time added");
 				return true;
 			}
 		}
@@ -253,31 +260,31 @@ public class Owner extends Member {
 		LocalDateTime now = LocalDateTime.now();
 		System.out.println("View employee availability");
 		System.out.println("*************************");
-		int i=0;
-		while(i<employees.size()){
+
+		int i = 0;
+		while (i < employees.size()) {
 			System.out.println(getEmployeeArray().get(i).getId() + "'s availability:");
-				if(owner.getEmployeeArray().get(i).getStartTimes().isEmpty()){
-					System.out.println(owner.getEmployeeArray().get(i).getId() + " has no work hours");
-				}
-				else{
-					ArrayList<LocalDateTime> startTimes= owner.getEmployeeArray().get(i).getStartTimes();
-					ArrayList<LocalDateTime> endTimes= owner.getEmployeeArray().get(i).getEndTimes();
-					int k = 0;
-					while (k <owner.getEmployeeArray().get(i).getStartTimes().size()) {
-						int week=1;
-						while(week<=7){
-						if(now.plusDays(week).toString().substring(0,10).equals(owner.getEmployeeArray().get(i).getStartTimes().toString().substring(1,11))){
-							outputWorkHours(startTimes.get(i).toString()+endTimes.get(k).toString());
-							}
-							week++;
+			if (owner.getEmployeeArray().get(i).getStartTimes().isEmpty()) {
+				System.out.println(owner.getEmployeeArray().get(i).getId() + " has no work hours");
+			} else {
+				ArrayList<LocalDateTime> startTimes = owner.getEmployeeArray().get(i).getStartTimes();
+				ArrayList<LocalDateTime> endTimes = owner.getEmployeeArray().get(i).getEndTimes();
+				int k = 0;
+				while (k < owner.getEmployeeArray().get(i).getStartTimes().size()) {
+					int week = 1;
+					while (week <= 7) {
+						if (now.plusDays(week).toString().substring(0, 10)
+								.equals(owner.getEmployeeArray().get(i).getStartTimes().toString().substring(1, 11))) {
+							outputWorkHours(startTimes.get(i).toString() + endTimes.get(k).toString());
 						}
-						k++;
+						week++;
 					}
-					System.out.println("*************************");
+					k++;
+				}
+				System.out.println("*************************");
 			}
 			i++;
 		}
-
 	}
 	public  void outputWorkHours(String workHours) {
 		String endTime = (workHours.substring(27,32));
