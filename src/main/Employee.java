@@ -5,17 +5,15 @@ import java.util.ArrayList;
 
 public class Employee {
 
-	private static ArrayList<LocalDateTime> startTimes = new ArrayList<LocalDateTime>();// Change
-																						// to
-																						// next
-																						// month
-	private static ArrayList<LocalDateTime> endTimes = new ArrayList<LocalDateTime>();
+	//change to next month
+	private ArrayList<LocalDateTime> startTimes = new ArrayList<LocalDateTime>();
+	private ArrayList<LocalDateTime> endTimes = new ArrayList<LocalDateTime>();
 
 	private String id;
 	private String firstName;
 	private String lastName;
 
-	public Employee(String firstName, String lastName, String id) {
+	public Employee(String firstName, String lastName, String id, ArrayList<LocalDateTime> startTimes, ArrayList<LocalDateTime> endTimes) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -43,5 +41,9 @@ public class Employee {
 	public String getLastName() {
 		return lastName;
 	}
+	
+	public String toString() {
+ 		return this.getId()+":"+this.getFirstName()+":"+this.getLastName()+":"+ this.getStartTimes()+ this.getEndTimes();
+ 	}
 
 }

@@ -8,7 +8,10 @@ public class Main {
 
 	private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
+	
+	private static ArrayList<Appointment> appointmentArray = new ArrayList<Appointment>();
 
+	
 	public static void main(String[] args) {
 		Reader reader = new Reader();
 		Member customer = new Customer();
@@ -74,6 +77,7 @@ public class Main {
 			case 3: {
 				// closes the program.
 				System.out.println("System Closed");
+				util.exit();
 				System.exit(0);
 			}
 			default:
@@ -95,11 +99,20 @@ public class Main {
 		System.out.println("*************** Appointment Booking System ***************\n");
 		System.out.println("Owner's Page\n");
 		System.out.println("1.   Add employee");
-		System.out.println("2.   Add employee working times");
-		System.out.println("3.   Show employee availability times");
-		System.out.println("4.   View booking summary");
-		System.out.println("5.   View upcoming appointments");
-		System.out.println("6.   Exit\n");
+		System.out.println("2.   Delete employee");
+		System.out.println("3.   Add employee working times");
+		System.out.println("4.   Show employee availability times");
+		System.out.println("5.   View booking summary");
+		System.out.println("6.   View upcoming appointments");
+		System.out.println("7.   Exit\n");
+		System.out.println("**********************************************************");
+	}
+	
+	public void createCustomerMenu() {
+		System.out.println("*************** Appointment Booking System ***************\n");
+		System.out.println("Owner's Page\n");
+		System.out.println("1.   View Appointment Times");
+		System.out.println("2.   Exit\n");
 		System.out.println("**********************************************************");
 	}
 
@@ -111,4 +124,7 @@ public class Main {
 		return ownerArray;
 	}
 
+	public ArrayList<Appointment> getAppointmentArray() {
+		return appointmentArray;
+	}
 }

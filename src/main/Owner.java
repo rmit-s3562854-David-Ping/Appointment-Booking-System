@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,14 +28,18 @@ public class Owner extends Member {
 	public String getBusinessName() {
 		return businessName;
 	}
+	
+	
 
 	public Boolean createEmployee(){
+		
 		System.out.println("                     Adding New Employee");
 		System.out.println("**********************************************************");
 		System.out.println("Enter 'q','b','quit' to exit at anytime ");
 		System.out.println("");
 		
 		Employee newEmployee;
+		
 		newEmployee = getEmployeeInfo();
 		if(newEmployee == null){
 			System.out.println("Adding new emplyee failed");
@@ -43,6 +48,7 @@ public class Owner extends Member {
 		addEmployee(newEmployee);
 			//getEmployeeArray().add(newEmployee);
 		System.out.println("Employee " + newEmployee.getFirstName() + " " + newEmployee.getLastName() + " added.");
+		
 		return true;		
 	}
 	
@@ -108,6 +114,49 @@ public class Owner extends Member {
 		return newEmployee;
 		}
 	}
+	
+	public Boolean deleteEmployee(){
+			
+			Utility util = new Utility();
+			Scanner keyboard = new Scanner(System.in);
+			String employeeId;
+			String sure;
+			Owner owner = new Owner();
+			System.out.println("               Delete Employee");
+			System.out.println("************************************************");
+			
+			int j = 0;
+			while(j < owner.getEmployeeArray().size()){
+				System.out.print(owner.getEmployeeArray().get(j).getId() + " | ");
+				System.out.print(owner.getEmployeeArray().get(j).getFirstName() + " ");
+				System.out.println(owner.getEmployeeArray().get(j).getLastName() + " ");
+				j++;
+			}
+			System.out.println("");
+			System.out.println("Select an employee, input Id: ");
+			do {
+				employeeId = keyboard.nextLine();
+				if (util.quitFunction(employeeId)) {
+					return false;
+				}
+			} while (util.validateEmployeeId(employeeId) == false);
+			
+			
+			for(int i = 0; i < owner.getEmployeeArray().size(); i++){
+				if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
+					System.out.println("are you sure you want to delete " + getEmployeeArray().get(i).getId() + " Y - N" );
+					sure = keyboard.nextLine();
+					if((sure.equals("Y")) || (sure.equals("y"))){
+						System.out.println("Employee " + owner.getEmployeeArray().get(i).getFirstName() + " " + owner.getEmployeeArray().get(i).getLastName() + " deleted successfully");
+						owner.getEmployeeArray().remove(i);
+					}
+					else{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
 
 	public void addWorkingTimes() {
 		Owner owner = new Owner();
@@ -478,23 +527,28 @@ public class Owner extends Member {
 					createEmployee();
 					break;
 				}
+				
 				case 2: {
-					addWorkingTimes();
+					deleteEmployee();
 					break;
 				}
 				case 3: {
-					showAllWorkerAvailability();
+					addWorkingTimes();
 					break;
 				}
 				case 4: {
-					viewBookingSummary();
+					showAllWorkerAvailability();
 					break;
 				}
 				case 5: {
-					viewUpcomingBookings();
+					viewBookingSummary();
 					break;
 				}
 				case 6: {
+					viewUpcomingBookings();
+					break;
+				}
+				case 7: {
 					return true;
 				}
 				default: {
