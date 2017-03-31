@@ -110,20 +110,12 @@ public class Main {
 	
 	public void createCustomerMenu() {
 		System.out.println("*************** Appointment Booking System ***************\n");
-		System.out.println("Owner's Page\n");
+		System.out.println("Customer's Page\n");
 		System.out.println("1.   View Appointment Times");
 		System.out.println("2.   Exit\n");
 		System.out.println("**********************************************************");
 	}
 	
-	public void createCustomerMenu() {
-		System.out.println("*************** Appointment Booking System ***************\n");
-		System.out.println("Owner's Page\n");
-		System.out.println("1.   View Appointment Times");
-		System.out.println("2.   Exit\n");
-		System.out.println("**********************************************************");
-	}
-
 	public ArrayList<Customer> getCustomerArray() {
 		return customerArray;
 	}
