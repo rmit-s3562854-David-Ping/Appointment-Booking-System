@@ -64,19 +64,7 @@ public class Owner extends Member {
 		// Add error checking make sure id is unique
 
 		Utility util = new Utility();
-		System.out.println("Employee ID: ");
-		String id = input.nextLine();
-
-		if (util.quitFunction(id)) {
-			return null;
-		}
-		while (util.validateMakeEmployeeId(id) == false) {
-			id = input.nextLine();
-			if (util.quitFunction(id)) 
-		  	return null;
-			}
-		}
-
+		String id = util.createID();
 		System.out.println("Employee First Name: ");
 		String firstName = input.nextLine();
 		if (util.quitFunction(firstName)) {
