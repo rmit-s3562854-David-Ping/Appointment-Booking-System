@@ -42,7 +42,7 @@ public class Owner extends Member {
 		}
 		addEmployee(newEmployee);
 			//getEmployeeArray().add(newEmployee);
-		System.out.println("Employee " + newEmployee.getFirstName() + " " + newEmployee.getLastName() + " added.");
+		System.out.println("Employee " + newEmployee.getId() + " " + newEmployee.getFirstName() + " " + newEmployee.getLastName() + " added.");
 		return true;		
 	}
 	
@@ -58,19 +58,6 @@ public class Owner extends Member {
 		// Add error checking make sure id is unique
 
 		Utility util = new Utility();
-		System.out.println("Employee ID: ");
-		String id = input.nextLine();
-
-		if (util.quitFunction(id)) {
-			return null;
-		}
-		while (util.validateMakeEmployeeId(id) == false) {
-			id = input.nextLine();
-			if (util.quitFunction(id)) 
-		  	return null;
-			}
-		}
-
 		System.out.println("Employee First Name: ");
 		String firstName = input.nextLine();
 		if (util.quitFunction(firstName)) {
@@ -95,17 +82,17 @@ public class Owner extends Member {
 			}
 		}
 
-		Employee employee = makeEmployeeObj(firstName, lastName, id);
+		Employee employee = makeEmployeeObj(firstName, lastName);
 		return employee;
 	}
 
-	public Employee makeEmployeeObj(String firstName,String lastName, String id){
+	public Employee makeEmployeeObj(String firstName,String lastName){
 		Utility util = new Utility();
-		if( (util.checkString(firstName)==false) || (util.checkString(lastName)==false) || (util.checkString(id) == false) ){
+		if( (util.checkString(firstName)==false) || (util.checkString(lastName)==false) ){
 			return null;
 		}
 		else{
-		Employee newEmployee = new Employee(firstName, lastName, id, null, null);
+		Employee newEmployee = new Employee(firstName, lastName, null, null);
 		return newEmployee;
 		}
 	}
