@@ -26,5 +26,26 @@ public class Writer {
 		writerCustomers.close();
 
 	}
+	
+	
+	public void saveEmployees(ArrayList<Employee> employees) throws IOException {
+
+		BufferedWriter writerEmployees = new BufferedWriter(new FileWriter("Employeeinfo.txt"));
+
+		int i = 0;
+		// A loop that writes each element of the array line by line to both
+		// files.
+		while (i < employees.size()) {
+			// Write to customerInfo.txt
+			writerEmployees.write(employees.get(i).toString());
+			writerEmployees.newLine();
+
+			i++;
+			
+		}
+		System.out.println("Files saved.");
+		writerEmployees.close();
+
+	}
 
 }

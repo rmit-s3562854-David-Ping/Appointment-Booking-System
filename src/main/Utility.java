@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -7,6 +8,21 @@ import java.util.Scanner;
 
 
 public class Utility {
+	
+	//exit function to save all data to .txt files so it could be retrieved
+	//when program starts
+	public void exit(){
+		Writer writer = new Writer();
+		Owner owner = new Owner();
+		
+		try{
+			writer.saveEmployees(owner.getEmployeeArray());
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 	//when user inputs 'q' for input quit task
 	public boolean quitFunction(String input){
 		String pattern = "^b|q|quit| $";
@@ -26,16 +42,9 @@ public class Utility {
 		Utility util = new Utility();
 		
 		while((string == null) || (string.trim().isEmpty()))
-		{
-			System.out.println("Could you please enter a valid data");
-			string = keyboard.nextLine();
-			
-			if((util.quitFunction(string))== true)
-			{
-				return false;
-			}
-			
-		}
+		{			
+			return false;
+		}	
 		return true;
 	}
 	
