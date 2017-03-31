@@ -552,7 +552,7 @@ public class Owner extends Member {
 				}
 				}
 
-			} while (selection != 6);
+			} while (selection != 7);
 		} else {
 			return false;
 		}
