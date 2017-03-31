@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -181,5 +182,27 @@ public class Utility {
     	}
     	return false;
     }
+    //This method creates a unique ID in the format eXXXXX (X being a number).
+	public  String createID() {
+		//Sets ID to 0 then searches array, if ID exists it iterates and repeats.
+		Owner owner= new Owner();
 
+		ArrayList<Employee> EmployeeArray = owner.getEmployeeArray();
+		int IDCounter = 1;
+		int index = 0;
+		while(index < EmployeeArray.size()) {
+			index=0;
+			while (index < EmployeeArray.size()) {
+				if (Integer.parseInt(String.format("%05d", IDCounter)) == Integer.parseInt((EmployeeArray.get(index).getId()).substring(1,6))) {
+					IDCounter++;
+					break;
+				} else {
+					index++;
+
+				}
+			}
+		}
+		String ID = "e" + String.format("%05d", IDCounter);
+		return ID;
+	}
 }
