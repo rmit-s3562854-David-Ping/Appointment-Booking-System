@@ -16,7 +16,8 @@ public class TestAddWorkingTimes {
 	@BeforeClass
 	public static void setupEmployee(){
 		Owner owner = new Owner();
-		Employee dummyEmployee = new Employee("Fname", "Lname", "e00001", null, null);
+		Employee dummyEmployee = new Employee("Fname", "Lname", null, null);
+
 		owner.getEmployeeArray().add(dummyEmployee);
 	}
 	

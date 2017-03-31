@@ -22,43 +22,43 @@ public class Employee_Test {
 	
 	@Test
 	public void makeEmployeeObject_test(){
-		employee = owner.makeEmployeeObj("firstName", "lastName", "id");
+		employee = owner.makeEmployeeObj("firstName", "lastName");
 		assertTrue("valid Employee",employee != null);
 	}
 	
 	@Test
 	public void makeEmployeeObject_test2(){
-		employee = owner.makeEmployeeObj(null,null, null);
+		employee = owner.makeEmployeeObj(null,null);
 		assertTrue("invalid Employee",employee != null);
 	}
 	
 	@Test
 	public void makeEmployeeObject_test3(){
-		employee = owner.makeEmployeeObj(null,"lastName", "id");
+		employee = owner.makeEmployeeObj(null,"lastName");
 		assertTrue("invalid Employee",employee != null);
 	}
 	
 	@Test
 	public void makeEmployeeObject_test4(){
-		employee = owner.makeEmployeeObj("firstName",null, "id");
+		employee = owner.makeEmployeeObj("firstName",null);
 		assertTrue("invalid Employee",employee != null);
 	}
 	
 	@Test
 	public void makeEmployeeObject_test5(){
-		employee = owner.makeEmployeeObj("firstName","lastName", null);
+		employee = owner.makeEmployeeObj("firstName","lastName");
 		assertTrue("invalid Employee",employee != null);
 	}
 	
 	@Test 
 	public void makeEmployeeObject_test6(){
-		employee = owner.makeEmployeeObj("","","");
+		employee = owner.makeEmployeeObj("","");
 		assertTrue("invalid Employee",employee != null);
 	}
 	
 	@Test
 	public void addEmployee_test(){
-		employee = new Employee("last","user","id",null,null);
+		employee = new Employee("last","user",null,null);
 		assertTrue("accepted Employee",owner.addEmployee(employee));
 	}
 	
