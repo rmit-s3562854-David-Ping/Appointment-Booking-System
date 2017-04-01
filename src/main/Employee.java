@@ -40,5 +40,9 @@ public class Employee {
 	public String getLastName() {
 		return lastName;
 	}
+	
+	public String toString() {
+ 		return this.getId()+":"+this.getFirstName()+":"+this.getLastName()+":"+ this.getStartTimes()+ this.getEndTimes();
+ 	}
 
 }
