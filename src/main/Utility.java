@@ -368,5 +368,42 @@ public class Utility {
 		}
 		return sortedList;
 	}
+	
+	public void printAvailableAppointment(LocalDateTime currentTime) {
+		Main main = new Main();
+		Owner owner = new Owner();
+		Appointment appointment = new Appointment();
+		String formattedTime;
+		Boolean employeeAvailable = null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
+
+		for (int j = 0; j < owner.getEmployeeArray().size(); j++) {
+			employeeAvailable = true;
+			for (int i = 0; i < main.getAppointmentArray().size(); i++) {
+				if (main.getAppointmentArray().get(i).getEmployeeId().equals(owner.getEmployeeArray().get(j).getId())
+						&& main.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)) {
+					employeeAvailable = false;
+					break;
+				}
+			}
+			if (employeeAvailable == false) {
+				continue;
+			}
+
+			for (int k = 0; k < owner.getEmployeeArray().get(j).getStartTimes().size(); k++) {
+				if ((owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == 0
+						|| owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == -1)
+						&& ((owner.getEmployeeArray().get(j).getEndTimes().get(k)
+								.compareTo(currentTime.plusMinutes(appointment.getAppointmentDuration())) == 0)
+								|| owner.getEmployeeArray().get(j).getEndTimes().get(k).compareTo(
+										currentTime.plusMinutes(appointment.getAppointmentDuration())) == 1)) {
+					formattedTime = currentTime.format(formatter);
+					System.out.println(formattedTime);
+					return;
+				}
+			}
+		}
+		return;
+	}
 
 }

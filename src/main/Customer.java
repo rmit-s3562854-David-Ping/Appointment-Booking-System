@@ -219,10 +219,10 @@ public class Customer extends Member {
 		if (currentTime.toLocalTime().compareTo(business.getClosingTime()) == 1) {
 			currentTime = currentTime.plusHours(24 - currentTime.getHour());
 		}
-		while (counter < 10) {
+		while (counter < 7) {
 			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
 			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
-			customer.adjustTimePresentDay(currentTime);
+			util.adjustTimePresentDay(currentTime);
 			open = util.validateDayOfWeek(currentTime);
 			if (open == false) {
 				currentTime = currentTime.plusHours(24 - currentTime.getHour());
@@ -234,7 +234,7 @@ public class Customer extends Member {
 				System.out.println("================");
 				while (currentTime.toLocalTime().compareTo(business.getClosingTime()) == -1
 						|| currentTime.getHour() == 0) {
-					customer.printAvailableAppointment(currentTime);
+					util.printAvailableAppointment(currentTime);
 
 					currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
 				}
@@ -242,55 +242,6 @@ public class Customer extends Member {
 			}
 			counter++;
 		}
-	}
-
-	public void printAvailableAppointment(LocalDateTime currentTime) {
-		Main main = new Main();
-		Owner owner = new Owner();
-		Appointment appointment = new Appointment();
-		String formattedTime;
-		Boolean employeeAvailable = null;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
-
-		for (int j = 0; j < owner.getEmployeeArray().size(); j++) {
-			employeeAvailable = true;
-			for (int i = 0; i < main.getAppointmentArray().size(); i++) {
-				if (main.getAppointmentArray().get(i).getEmployeeId().equals(owner.getEmployeeArray().get(j).getId())
-						&& main.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)) {
-					employeeAvailable = false;
-					break;
-				}
-			}
-			if (employeeAvailable == false) {
-				continue;
-			}
-
-			for (int k = 0; k < owner.getEmployeeArray().get(j).getStartTimes().size(); k++) {
-				if ((owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == 0
-						|| owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == -1)
-						&& ((owner.getEmployeeArray().get(j).getEndTimes().get(k)
-								.compareTo(currentTime.plusMinutes(appointment.getAppointmentDuration())) == 0)
-								|| owner.getEmployeeArray().get(j).getEndTimes().get(k).compareTo(
-										currentTime.plusMinutes(appointment.getAppointmentDuration())) == 1)) {
-					formattedTime = currentTime.format(formatter);
-					System.out.println(formattedTime);
-					return;
-				}
-			}
-		}
-		return;
-	}
-
-	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime) {
-		Appointment appointment = new Appointment();
-		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
-		while (now.getDayOfWeek().equals(currentTime.getDayOfWeek()) && now.getHour() >= currentTime.getHour()
-				&& now.getDayOfYear() == currentTime.getDayOfYear()) {
-			if (now.getHour() >= currentTime.getHour()) {
-				currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
-			}
-		}
-		return currentTime;
 	}
 
 	public String toString() {
