@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Customer extends Member {
-	
+
 	public Customer() {
 		super(null, null, null, null, null, null);
 	}
@@ -30,7 +30,7 @@ public class Customer extends Member {
 		}
 		if (MembersSearch.contains(username + password)) {
 			System.out.println("Login Successful (Customer)");
-			
+
 			int selection;
 			String select;
 			do {
@@ -58,25 +58,26 @@ public class Customer extends Member {
 				}
 
 			} while (selection != 2);
-			
-		}else{
+
+		} else {
 			return false;
 		}
 		return true;
 	}
-	
-	public Boolean register(){
+
+	public Boolean register() {
 		System.out.println("                      REGISTRATION");
 		System.out.println("**********************************************************");
 		System.out.println("Enter 'q','b','quit' to exit at anytime ");
 		System.out.println("");
-		Customer customer ;
+		Customer customer;
 		customer = getRegisterInformation();
-		if(customer == null){
+		if (customer == null) {
 			System.out.println("Registration Failed");
 			return false;
 		}
-		addCustomer(customer.getUsername(), customer.getPassword(), customer.getFirstName(), customer.getLastname(), customer.getAddress(), customer.getContactNumber());
+		addCustomer(customer.getUsername(), customer.getPassword(), customer.getFirstName(), customer.getLastname(),
+				customer.getAddress(), customer.getContactNumber());
 		System.out.println("Registration complete");
 		return true;
 	}
@@ -86,139 +87,128 @@ public class Customer extends Member {
 		Utility util = new Utility();
 		Main driver = new Main();
 		Scanner keyboard = new Scanner(System.in);
-		String username = null,password, firstName,lastName, address,contactNumber;
+		String username = null, password, firstName, lastName, address, contactNumber;
 		Boolean valid = true;
 		System.out.println("First name: ");
 		firstName = keyboard.nextLine();
-		
-		if((util.quitFunction(firstName))== true)
-		{
+
+		if ((util.quitFunction(firstName)) == true) {
 			valid = false;
 			return null;
 		}
-		while(util.validateName(firstName) == false)
-		{
+		while (util.validateName(firstName) == false) {
 			firstName = keyboard.nextLine();
-			if(util.quitFunction(firstName)){
+			if (util.quitFunction(firstName)) {
 				return null;
 			}
 		}
-		
+
 		System.out.println("Last name: ");
 		lastName = keyboard.nextLine();
-		if((util.quitFunction(lastName))== true)
-		{
+		if ((util.quitFunction(lastName)) == true) {
 			valid = false;
 			return null;
 		}
-		
-		while(util.validateName(lastName) == false)
-		{
+
+		while (util.validateName(lastName) == false) {
 			lastName = keyboard.nextLine();
-			if(util.quitFunction(lastName)){
+			if (util.quitFunction(lastName)) {
 				return null;
 			}
 		}
 		System.out.println("Address: ");
 		address = keyboard.nextLine();
-		if((util.quitFunction(address))== true)
-		{
+		if ((util.quitFunction(address)) == true) {
 			valid = false;
 			return null;
 		}
-		
-		while(util.validateAddress(address) == false)
-		{
+
+		while (util.validateAddress(address) == false) {
 			address = keyboard.nextLine();
-			if(util.quitFunction(address)){
+			if (util.quitFunction(address)) {
 				return null;
 			}
 		}
 		System.out.println("Contact Number: ");
 		contactNumber = keyboard.nextLine();
-		if((util.quitFunction(contactNumber))== true)
-		{
+		if ((util.quitFunction(contactNumber)) == true) {
 			valid = false;
 			return null;
 		}
-		while(util.validateContactNumber(contactNumber) == false)
-		{
+		while (util.validateContactNumber(contactNumber) == false) {
 			contactNumber = keyboard.nextLine();
-			if(util.quitFunction(contactNumber) == true)
-			{
+			if (util.quitFunction(contactNumber) == true) {
 				return null;
-			} 
+			}
 		}
 		System.out.println("Username: ");
 		username = keyboard.nextLine();
 		boolean validUsername;
-		
-		if((util.quitFunction(username))== true)
-		{
+
+		if ((util.quitFunction(username)) == true) {
 			valid = false;
 			return null;
 		}
-		
-		while((util.validateLogin(username) == false) || (util.customerUsernameIsDuplicate(username) == true)){
+
+		while ((util.validateLogin(username) == false) || (util.customerUsernameIsDuplicate(username) == true)) {
 			username = keyboard.nextLine();
 		}
-	
+
 		System.out.println("Password: ");
 		password = keyboard.nextLine();
-		if((util.quitFunction(password))== true)
-		{
+		if ((util.quitFunction(password)) == true) {
 			valid = false;
 			return null;
 		}
-		while(util.validateLogin(password) == false)
-		{
+		while (util.validateLogin(password) == false) {
 			password = keyboard.nextLine();
-			if(util.quitFunction(password)){
+			if (util.quitFunction(password)) {
 				return null;
 			}
 		}
-		
-		
-		Customer customer = makeObj(username,password,firstName,lastName,address,contactNumber,valid);
+
+		Customer customer = makeObj(username, password, firstName, lastName, address, contactNumber, valid);
 		return customer;
-		
+
 	}
-	
-	public Customer makeObj(String username, String password, String firstName,String lastName,String address,String contactNumber, Boolean valid){
-		
-		if(valid == false){
+
+	public Customer makeObj(String username, String password, String firstName, String lastName, String address,
+			String contactNumber, Boolean valid) {
+
+		if (valid == false) {
 			return null;
-		}
-		else{
-		Customer customer = new Customer(username, password, firstName,lastName,address,contactNumber);
-		return customer;
+		} else {
+			Customer customer = new Customer(username, password, firstName, lastName, address, contactNumber);
+			return customer;
 		}
 	}
-	
-	public Boolean addCustomer(String username, String password, String firstName,String lastName,String address,String contactNumber){
+
+	public Boolean addCustomer(String username, String password, String firstName, String lastName, String address,
+			String contactNumber) {
 		Main driver = new Main();
 
-		Customer customer = new Customer(username, password, firstName, lastName, address,contactNumber );
+		Customer customer = new Customer(username, password, firstName, lastName, address, contactNumber);
 		driver.getCustomerArray().add(customer);
 		Writer writer = new Writer();
-		try{
+		try {
 			writer.save(driver.getCustomerArray());
-		}catch (IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return true;
-		
-    }
-	
-	public void viewAppointmentTimes(){
+
+	}
+
+	public void viewAppointmentTimes() {
 		Owner owner = new Owner();
 		Customer customer = new Customer();
 		Appointment appointment = new Appointment();
 		Business business = new Business();
-		
+		Utility util = new Utility();
+
 		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
 		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		Boolean open;
+		boolean open;
 		String dateAndDay;
 		int counter = 0;
 
@@ -233,7 +223,7 @@ public class Customer extends Member {
 			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
 			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
 			customer.adjustTimePresentDay(currentTime);
-			open = customer.validateDayOfWeek(currentTime);
+			open = util.validateDayOfWeek(currentTime);
 			if (open == false) {
 				currentTime = currentTime.plusHours(24 - currentTime.getHour());
 				continue;
@@ -242,11 +232,10 @@ public class Customer extends Member {
 				System.out.println("================");
 				System.out.println(dateAndDay);
 				System.out.println("================");
-
 				while (currentTime.toLocalTime().compareTo(business.getClosingTime()) == -1
 						|| currentTime.getHour() == 0) {
 					customer.printAvailableAppointment(currentTime);
-					
+
 					currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
 				}
 				currentTime = currentTime.plusHours(24 - currentTime.getHour());
@@ -254,37 +243,35 @@ public class Customer extends Member {
 			counter++;
 		}
 	}
-		
-	public void printAvailableAppointment(LocalDateTime currentTime){
+
+	public void printAvailableAppointment(LocalDateTime currentTime) {
 		Main main = new Main();
 		Owner owner = new Owner();
 		Appointment appointment = new Appointment();
 		String formattedTime;
 		Boolean employeeAvailable = null;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
-		
+
 		for (int j = 0; j < owner.getEmployeeArray().size(); j++) {
-			employeeAvailable=true;
-			for(int i=0;i<main.getAppointmentArray().size();i++){
-				if(main.getAppointmentArray().get(i).getEmployeeId().equals(owner.getEmployeeArray().get(j).getId())
-						&&main.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)){
+			employeeAvailable = true;
+			for (int i = 0; i < main.getAppointmentArray().size(); i++) {
+				if (main.getAppointmentArray().get(i).getEmployeeId().equals(owner.getEmployeeArray().get(j).getId())
+						&& main.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)) {
 					employeeAvailable = false;
 					break;
 				}
-			}							
-			if(employeeAvailable==false){
+			}
+			if (employeeAvailable == false) {
 				continue;
 			}
-			
-			for (int k = 0; k < owner.getEmployeeArray().get(j).getStartTimes().size(); k++) {		
+
+			for (int k = 0; k < owner.getEmployeeArray().get(j).getStartTimes().size(); k++) {
 				if ((owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == 0
-						|| owner.getEmployeeArray().get(j).getStartTimes().get(k)
-								.compareTo(currentTime) == -1)
-						&& ((owner.getEmployeeArray().get(j).getEndTimes().get(k).compareTo(
-								currentTime.plusMinutes(appointment.getAppointmentDuration())) == 0)
-								|| owner.getEmployeeArray().get(j).getEndTimes().get(k)
-										.compareTo(currentTime
-												.plusMinutes(appointment.getAppointmentDuration())) == 1)) {
+						|| owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == -1)
+						&& ((owner.getEmployeeArray().get(j).getEndTimes().get(k)
+								.compareTo(currentTime.plusMinutes(appointment.getAppointmentDuration())) == 0)
+								|| owner.getEmployeeArray().get(j).getEndTimes().get(k).compareTo(
+										currentTime.plusMinutes(appointment.getAppointmentDuration())) == 1)) {
 					formattedTime = currentTime.format(formatter);
 					System.out.println(formattedTime);
 					return;
@@ -293,8 +280,8 @@ public class Customer extends Member {
 		}
 		return;
 	}
-	
-	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime){
+
+	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime) {
 		Appointment appointment = new Appointment();
 		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
 		while (now.getDayOfWeek().equals(currentTime.getDayOfWeek()) && now.getHour() >= currentTime.getHour()
@@ -305,19 +292,9 @@ public class Customer extends Member {
 		}
 		return currentTime;
 	}
-	
-	public boolean validateDayOfWeek(LocalDateTime currentTime) {
-		Business business = new Business();
-		for (int i = 0; i < business.getOpeningDays().length; i++) {
-			if (business.getOpeningDays()[i].equals(currentTime.getDayOfWeek())) {
-				return true;
-			}
-		}
-		return false;
-	}
 
-	
 	public String toString() {
-		 		return this.getUsername()+":"+this.getPassword()+":"+this.getFirstName()+":"+this.getLastname()+":"+this.getAddress()+":"+this.getContactNumber();
-		 	}
+		return this.getUsername() + ":" + this.getPassword() + ":" + this.getFirstName() + ":" + this.getLastname()
+				+ ":" + this.getAddress() + ":" + this.getContactNumber();
+	}
 }

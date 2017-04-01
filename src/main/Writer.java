@@ -37,10 +37,24 @@ public class Writer {
 		// files.
 		while (i < employees.size()) {
 			// Write to customerInfo.txt
-			writerEmployees.write(employees.get(i).toString());
-			writerEmployees.newLine();
+						writerEmployees.write(employees.get(i).getId()+"|"+employees.get(i).getFirstName()+"|"+employees.get(i).getLastName()+"|");
+						for(int j=0;j<employees.get(i).getStartTimes().size();j++){
+							if(!(j==0)){
+								writerEmployees.write(",");
+							}
+							writerEmployees.write(employees.get(i).getStartTimes().get(j).toString());
+						}
+						writerEmployees.write("|");
+						for(int j=0;j<employees.get(i).getEndTimes().size();j++){
+							if(!(j==0)){
+								writerEmployees.write(",");
+							}
+							writerEmployees.write(employees.get(i).getEndTimes().get(j).toString());
+						}
+						
+						writerEmployees.newLine();
 
-			i++;
+						i++;
 			
 		}
 		System.out.println("Files saved.");
