@@ -1,6 +1,7 @@
 package main;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -59,15 +60,33 @@ public class Reader {
 			
 			while (inputStream3.hasNextLine()){
 				String line = inputStream3.nextLine();
-				StringTokenizer stringToken = new StringTokenizer(line,":");
+				StringTokenizer stringToken = new StringTokenizer(line,"|");
 				
 				String id = stringToken.nextToken();
 				String firstName = stringToken.nextToken();
 				String lastName = stringToken.nextToken();
-				//String startTime = stringToken.nextToken();
-				//String endTime = stringToken.nextToken();
 				
 				Employee employee = new Employee(firstName, lastName, id, null ,null);
+				
+				if (stringToken.hasMoreTokens()) {
+					String startTimes = stringToken.nextToken();
+
+					StringTokenizer stringToken2 = new StringTokenizer(startTimes, ",");
+
+					while (stringToken2.hasMoreTokens()) {
+						LocalDateTime newStartTime = LocalDateTime.parse(stringToken2.nextToken());
+						employee.getStartTimes().add(newStartTime);
+					}
+
+					String endTimes = stringToken.nextToken();
+					StringTokenizer stringToken3 = new StringTokenizer(endTimes, ",");
+					while (stringToken3.hasMoreTokens()) {
+						LocalDateTime newEndTime = LocalDateTime.parse(stringToken3.nextToken());
+						employee.getEndTimes().add(newEndTime);
+					}
+					
+					
+				}
 				
 				owner.getEmployeeArray().add(employee);
 				
