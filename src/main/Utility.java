@@ -2,9 +2,11 @@ package main;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -205,4 +207,203 @@ public class Utility {
 		String ID = "e" + String.format("%05d", IDCounter);
 		return ID;
 	}
+	
+	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime) {
+		Appointment appointment = new Appointment();
+		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+		while (now.getDayOfWeek().equals(currentTime.getDayOfWeek()) && now.getHour() >= currentTime.getHour()
+				&& now.getDayOfYear() == currentTime.getDayOfYear()) {
+			if (now.getHour() >= currentTime.getHour()) {
+				currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+			}
+		}
+		return currentTime;
+	}
+	
+	public void printAppointmentDetails(int counter, List<Appointment> arrayList) {
+		Main main = new Main();
+		Owner owner = new Owner();
+
+		for (int j = 0; j < main.getCustomerArray().size(); j++) {
+			if (main.getCustomerArray().get(j).getUsername()
+					.equals(arrayList.get(counter).getCustomerUsername())) {
+				System.out.println("Customer Name: " + main.getCustomerArray().get(j).getFirstName() + " "
+						+ main.getCustomerArray().get(j).getLastname());
+				System.out.println("Address: " + main.getCustomerArray().get(j).getAddress());
+				System.out.println("Contact Number: " + main.getCustomerArray().get(j).getContactNumber());
+			}
+		}
+		for (int k = 0; k < owner.getEmployeeArray().size(); k++) {
+			if (owner.getEmployeeArray().get(k).getId()
+					.equals(arrayList.get(counter).getEmployeeId())) {
+				System.out.println("Employee Name: " + owner.getEmployeeArray().get(k).getFirstName() + " "
+						+ owner.getEmployeeArray().get(k).getLastName());
+				System.out.println("Employee ID: " + owner.getEmployeeArray().get(k).getId());
+			}
+		}
+	}
+	
+	public boolean validateDayOfWeek(LocalDateTime currentTime) {
+		Business business = new Business();
+		for (int i = 0; i < business.getOpeningDays().length; i++) {
+			if (business.getOpeningDays()[i].equals(currentTime.getDayOfWeek())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public DateTimeFormatter assignTimeFormat(String time) {
+		LocalTime currentTime;
+		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("H:mm");
+		DateTimeFormatter timeFormat2 = DateTimeFormatter.ofPattern("h:mma");
+
+		try {
+			currentTime = LocalTime.parse(time, timeFormat);
+			return timeFormat;
+		} catch (Exception e) {}
+
+		try {
+			currentTime = LocalTime.parse(time, timeFormat2);
+			return timeFormat2;
+		} catch (Exception e) {}
+
+		return null;
+
+	}
+	
+	public boolean validateNewWorkTime(String employeeId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+		Owner owner = new Owner();
+		Business business = new Business();
+		LocalDateTime now = LocalDateTime.now();
+
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
+				for (int j = 0; j < owner.getEmployeeArray().get(i).getStartTimes().size(); j++) {
+					if (owner.getEmployeeArray().get(i).getStartTimes().get(j).toLocalDate()
+							.equals(startDateTime.toLocalDate())) {
+						System.out.println("employee already working on this date");
+						return false;
+					}
+				}
+				
+
+				if (startDateTime.compareTo(endDateTime) > 0) {
+					System.out.println("end time is before start time");
+					return false;
+				} else if (startDateTime.toLocalTime().isBefore(business.getOpeningTime())) {
+					System.out.println("cannot start before business is open");
+					return false;
+				} else if (endDateTime.toLocalTime().isAfter(business.getClosingTime())) {
+					System.out.println("cannot have end after business is closed");
+					return false;
+				} else if (startDateTime.toLocalDate().isBefore(now.toLocalDate())) {
+					System.out.println("cannot make work time in the past");
+					return false;
+				} else if (startDateTime.toLocalDate().isAfter(now.plusMonths(1).toLocalDate())) {
+					System.out.println("cannot assign work time beyond one month");
+					return false;
+				} else if(endDateTime.getHour()-startDateTime.getHour()<3){
+					System.out.println("cannot work for less than 3 hours");
+					return false;
+				}
+
+				owner.getEmployeeArray().get(i).getStartTimes().add(startDateTime);
+				owner.getEmployeeArray().get(i).getEndTimes().add(endDateTime);
+				System.out.println("new work time added");
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public List<Appointment> sortFutureAppointments(){
+		Main main = new Main();
+		LocalDateTime now = LocalDateTime.now();	
+		List<Appointment> sortedList = new ArrayList<Appointment>();
+		for(int i=0;i<main.getAppointmentArray().size();i++){
+			if(main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))&&
+					main.getAppointmentArray().get(i).getDateAndTime().isAfter(now)&&sortedList.isEmpty()){
+				sortedList.add(main.getAppointmentArray().get(i));
+				continue;
+			}
+			for(int j=0;j<sortedList.size();j++){
+				if(main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))&&
+						main.getAppointmentArray().get(i).getDateAndTime().isAfter(now)&&
+					main.getAppointmentArray().get(i).getDateAndTime().isBefore(sortedList.get(j).getDateAndTime())){
+					sortedList.add(j, main.getAppointmentArray().get(i));
+					break;
+				} else if(main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))&&
+						main.getAppointmentArray().get(i).getDateAndTime().isAfter(now)&&j==sortedList.size()-1){
+					sortedList.add(main.getAppointmentArray().get(i));
+					break;
+				}
+			}
+		}
+		return sortedList;
+	}
+	
+	public List<Appointment> sortPastAppointments(){
+		Main main = new Main();
+		LocalDateTime now = LocalDateTime.now();	
+		List<Appointment> sortedList = new ArrayList<Appointment>();
+		for(int i=0;i<main.getAppointmentArray().size();i++){
+			if(main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))&&
+					main.getAppointmentArray().get(i).getDateAndTime().isBefore(now)&&sortedList.isEmpty()){
+				sortedList.add(main.getAppointmentArray().get(i));
+				continue;
+			}
+			for(int j=0;j<sortedList.size();j++){
+				if(main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))&&
+						main.getAppointmentArray().get(i).getDateAndTime().isBefore(now)&&
+					main.getAppointmentArray().get(i).getDateAndTime().isBefore(sortedList.get(j).getDateAndTime())){
+					sortedList.add(j, main.getAppointmentArray().get(i));
+					break;
+				} else if(main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))&&
+						main.getAppointmentArray().get(i).getDateAndTime().isBefore(now)&&j==sortedList.size()-1){
+					sortedList.add(main.getAppointmentArray().get(i));
+					break;
+				}
+			}
+		}
+		return sortedList;
+	}
+	
+	public void printAvailableAppointment(LocalDateTime currentTime) {
+		Main main = new Main();
+		Owner owner = new Owner();
+		Appointment appointment = new Appointment();
+		String formattedTime;
+		Boolean employeeAvailable = null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
+
+		for (int j = 0; j < owner.getEmployeeArray().size(); j++) {
+			employeeAvailable = true;
+			for (int i = 0; i < main.getAppointmentArray().size(); i++) {
+				if (main.getAppointmentArray().get(i).getEmployeeId().equals(owner.getEmployeeArray().get(j).getId())
+						&& main.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)) {
+					employeeAvailable = false;
+					break;
+				}
+			}
+			if (employeeAvailable == false) {
+				continue;
+			}
+
+			for (int k = 0; k < owner.getEmployeeArray().get(j).getStartTimes().size(); k++) {
+				if ((owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == 0
+						|| owner.getEmployeeArray().get(j).getStartTimes().get(k).compareTo(currentTime) == -1)
+						&& ((owner.getEmployeeArray().get(j).getEndTimes().get(k)
+								.compareTo(currentTime.plusMinutes(appointment.getAppointmentDuration())) == 0)
+								|| owner.getEmployeeArray().get(j).getEndTimes().get(k).compareTo(
+										currentTime.plusMinutes(appointment.getAppointmentDuration())) == 1)) {
+					formattedTime = currentTime.format(formatter);
+					System.out.println(formattedTime);
+					return;
+				}
+			}
+		}
+		return;
+	}
+
 }
