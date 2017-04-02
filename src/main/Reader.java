@@ -4,13 +4,15 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Reader {
 
 	Scanner keyboard = new Scanner(System.in);
 	Main main = new Main();
 	Owner owner = new Owner();
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	public void read() {
 		String customerFile = "customerinfo.txt";
 		String ownerFile = "business.txt";
@@ -93,12 +95,13 @@ public class Reader {
 			}
 		} catch (Exception e) {
 			System.out.println(e);
+			LOGGER.log( Level.SEVERE, e.toString(), e );
 		} finally {
 			inputStream.close();
 			inputStream2.close();
 			inputStream3.close();
 		}
 
+		LOGGER.info("Files read.");
 	}
-
 }
