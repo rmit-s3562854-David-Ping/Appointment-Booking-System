@@ -8,11 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Owner extends Member {
 
 	private static ArrayList<Employee> employeeArray = new ArrayList<Employee>();
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	private String businessName;
 	Scanner input = new Scanner(System.in);
 
@@ -57,10 +59,12 @@ public class Owner extends Member {
 			return false;
 		}
 		getEmployeeArray().add(employee);
+		LOGGER.info("Employee Added.");
 		try {
 			writer.saveEmployees(getEmployeeArray());
 		} catch (IOException e) {
 			e.printStackTrace();
+			LOGGER.log( Level.SEVERE, e.toString(), e );
 		}
 		return true;
 	}
@@ -95,6 +99,7 @@ public class Owner extends Member {
 		}
 
 		Employee employee = makeEmployeeObj(firstName, lastName, id);
+		LOGGER.info("Employee information returned");
 		return employee;
 	}
 
