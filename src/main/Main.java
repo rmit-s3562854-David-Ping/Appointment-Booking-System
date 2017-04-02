@@ -4,23 +4,39 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Main {
 
 	private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
 	private static ArrayList<Appointment> appointmentArray = new ArrayList<Appointment>();
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	
 	public static void main(String[] args) {
 		Reader reader = new Reader();
 		Customer customer = new Customer();
 		Owner owner = new Owner();
 		Utility util = new Utility();
-		
-		Scanner input = new Scanner(System.in);
 
+		Scanner input = new Scanner(System.in);
+		//Setup the logger
+		myLogger logger = new myLogger();
+		try {
+			myLogger.setup();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Can not create log files");
+		}
+		LOGGER.info("Program started.");
 		reader.read();
+
+
+
+
 
 		//Temporary Appointment Objects
 		LocalDateTime dateAndTime = LocalDateTime.of(2017, 4, 3, 11, 0);
@@ -42,10 +58,9 @@ public class Main {
 		appointmentArray.add(newAppointment5);
 		appointmentArray.add(newAppointment6);
 		//Delete when reader/writer is done for appointments
-				
+
 		// function to create menu UI.
 		createMenu();
-
 		int selection;
 		String select;
 		do {
@@ -55,7 +70,7 @@ public class Main {
 				select = input.nextLine();
 				selection = Integer.parseInt(select);
 			} catch (Exception e) {
-
+				LOGGER.log( Level.SEVERE, e.toString(), e );
 			}
 
 			switch (selection) {
@@ -109,6 +124,8 @@ public class Main {
 		System.out.println("2.   Register");
 		System.out.println("3.   Exit\n");
 		System.out.println("**********************************************************");
+		LOGGER.info("Menu created.");
+
 	}
 
 	public void createOwnerMenu() {
@@ -122,6 +139,7 @@ public class Main {
 		System.out.println("6.   View upcoming appointments");
 		System.out.println("7.   Exit\n");
 		System.out.println("**********************************************************");
+		LOGGER.info("Owner menu created.");
 	}
 	
 	public void createCustomerMenu() {
@@ -130,6 +148,7 @@ public class Main {
 		System.out.println("1.   View Appointment Times");
 		System.out.println("2.   Exit\n");
 		System.out.println("**********************************************************");
+		LOGGER.info("Customer menu created.");
 	}
 
 	public ArrayList<Customer> getCustomerArray() {

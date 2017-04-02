@@ -8,10 +8,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Utility {
-	
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	//exit function to save all data to .txt files so it could be retrieved
 	//when program starts
 	public void exit(){
@@ -22,6 +24,7 @@ public class Utility {
 			writer.saveEmployees(owner.getEmployeeArray());
 		}catch (IOException e){
 			e.printStackTrace();
+			LOGGER.log( Level.SEVERE, e.toString(), e );
 		}
 		
 	}
@@ -37,6 +40,7 @@ public class Utility {
 			//System.out.println("exit is true");
 			exit = true;
 		}
+		LOGGER.info("Program Exited.");
 		return exit;
 	}
 	
@@ -158,6 +162,7 @@ public class Utility {
     	try{
     		currentDate = LocalDate.parse(date, dateFormat);
     	}catch(Exception e){
+            LOGGER.log( Level.SEVERE, e.toString(), e );
     		return false;
     	}
     	return true;
@@ -173,7 +178,7 @@ public class Utility {
     		currentTime = LocalTime.parse(time, timeFormat);
     		valid = true;
     	}catch(Exception e){}
-    	
+
     	try{
     		currentTime = LocalTime.parse(time, timeFormat2);
     		valid = true;

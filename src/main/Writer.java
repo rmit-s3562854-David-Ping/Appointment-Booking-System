@@ -4,13 +4,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class Writer {
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	public void save(ArrayList<Customer> customers) throws IOException {
 
 		BufferedWriter writerCustomers = new BufferedWriter(new FileWriter("customerinfo.txt"));
-
 		int i = 0;
 		// A loop that writes each element of the array line by line to both
 		// files.
@@ -20,10 +20,11 @@ public class Writer {
 			writerCustomers.newLine();
 
 			i++;
-			
+
 		}
 		System.out.println("Files saved.");
 		writerCustomers.close();
+
 
 	}
 	
@@ -55,8 +56,9 @@ public class Writer {
 						writerEmployees.newLine();
 
 						i++;
-			
+
 		}
+		LOGGER.info("files saved");
 		System.out.println("Files saved.");
 		writerEmployees.close();
 
