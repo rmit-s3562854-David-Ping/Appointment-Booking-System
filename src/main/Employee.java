@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Employee {
 
-	//change to next month
 	private ArrayList<LocalDateTime> startTimes = new ArrayList<LocalDateTime>();
 	private ArrayList<LocalDateTime> endTimes = new ArrayList<LocalDateTime>();
 

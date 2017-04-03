@@ -2,34 +2,65 @@ package main;
 
 import java.util.Scanner;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Main {
 
 	private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
-	
 	private static ArrayList<Appointment> appointmentArray = new ArrayList<Appointment>();
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	
 	public static void main(String[] args) {
 		Reader reader = new Reader();
-		Member customer = new Customer();
-		Member owner = new Owner();
+		Customer customer = new Customer();
+		Owner owner = new Owner();
 		Utility util = new Utility();
-		
+
 		Scanner input = new Scanner(System.in);
-		
-		Owner owner1 = new Owner("username","password","","","","","");
-		ownerArray.add(owner1);
-		
-	
-		
+		//Setup the logger
+		myLogger logger = new myLogger();
+		try {
+			myLogger.setup();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Can not create log files");
+		}
+		LOGGER.info("Program started.");
 		reader.read();
+
+
+
+
+
+		//Temporary Appointment Objects
+		LocalDateTime dateAndTime = LocalDateTime.of(2017, 4, 3, 11, 0);
+		LocalDateTime dateAndTime2 = LocalDateTime.of(2017, 4, 5, 8, 0);
+		LocalDateTime dateAndTime3 = LocalDateTime.of(2017, 3, 29, 9, 0);
+		LocalDateTime dateAndTime4 = LocalDateTime.of(2017, 3, 9, 11, 0);
+		LocalDateTime dateAndTime5 = LocalDateTime.of(2017, 3, 25, 8, 0);
+		LocalDateTime dateAndTime6 = LocalDateTime.of(2017, 3, 9, 9, 0);
+		Appointment newAppointment = new Appointment(dateAndTime,customerArray.get(0).getUsername(),owner.getEmployeeArray().get(0).getId());
+		Appointment newAppointment2 = new Appointment(dateAndTime2,customerArray.get(0).getUsername(),owner.getEmployeeArray().get(0).getId());
+		Appointment newAppointment3 = new Appointment(dateAndTime3,customerArray.get(1).getUsername(),owner.getEmployeeArray().get(0).getId());
+		Appointment newAppointment4 = new Appointment(dateAndTime4,customerArray.get(0).getUsername(),owner.getEmployeeArray().get(0).getId());
+		Appointment newAppointment5 = new Appointment(dateAndTime5,customerArray.get(1).getUsername(),owner.getEmployeeArray().get(0).getId());
+		Appointment newAppointment6 = new Appointment(dateAndTime6,customerArray.get(0).getUsername(),owner.getEmployeeArray().get(0).getId());
+		appointmentArray.add(newAppointment);
+		appointmentArray.add(newAppointment2);
+		appointmentArray.add(newAppointment3);
+		appointmentArray.add(newAppointment4);
+		appointmentArray.add(newAppointment5);
+		appointmentArray.add(newAppointment6);
+		//Delete when reader/writer is done for appointments
 
 		// function to create menu UI.
 		createMenu();
-
 		int selection;
 		String select;
 		do {
@@ -39,7 +70,7 @@ public class Main {
 				select = input.nextLine();
 				selection = Integer.parseInt(select);
 			} catch (Exception e) {
-
+				LOGGER.log( Level.SEVERE, e.toString(), e );
 			}
 
 			switch (selection) {
@@ -93,6 +124,8 @@ public class Main {
 		System.out.println("2.   Register");
 		System.out.println("3.   Exit\n");
 		System.out.println("**********************************************************");
+		LOGGER.info("Menu created.");
+
 	}
 
 	public void createOwnerMenu() {
@@ -106,14 +139,16 @@ public class Main {
 		System.out.println("6.   View upcoming appointments");
 		System.out.println("7.   Exit\n");
 		System.out.println("**********************************************************");
+		LOGGER.info("Owner menu created.");
 	}
 	
 	public void createCustomerMenu() {
 		System.out.println("*************** Appointment Booking System ***************\n");
-		System.out.println("Owner's Page\n");
+		System.out.println("Customer's Page\n");
 		System.out.println("1.   View Appointment Times");
 		System.out.println("2.   Exit\n");
 		System.out.println("**********************************************************");
+		LOGGER.info("Customer menu created.");
 	}
 
 	public ArrayList<Customer> getCustomerArray() {
