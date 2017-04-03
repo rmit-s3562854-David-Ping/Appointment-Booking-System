@@ -34,31 +34,6 @@ public class Main {
 		LOGGER.info("Program started.");
 		reader.read();
 
-
-
-
-
-		//Temporary Appointment Objects
-		LocalDateTime dateAndTime = LocalDateTime.of(2017, 4, 3, 11, 0);
-		LocalDateTime dateAndTime2 = LocalDateTime.of(2017, 4, 5, 8, 0);
-		LocalDateTime dateAndTime3 = LocalDateTime.of(2017, 3, 29, 9, 0);
-		LocalDateTime dateAndTime4 = LocalDateTime.of(2017, 3, 9, 11, 0);
-		LocalDateTime dateAndTime5 = LocalDateTime.of(2017, 3, 25, 8, 0);
-		LocalDateTime dateAndTime6 = LocalDateTime.of(2017, 3, 9, 9, 0);
-		Appointment newAppointment = new Appointment(dateAndTime,customerArray.get(0).getUsername(),owner.getEmployeeArray().get(0).getId());
-		Appointment newAppointment2 = new Appointment(dateAndTime2,customerArray.get(0).getUsername(),owner.getEmployeeArray().get(0).getId());
-		Appointment newAppointment3 = new Appointment(dateAndTime3,customerArray.get(1).getUsername(),owner.getEmployeeArray().get(0).getId());
-		Appointment newAppointment4 = new Appointment(dateAndTime4,customerArray.get(0).getUsername(),owner.getEmployeeArray().get(0).getId());
-		Appointment newAppointment5 = new Appointment(dateAndTime5,customerArray.get(1).getUsername(),owner.getEmployeeArray().get(0).getId());
-		Appointment newAppointment6 = new Appointment(dateAndTime6,customerArray.get(0).getUsername(),owner.getEmployeeArray().get(0).getId());
-		appointmentArray.add(newAppointment);
-		appointmentArray.add(newAppointment2);
-		appointmentArray.add(newAppointment3);
-		appointmentArray.add(newAppointment4);
-		appointmentArray.add(newAppointment5);
-		appointmentArray.add(newAppointment6);
-		//Delete when reader/writer is done for appointments
-
 		// function to create menu UI.
 		createMenu();
 		int selection;
