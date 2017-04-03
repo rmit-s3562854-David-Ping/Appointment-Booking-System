@@ -17,14 +17,18 @@ public class Reader {
 		String customerFile = "customerinfo.txt";
 		String ownerFile = "business.txt";
 		String employeeFile = "Employeeinfo.txt";
+		String apptFile = "appointmentinfo.txt";
 		Scanner inputStream = null;
 		Scanner inputStream2 = null;
 		Scanner inputStream3 = null;
+		Scanner inputStream4 = null;
 
 		try {
 			inputStream = new Scanner(new File(customerFile));
 			inputStream2 = new Scanner(new File(ownerFile));
 			inputStream3 = new Scanner(new File(employeeFile));
+			inputStream4 = new Scanner(new File(apptFile));
+			
 			while (inputStream.hasNextLine()) {
 				String line = inputStream.nextLine();
 				StringTokenizer stringToken = new StringTokenizer(line, ":");
@@ -86,13 +90,28 @@ public class Reader {
 						LocalDateTime newEndTime = LocalDateTime.parse(stringToken3.nextToken());
 						employee.getEndTimes().add(newEndTime);
 					}
-					
-					
+				}				
+				owner.getEmployeeArray().add(employee);				
+			}
+			
+			while(inputStream4.hasNextLine()){
+				String line = inputStream4.nextLine();
+				StringTokenizer stringToken = new StringTokenizer(line,"|");
+				
+				String CustomerName = stringToken.nextToken();
+				String EmployeeId = stringToken.nextToken();
+				String apptTimes = stringToken.nextToken();
+				LocalDateTime appointmentTime = LocalDateTime.parse(apptTimes);
+
 				}
 				
-				owner.getEmployeeArray().add(employee);
+	
 				
+				Appointment appointment = new Appointment(appointmentTime, CustomerName, EmployeeId);
+				
+				main.getAppointmentArray().add(appointment);
 			}
+			
 		} catch (Exception e) {
 			System.out.println(e);
 			LOGGER.log( Level.SEVERE, e.toString(), e );
@@ -100,6 +119,7 @@ public class Reader {
 			inputStream.close();
 			inputStream2.close();
 			inputStream3.close();
+			inputStream4.close();
 		}
 
 		LOGGER.info("Files read.");

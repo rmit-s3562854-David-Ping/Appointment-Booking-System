@@ -22,6 +22,7 @@ public class Writer {
 			i++;
 
 		}
+    LOGGER.info("customers file saved");
 		System.out.println("Files saved.");
 		writerCustomers.close();
 
@@ -37,7 +38,7 @@ public class Writer {
 		// A loop that writes each element of the array line by line to both
 		// files.
 		while (i < employees.size()) {
-			// Write to customerInfo.txt
+			// Write to employeeInfo.txt
 						writerEmployees.write(employees.get(i).getId()+"|"+employees.get(i).getFirstName()+"|"+employees.get(i).getLastName()+"|");
 						for(int j=0;j<employees.get(i).getStartTimes().size();j++){
 							if(!(j==0)){
@@ -58,10 +59,27 @@ public class Writer {
 						i++;
 
 		}
-		LOGGER.info("files saved");
+		LOGGER.info("employees file saved");
 		System.out.println("Files saved.");
 		writerEmployees.close();
 
 	}
+  
+  	public void saveAppointments(ArrayList<Appointment> appointment) throws IOException {
+		
+		BufferedWriter writerAppointments = new BufferedWriter(new FileWriter("appointmentinfo.txt"));
+		int i = 0;
+		// A loop that writes each element of the array line by line to files.
+		while(i < appointment.size()){
+      // Write to appointmentinfo.txt
+			writerAppointments.write(appointment.get(i).toString());
+			writerAppointments.newLine();
+			i++;
+		}
+    LOGGER.info("appointments file saved");
+		System.out.println("Files saved.");
+		writerAppointments.close();
+	}
 
 }
+
