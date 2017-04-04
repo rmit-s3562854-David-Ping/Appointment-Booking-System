@@ -64,7 +64,7 @@ public class Owner extends Member {
 			writer.saveEmployees(getEmployeeArray());
 		} catch (IOException e) {
 			e.printStackTrace();
-			LOGGER.log( Level.SEVERE, e.toString(), e );
+			LOGGER.log(Level.SEVERE, e.toString(), e);
 		}
 		return true;
 	}
@@ -159,7 +159,7 @@ public class Owner extends Member {
 			writer.saveEmployees(getEmployeeArray());
 		} catch (IOException e) {
 			e.printStackTrace();
-			LOGGER.log( Level.SEVERE, e.toString(), e );
+			LOGGER.log(Level.SEVERE, e.toString(), e);
 		}
 		return true;
 	}
@@ -281,16 +281,14 @@ public class Owner extends Member {
 			printed = false;
 		}
 	}
-	
+
 	public void viewBookingSummary() {
 		Utility util = new Utility();
 		Appointment appointment = new Appointment();
-		boolean printDay, printLine;
 		LocalDateTime currentDay = LocalDateTime.now().minusMonths(1);
 		String formattedTime, formattedTimePlusDuration, dateAndDay;
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
 		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		LocalDateTime now = LocalDateTime.now();
 		List<Appointment> sortedList = new ArrayList<Appointment>();
 
 		sortedList = util.sortPastAppointments();
@@ -299,47 +297,41 @@ public class Owner extends Member {
 			System.out.println("No appointments in the past month");
 			return;
 		}
-		currentDay = sortedList.get(0).getDateAndTime();
 		System.out.println("Booking Summary");
 		System.out.println("**********************************************************");
-		while (currentDay.compareTo(now) < 0) {
-			printDay = false;
-			printLine = false;
-			for (int i = 0; i < sortedList.size(); i++) {
-				if (sortedList.get(i).getDateAndTime().toLocalDate().equals(currentDay.toLocalDate())) {
-					if (printDay == false) {
-						dateAndDay = currentDay.format(dateAndDayFormat);
-						System.out.println("==================================================");
-						System.out.println(dateAndDay);
-						System.out.println("==================================================");
-						printDay = true;
-					}
-					if (printLine == true) {
-						System.out.println("--------------------------------------------------");
-					}
-					formattedTime = sortedList.get(i).getDateAndTime().format(timeFormat);
-					formattedTimePlusDuration = sortedList.get(i).getDateAndTime()
-							.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
-					System.out.println("Appointment time: " + formattedTime + "-" + formattedTimePlusDuration);
-					util.printAppointmentDetails(i, sortedList);
-					printLine = true;
-				}
+
+		for (int i = 0; i < sortedList.size(); i++) {
+			if (validateBookingSummaryDate(sortedList.get(i).getDateAndTime().toLocalDate()) == true) {
+				dateAndDay = sortedList.get(i).getDateAndTime().format(dateAndDayFormat);
+				formattedTime = sortedList.get(i).getDateAndTime().format(timeFormat);
+				formattedTimePlusDuration = sortedList.get(i).getDateAndTime()
+						.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
+				util.printAppointmentDetails(i, sortedList);
+				System.out.println(
+						"Appointment time: " + dateAndDay + " " + formattedTime + "-" + formattedTimePlusDuration);
+				System.out.println("----------------------------------------------------------");
 			}
-			currentDay = currentDay.plusDays(1);
 		}
+
 		System.out.println("\n**********************************************************\n");
 		return;
+	}
+
+	public boolean validateBookingSummaryDate(LocalDate date) {
+		LocalDateTime now = LocalDateTime.now();
+		if (date.isAfter(now.minusMonths(1).toLocalDate())&& date.isBefore(now.toLocalDate())||date.equals(now.minusMonths(1).toLocalDate())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void viewUpcomingBookings() {
 		Utility util = new Utility();
 		Appointment appointment = new Appointment();
-		boolean printDay, printLine;
-		LocalDateTime currentDay = LocalDateTime.now().minusMonths(1);
 		String formattedTime, formattedTimePlusDuration, dateAndDay;
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
 		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		LocalDateTime now = LocalDateTime.now();
 		List<Appointment> sortedList = new ArrayList<Appointment>();
 
 		sortedList = util.sortFutureAppointments();
@@ -348,37 +340,35 @@ public class Owner extends Member {
 			System.out.println("No appointments in the next week");
 			return;
 		}
-		currentDay = sortedList.get(0).getDateAndTime();
 		System.out.println("Upcoming Appointments");
 		System.out.println("**********************************************************");
-		while (currentDay.compareTo(now.plusWeeks(1)) < 0) {
-			printDay = false;
-			printLine = false;
+
 			for (int i = 0; i < sortedList.size(); i++) {
-				if (sortedList.get(i).getDateAndTime().toLocalDate().equals(currentDay.toLocalDate())) {
-					if (printDay == false) {
-						dateAndDay = currentDay.format(dateAndDayFormat);
-						System.out.println("==================================================");
-						System.out.println(dateAndDay);
-						System.out.println("==================================================");
-						printDay = true;
-					}
-					if (printLine == true) {
-						System.out.println("--------------------------------------------------");
-					}
+				if (validateUpcomingBookingDate(sortedList.get(i).getDateAndTime().toLocalDate())==true) {
+					dateAndDay = sortedList.get(i).getDateAndTime().format(dateAndDayFormat);
 					formattedTime = sortedList.get(i).getDateAndTime().format(timeFormat);
 					formattedTimePlusDuration = sortedList.get(i).getDateAndTime()
 							.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
-					System.out.println("Appointment time: " + formattedTime + "-" + formattedTimePlusDuration);
 					util.printAppointmentDetails(i, sortedList);
-					printLine = true;
+					System.out.println(
+							"Appointment time: " + dateAndDay + " " + formattedTime + "-" + formattedTimePlusDuration);
+					System.out.println("----------------------------------------------------------");
 				}
 			}
-			currentDay = currentDay.plusDays(1);
-		}
+
 		System.out.println("\n**********************************************************\n");
 		LOGGER.info("");
 		return;
+	}
+	
+	public boolean validateUpcomingBookingDate(LocalDate date){
+		LocalDateTime now = LocalDateTime.now();
+		if (date.isBefore(now.plusWeeks(1).toLocalDate())&& date.isAfter(now.toLocalDate())||date.equals(now.toLocalDate().plusWeeks(1))
+				||date.equals(now.toLocalDate())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public Boolean login(String username, String password) {
@@ -404,7 +394,7 @@ public class Owner extends Member {
 					select = input.nextLine();
 					selection = Integer.parseInt(select);
 				} catch (Exception e) {
-					LOGGER.log( Level.SEVERE, e.toString(), e );
+					LOGGER.log(Level.SEVERE, e.toString(), e);
 				}
 				switch (selection) {
 				case 1: {
