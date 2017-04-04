@@ -11,196 +11,200 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class Utility {
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
-	//exit function to save all data to .txt files so it could be retrieved
-	//when program starts
-	public void exit(){
+
+	// exit function to save all data to .txt files so it could be retrieved
+	// when program starts
+	public void exit() {
 		Writer writer = new Writer();
 		Owner owner = new Owner();
-		
-		try{
+
+		try {
 			writer.saveEmployees(owner.getEmployeeArray());
-		}catch (IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
-			LOGGER.log( Level.SEVERE, e.toString(), e );
+			LOGGER.log(Level.SEVERE, e.toString(), e);
 		}
-		
+
 	}
-	
-	//when user inputs 'q' for input quit task
-	public boolean quitFunction(String input){
+
+	// when user inputs 'q' for input quit task
+	public boolean quitFunction(String input) {
 		String pattern = "^b|q|quit| $";
 		String quit = "q";
-		//System.out.println("quit function here");
+		// System.out.println("quit function here");
 		boolean exit = false;
-		if(input.matches(pattern))
-		{
-			//System.out.println("exit is true");
+		if (input.matches(pattern)) {
+			// System.out.println("exit is true");
 			exit = true;
 		}
 		LOGGER.info("Program Exited.");
 		return exit;
 	}
-	
-	public boolean checkString(String string){
+
+	public boolean checkString(String string) {
 		Scanner keyboard = new Scanner(System.in);
 		Utility util = new Utility();
-		
-		while((string == null) || (string.trim().isEmpty()))
-		{			
+
+		while ((string == null) || (string.trim().isEmpty())) {
 			return false;
-		}	
+		}
 		return true;
 	}
-	
-	public boolean customerUsernameIsDuplicate(String username){
+
+	public boolean customerUsernameIsDuplicate(String username) {
 		Scanner keyboard = new Scanner(System.in);
 		Main driver = new Main();
-		
+
 		// If username already exists
 		int index = 0;
 		Boolean duplicate = false;
-		
-			/*System.out.println("Username:");
-			username = keyboard.nextLine();*/
-			while (index < driver.getCustomerArray().size()) {
-				if (driver.getCustomerArray().get(index).getUsername().equals(username)) {
-					duplicate = true;
-					System.out.println("This username already exists, please try a different one");
-					index = 0;
-					break;
-				} else if (index == driver.getCustomerArray().size() - 1) {
-					duplicate = false;
-					System.out.println("Username is available");
-				}
-				index++;
+
+		/*
+		 * System.out.println("Username:"); username = keyboard.nextLine();
+		 */
+		while (index < driver.getCustomerArray().size()) {
+			if (driver.getCustomerArray().get(index).getUsername().equals(username)) {
+				duplicate = true;
+				System.out.println("This username already exists, please try a different one");
+				index = 0;
+				break;
+			} else if (index == driver.getCustomerArray().size() - 1) {
+				duplicate = false;
+				System.out.println("Username is available");
 			}
-		
+			index++;
+		}
+
 		return duplicate;
-		
+
 	}
-	
-	public boolean validateLogin(String usernameOrPassword){
-        String pattern = "^[a-zA-Z0-9-_]{6,20}$";
-        if(usernameOrPassword.matches(pattern)){
-            return true;
-        }else{
-        	System.out.println("invalid input, input has to be 6-20 letters");
-            return false;
-        }
-    }
-    
-    public boolean validateName(String name){
-        String pattern = "^[A-Z]{1}[a-z]{1,19}$";
-        if(name.matches(pattern)){
-            return true;
-        }else{
-        	System.out.println("please enter a valid name .i.e: David");
-            return false;
-        }
-    }
-    
-    public boolean validateContactNumber(String number){
-        String pattern = "^[(]?((0|[+]61)(2|4|3|7|8))?[)]?( |-)?[0-9]{2}( |-)?[0-9]{2}( |-)?[0-9]{1}( |-)?[0-9]{3}$";
-        if(number.matches(pattern)){
-            return true;
-        }else{
-        	System.out.println("please enter a valid phone number .i.e: 0412345610");
-            return false;
-        }
-    }
-    
-    public boolean validateMakeEmployeeId(String id){
-        Owner owner = new Owner();
-        String pattern = "^e[0-9]{5}$";
 
-        for(int i=0;i<owner.getEmployeeArray().size();i++){
-            if(owner.getEmployeeArray().get(i).getId().equals(id)&&id.matches(pattern)){
-                System.out.println("Id already exists");
-                return false;
-            }
-        }
-        if(id.matches(pattern)){
-            return true;
-        }
-        System.out.println("Id is invalid, please enter in the format eXXXXX (X=[0-9])");
-        return false;
-    }
-    
-    public boolean validateEmployeeId(String id){
-        Owner owner = new Owner();
-        String pattern = "^e[0-9]{5}$";
+	public boolean validateLogin(String usernameOrPassword) {
+		String pattern = "^[a-zA-Z0-9-_]{6,20}$";
+		if (usernameOrPassword.matches(pattern)) {
+			return true;
+		} else {
+			System.out.println("invalid input, input has to be 6-20 letters");
+			return false;
+		}
+	}
 
-        for(int i=0;i<owner.getEmployeeArray().size();i++){
-            if(owner.getEmployeeArray().get(i).getId().equals(id)&&id.matches(pattern)){
-                if(id.matches(pattern)){
-                    return true;
-                }else{
-                	System.out.println("Id is invalid, please enter in the format eXXXXX (X=[0-9])");
-                }
-            }
-        }
-        System.out.println("Id does not exist");
-        return false;
-    }
-    
-    public boolean validateAddress(String address){
-        String pattern = "^[0-9a-zA-Z0-9_ ]{5,45}$";
-        if(address.matches(pattern)){
-            return true;
-        }else{
-        	System.out.println("please enter valid Address");
-            return false;
-        }
-    }
-    
-    public boolean validateDate(String date){
-    	LocalDate currentDate;
-    	DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
-    	try{
-    		currentDate = LocalDate.parse(date, dateFormat);
-    	}catch(Exception e){
-            LOGGER.log( Level.SEVERE, e.toString(), e );
-    		return false;
-    	}
-    	return true;
-    }
-    
-    public boolean validateTime(String time){
-    	LocalTime currentTime;
-    	boolean valid =false;
-    	DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("H:mm");
+	public boolean validateName(String name) {
+		String pattern = "^[A-Z]{1}[a-z]{1,19}$";
+		if (name.matches(pattern)) {
+			return true;
+		} else {
+			System.out.println("please enter a valid name .i.e: David");
+			return false;
+		}
+	}
+
+	public boolean validateContactNumber(String number) {
+		String pattern = "^[(]?((0|[+]61)(2|4|3|7|8))?[)]?( |-)?[0-9]{2}( |-)?[0-9]{2}( |-)?[0-9]{1}( |-)?[0-9]{3}$";
+		if (number.matches(pattern)) {
+			return true;
+		} else {
+			System.out.println("please enter a valid phone number .i.e: 0412345610");
+			return false;
+		}
+	}
+
+	public boolean validateMakeEmployeeId(String id) {
+		Owner owner = new Owner();
+		String pattern = "^e[0-9]{5}$";
+
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (owner.getEmployeeArray().get(i).getId().equals(id) && id.matches(pattern)) {
+				System.out.println("Id already exists");
+				return false;
+			}
+		}
+		if (id.matches(pattern)) {
+			return true;
+		}
+		System.out.println("Id is invalid, please enter in the format eXXXXX (X=[0-9])");
+		return false;
+	}
+
+	public boolean validateEmployeeId(String id) {
+		Owner owner = new Owner();
+		String pattern = "^e[0-9]{5}$";
+
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (owner.getEmployeeArray().get(i).getId().equals(id) && id.matches(pattern)) {
+				if (id.matches(pattern)) {
+					return true;
+				} else {
+					System.out.println("Id is invalid, please enter in the format eXXXXX (X=[0-9])");
+				}
+			}
+		}
+		System.out.println("Id does not exist");
+		return false;
+	}
+
+	public boolean validateAddress(String address) {
+		String pattern = "^[0-9a-zA-Z0-9_ ]{5,45}$";
+		if (address.matches(pattern)) {
+			return true;
+		} else {
+			System.out.println("please enter valid Address");
+			return false;
+		}
+	}
+
+	public boolean validateDate(String date) {
+		LocalDate currentDate;
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
+		try {
+			currentDate = LocalDate.parse(date, dateFormat);
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.toString(), e);
+			return false;
+		}
+		return true;
+	}
+
+	public boolean validateTime(String time) {
+		LocalTime currentTime;
+		boolean valid = false;
+		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("H:mm");
 		DateTimeFormatter timeFormat2 = DateTimeFormatter.ofPattern("h:mma");
-		
-    	try{
-    		currentTime = LocalTime.parse(time, timeFormat);
-    		valid = true;
-    	}catch(Exception e){}
 
-    	try{
-    		currentTime = LocalTime.parse(time, timeFormat2);
-    		valid = true;
-    	}catch(Exception e){}
-    	
-    	if(valid==true){
-    		return true;
-    	}
-    	return false;
-    }
-    //This method creates a unique ID in the format eXXXXX (X being a number).
-	public  String createID() {
-		//Sets ID to 0 then searches array, if ID exists it iterates and repeats.
-		Owner owner= new Owner();
+		try {
+			currentTime = LocalTime.parse(time, timeFormat);
+			valid = true;
+		} catch (Exception e) {
+		}
+
+		try {
+			currentTime = LocalTime.parse(time, timeFormat2);
+			valid = true;
+		} catch (Exception e) {
+		}
+
+		if (valid == true) {
+			return true;
+		}
+		return false;
+	}
+
+	// This method creates a unique ID in the format eXXXXX (X being a number).
+	public String createID() {
+		// Sets ID to 0 then searches array, if ID exists it iterates and
+		// repeats.
+		Owner owner = new Owner();
 
 		ArrayList<Employee> EmployeeArray = owner.getEmployeeArray();
 		int IDCounter = 1;
 		int index = 0;
-		while(index < EmployeeArray.size()) {
-			index=0;
+		while (index < EmployeeArray.size()) {
+			index = 0;
 			while (index < EmployeeArray.size()) {
-				if (Integer.parseInt(String.format("%05d", IDCounter)) == Integer.parseInt((EmployeeArray.get(index).getId()).substring(1,6))) {
+				if (Integer.parseInt(String.format("%05d", IDCounter)) == Integer
+						.parseInt((EmployeeArray.get(index).getId()).substring(1, 6))) {
 					IDCounter++;
 					break;
 				} else {
@@ -212,7 +216,7 @@ public class Utility {
 		String ID = "e" + String.format("%05d", IDCounter);
 		return ID;
 	}
-	
+
 	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime) {
 		Appointment appointment = new Appointment();
 		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
@@ -224,14 +228,13 @@ public class Utility {
 		}
 		return currentTime;
 	}
-	
+
 	public void printAppointmentDetails(int counter, List<Appointment> arrayList) {
 		Main main = new Main();
 		Owner owner = new Owner();
 
 		for (int j = 0; j < main.getCustomerArray().size(); j++) {
-			if (main.getCustomerArray().get(j).getUsername()
-					.equals(arrayList.get(counter).getCustomerUsername())) {
+			if (main.getCustomerArray().get(j).getUsername().equals(arrayList.get(counter).getCustomerUsername())) {
 				System.out.println("Customer Name: " + main.getCustomerArray().get(j).getFirstName() + " "
 						+ main.getCustomerArray().get(j).getLastname());
 				System.out.println("Address: " + main.getCustomerArray().get(j).getAddress());
@@ -239,15 +242,14 @@ public class Utility {
 			}
 		}
 		for (int k = 0; k < owner.getEmployeeArray().size(); k++) {
-			if (owner.getEmployeeArray().get(k).getId()
-					.equals(arrayList.get(counter).getEmployeeId())) {
+			if (owner.getEmployeeArray().get(k).getId().equals(arrayList.get(counter).getEmployeeId())) {
 				System.out.println("Employee Name: " + owner.getEmployeeArray().get(k).getFirstName() + " "
 						+ owner.getEmployeeArray().get(k).getLastName());
 				System.out.println("Employee ID: " + owner.getEmployeeArray().get(k).getId());
 			}
 		}
 	}
-	
+
 	public boolean validateDayOfWeek(LocalDateTime currentTime) {
 		Business business = new Business();
 		for (int i = 0; i < business.getOpeningDays().length; i++) {
@@ -257,7 +259,7 @@ public class Utility {
 		}
 		return false;
 	}
-	
+
 	public DateTimeFormatter assignTimeFormat(String time) {
 		LocalTime currentTime;
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("H:mm");
@@ -266,17 +268,19 @@ public class Utility {
 		try {
 			currentTime = LocalTime.parse(time, timeFormat);
 			return timeFormat;
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 
 		try {
 			currentTime = LocalTime.parse(time, timeFormat2);
 			return timeFormat2;
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 
 		return null;
 
 	}
-	
+
 	public boolean validateNewWorkTime(String employeeId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 		Owner owner = new Owner();
 		Business business = new Business();
@@ -291,7 +295,6 @@ public class Utility {
 						return false;
 					}
 				}
-				
 
 				if (startDateTime.compareTo(endDateTime) > 0) {
 					System.out.println("end time is before start time");
@@ -305,10 +308,15 @@ public class Utility {
 				} else if (startDateTime.toLocalDate().isBefore(now.toLocalDate())) {
 					System.out.println("cannot make work time in the past");
 					return false;
-				} else if (startDateTime.toLocalDate().isAfter(now.plusMonths(1).toLocalDate())) {
+				} else if (startDateTime.toLocalDate().isAfter(now.plusMonths(1).toLocalDate())
+						&& !startDateTime.toLocalDate().equals(now.plusMonths(1).toLocalDate())) {
 					System.out.println("cannot assign work time beyond one month");
 					return false;
-				} else if(endDateTime.getHour()-startDateTime.getHour()<3){
+				} else if (endDateTime.getHour() - startDateTime.getHour() < 3) {
+					System.out.println("cannot work for less than 3 hours");
+					return false;
+				} else if (endDateTime.getHour() - startDateTime.getHour() == 3
+						&& startDateTime.getMinute() > endDateTime.getMinute()) {
 					System.out.println("cannot work for less than 3 hours");
 					return false;
 				}
@@ -321,25 +329,26 @@ public class Utility {
 		}
 		return false;
 	}
-	
-	public List<Appointment> sortFutureAppointments(){
+
+	public List<Appointment> sortFutureAppointments() {
 		Main main = new Main();
-		LocalDateTime now = LocalDateTime.now();	
+		LocalDateTime now = LocalDateTime.now();
 		List<Appointment> sortedList = new ArrayList<Appointment>();
-		for(int i=0;i<main.getAppointmentArray().size();i++){
-			if(main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))&&
-					main.getAppointmentArray().get(i).getDateAndTime().isAfter(now)&&sortedList.isEmpty()){
+		for (int i = 0; i < main.getAppointmentArray().size(); i++) {
+			if (main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))
+					&& main.getAppointmentArray().get(i).getDateAndTime().isAfter(now) && sortedList.isEmpty()) {
 				sortedList.add(main.getAppointmentArray().get(i));
 				continue;
 			}
-			for(int j=0;j<sortedList.size();j++){
-				if(main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))&&
-						main.getAppointmentArray().get(i).getDateAndTime().isAfter(now)&&
-					main.getAppointmentArray().get(i).getDateAndTime().isBefore(sortedList.get(j).getDateAndTime())){
+			for (int j = 0; j < sortedList.size(); j++) {
+				if (main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))
+						&& main.getAppointmentArray().get(i).getDateAndTime().isAfter(now) && main.getAppointmentArray()
+								.get(i).getDateAndTime().isBefore(sortedList.get(j).getDateAndTime())) {
 					sortedList.add(j, main.getAppointmentArray().get(i));
 					break;
-				} else if(main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))&&
-						main.getAppointmentArray().get(i).getDateAndTime().isAfter(now)&&j==sortedList.size()-1){
+				} else if (main.getAppointmentArray().get(i).getDateAndTime().isBefore(now.plusWeeks(1))
+						&& main.getAppointmentArray().get(i).getDateAndTime().isAfter(now)
+						&& j == sortedList.size() - 1) {
 					sortedList.add(main.getAppointmentArray().get(i));
 					break;
 				}
@@ -347,25 +356,27 @@ public class Utility {
 		}
 		return sortedList;
 	}
-	
-	public List<Appointment> sortPastAppointments(){
+
+	public List<Appointment> sortPastAppointments() {
 		Main main = new Main();
-		LocalDateTime now = LocalDateTime.now();	
+		LocalDateTime now = LocalDateTime.now();
 		List<Appointment> sortedList = new ArrayList<Appointment>();
-		for(int i=0;i<main.getAppointmentArray().size();i++){
-			if(main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))&&
-					main.getAppointmentArray().get(i).getDateAndTime().isBefore(now)&&sortedList.isEmpty()){
+		for (int i = 0; i < main.getAppointmentArray().size(); i++) {
+			if (main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))
+					&& main.getAppointmentArray().get(i).getDateAndTime().isBefore(now) && sortedList.isEmpty()) {
 				sortedList.add(main.getAppointmentArray().get(i));
 				continue;
 			}
-			for(int j=0;j<sortedList.size();j++){
-				if(main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))&&
-						main.getAppointmentArray().get(i).getDateAndTime().isBefore(now)&&
-					main.getAppointmentArray().get(i).getDateAndTime().isBefore(sortedList.get(j).getDateAndTime())){
+			for (int j = 0; j < sortedList.size(); j++) {
+				if (main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))
+						&& main.getAppointmentArray().get(i).getDateAndTime().isBefore(now)
+						&& main.getAppointmentArray().get(i).getDateAndTime()
+								.isBefore(sortedList.get(j).getDateAndTime())) {
 					sortedList.add(j, main.getAppointmentArray().get(i));
 					break;
-				} else if(main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))&&
-						main.getAppointmentArray().get(i).getDateAndTime().isBefore(now)&&j==sortedList.size()-1){
+				} else if (main.getAppointmentArray().get(i).getDateAndTime().isAfter(now.minusMonths(1))
+						&& main.getAppointmentArray().get(i).getDateAndTime().isBefore(now)
+						&& j == sortedList.size() - 1) {
 					sortedList.add(main.getAppointmentArray().get(i));
 					break;
 				}
@@ -373,7 +384,7 @@ public class Utility {
 		}
 		return sortedList;
 	}
-	
+
 	public void printAvailableAppointment(LocalDateTime currentTime) {
 		Main main = new Main();
 		Owner owner = new Owner();

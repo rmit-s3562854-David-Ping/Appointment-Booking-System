@@ -13,9 +13,9 @@ public class Employee {
 	private String lastName;
 
 	public Employee(String firstName, String lastName, String id, ArrayList<LocalDateTime> startTimes, ArrayList<LocalDateTime> endTimes) {
-		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.id = id;
 	}
 
 	public Employee() {

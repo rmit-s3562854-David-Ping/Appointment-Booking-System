@@ -13,6 +13,7 @@ public class Reader {
 	Main main = new Main();
 	Owner owner = new Owner();
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
+
 	public void read() {
 		String customerFile = "customerinfo.txt";
 		String ownerFile = "business.txt";
@@ -28,7 +29,7 @@ public class Reader {
 			inputStream2 = new Scanner(new File(ownerFile));
 			inputStream3 = new Scanner(new File(employeeFile));
 			inputStream4 = new Scanner(new File(apptFile));
-			
+
 			while (inputStream.hasNextLine()) {
 				String line = inputStream.nextLine();
 				StringTokenizer stringToken = new StringTokenizer(line, ":");
@@ -63,17 +64,17 @@ public class Reader {
 				// username:password:firstName:secondName:address:contactNumber:businessName
 				main.getOwnerArray().add(owner);
 			}
-			
-			while (inputStream3.hasNextLine()){
+
+			while (inputStream3.hasNextLine()) {
 				String line = inputStream3.nextLine();
-				StringTokenizer stringToken = new StringTokenizer(line,"|");
-				
+				StringTokenizer stringToken = new StringTokenizer(line, "|");
+
 				String id = stringToken.nextToken();
 				String firstName = stringToken.nextToken();
 				String lastName = stringToken.nextToken();
-				
-				Employee employee = new Employee(firstName, lastName, id, null ,null);
-				
+
+				Employee employee = new Employee(firstName, lastName, id, null, null);
+
 				if (stringToken.hasMoreTokens()) {
 					String startTimes = stringToken.nextToken();
 
@@ -90,31 +91,28 @@ public class Reader {
 						LocalDateTime newEndTime = LocalDateTime.parse(stringToken3.nextToken());
 						employee.getEndTimes().add(newEndTime);
 					}
-				}				
-				owner.getEmployeeArray().add(employee);				
+				}
+				owner.getEmployeeArray().add(employee);
 			}
-			
-			while(inputStream4.hasNextLine()){
+
+			while (inputStream4.hasNextLine()) {
 				String line = inputStream4.nextLine();
-				StringTokenizer stringToken = new StringTokenizer(line,"|");
-				
+				StringTokenizer stringToken = new StringTokenizer(line, "|");
+
 				String CustomerName = stringToken.nextToken();
 				String EmployeeId = stringToken.nextToken();
 				String apptTimes = stringToken.nextToken();
 				LocalDateTime appointmentTime = LocalDateTime.parse(apptTimes);
 
-				}
-				
-	
-				
 				Appointment appointment = new Appointment(appointmentTime, CustomerName, EmployeeId);
-				
+
 				main.getAppointmentArray().add(appointment);
+
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println(e);
-			LOGGER.log( Level.SEVERE, e.toString(), e );
+			LOGGER.log(Level.SEVERE, e.toString(), e);
 		} finally {
 			inputStream.close();
 			inputStream2.close();
