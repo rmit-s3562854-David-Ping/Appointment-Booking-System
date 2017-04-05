@@ -129,11 +129,17 @@ public class Owner extends Member {
 	 */
 	public Employee makeEmployeeObj(String firstName, String lastName, String id) {
 		Utility util = new Utility();
+		ArrayList<LocalTime> startTimes = new ArrayList<LocalTime>();
+		ArrayList<LocalTime> endTimes = new ArrayList<LocalTime>();
+		for(int i=0;i<7;i++){
+			startTimes.add(null);
+			endTimes.add(null);
+		}
 		if ((util.checkString(firstName) == false) || (util.checkString(lastName) == false)
 				|| (util.checkString(id) == false)) {
 			return null;
 		} else {
-			Employee newEmployee = new Employee(firstName, lastName, id, null, null);
+			Employee newEmployee = new Employee(firstName, lastName, id, startTimes, endTimes);
 			return newEmployee;
 		}
 	}
