@@ -1,6 +1,7 @@
 package main;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,6 +13,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Owner extends Member {
+
+	/**
+	 * Owner class, contains attributes and behaviors of owner
+	 * 
+	 * @version 1.00 05 Apr 2017
+	 * @author David Ping, Hassan Mender, Luke Waldren
+	 */
 
 	private static ArrayList<Employee> employeeArray = new ArrayList<Employee>();
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
@@ -32,6 +40,10 @@ public class Owner extends Member {
 		return businessName;
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
 	public Boolean createEmployee() {
 
 		System.out.println("                     Adding New Employee");
@@ -43,7 +55,7 @@ public class Owner extends Member {
 
 		newEmployee = getEmployeeInfo();
 		if (newEmployee == null) {
-			System.out.println("Adding new emplyee failed");
+			System.out.println("Adding new employee failed");
 			return false;
 		}
 		addEmployee(newEmployee);
@@ -53,6 +65,10 @@ public class Owner extends Member {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
 	public Boolean addEmployee(Employee employee) {
 		Writer writer = new Writer();
 		if (employee == null) {
@@ -69,6 +85,10 @@ public class Owner extends Member {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender, Luke Waldren
+	 */
 	public Employee getEmployeeInfo() {
 		// Add error checking make sure id is unique
 
@@ -103,6 +123,10 @@ public class Owner extends Member {
 		return employee;
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
 	public Employee makeEmployeeObj(String firstName, String lastName, String id) {
 		Utility util = new Utility();
 		if ((util.checkString(firstName) == false) || (util.checkString(lastName) == false)
@@ -114,9 +138,13 @@ public class Owner extends Member {
 		}
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
 	public Boolean deleteEmployee() {
-
 		Utility util = new Utility();
+		@SuppressWarnings("resource")
 		Scanner keyboard = new Scanner(System.in);
 		String employeeId;
 		String sure;
@@ -164,18 +192,23 @@ public class Owner extends Member {
 		return true;
 	}
 
+	/**
+	 * Function for owner to add working times to employees, first specify which
+	 * employee from the list using the id then picking a day and finally adding
+	 * the times
+	 * 
+	 * @author David Ping
+	 */
 	public void addWorkingTimes() {
 		Owner owner = new Owner();
 		Utility util = new Utility();
 		@SuppressWarnings("resource")
 		Scanner keyboard = new Scanner(System.in);
-		String employeeId, newDate, newTime;
+		String employeeId, newTime, newDay;
 		DateTimeFormatter timeFormatter;
-		LocalDate date;
 		LocalTime startTime, endTime;
-		LocalDateTime startDateTime, endDateTime;
-		boolean validEntry;
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
+		int counter = 0;
+		int dayOfWeek = 0;
 
 		System.out.println("Add employee work time");
 		System.out.println("************************************************1");
@@ -191,15 +224,21 @@ public class Owner extends Member {
 				return;
 			}
 		} while (util.validateEmployeeId(employeeId) == false);
-
-		System.out.println("Type in new work date (day/month/year)");
+		printDaysOfWeek();
+		System.out.println("Select day of the week to add working times:");
+		System.out.println("(Previous working times on this day will be overwritten)");
 		do {
-			newDate = keyboard.nextLine();
-			if (util.quitFunction(newDate)) {
+			newDay = keyboard.nextLine();
+			if (util.quitFunction(newDay)) {
 				return;
 			}
-		} while (util.validateDate(newDate) == false);
-		date = LocalDate.parse(newDate, dateFormat);
+			try {
+				dayOfWeek = Integer.parseInt(newDay);
+			} catch (Exception e) {
+				System.err.println("Not a valid input");
+				continue;
+			}
+		} while (util.validateDayOfWeek(dayOfWeek) == false);
 
 		System.out.println("Type in start time (hours:minutes)");
 		do {
@@ -221,16 +260,16 @@ public class Owner extends Member {
 		timeFormatter = util.assignTimeFormat(newTime);
 		endTime = LocalTime.parse(newTime, timeFormatter);
 
-		startDateTime = LocalDateTime.of(date, startTime);
-		endDateTime = LocalDateTime.of(date, endTime);
-
-		if (util.validateDayOfWeek(startDateTime) == false) {
-			System.out.println("Invalid day of the week");
-			return;
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
+				counter = i;
+				break;
+			}
 		}
 
-		validEntry = util.validateNewWorkTime(employeeId, startDateTime, endDateTime);
-		if (validEntry == true) {
+		if (util.validateNewWorkTime(startTime, endTime)) {
+			owner.getEmployeeArray().get(counter).getStartTimes().set(dayOfWeek - 1, startTime);
+			owner.getEmployeeArray().get(counter).getEndTimes().set(dayOfWeek - 1, endTime);
 			System.out.println("New work hours added for " + employeeId);
 		} else {
 			System.out.println("New work hours were not added");
@@ -244,48 +283,75 @@ public class Owner extends Member {
 		return;
 	}
 
+	/**
+	 * Prints days of the week where the business is open along with the days
+	 * corresponding number
+	 * 
+	 * @author David Ping
+	 */
+	public void printDaysOfWeek() {
+		Business business = new Business();
+		for (int i = 1; i <= 7; i++) {
+			for (int j = 0; j < business.getOpeningDays().length; j++) {
+				if (business.getOpeningDays()[j].equals(DayOfWeek.of(i))) {
+					System.out.println(i + ". " + DayOfWeek.of(i));
+				}
+			}
+		}
+		return;
+	}
+
+	/**
+	 * Shows the employees availability any particular week, this will print out
+	 * employee details followed by the day and times when they are available
+	 * 
+	 * @author Luke Waldren, David Ping
+	 */
 	public void showAllWorkerAvailability() {
 		Owner owner = new Owner();
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
-		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		LocalDateTime now = LocalDateTime.now();
-		boolean printed = false;
-		boolean validEntry = false;
+		boolean available = false;
+
 		System.out.println("View employee availability");
 		System.out.println("**********************************************************");
+
 		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
-			validEntry = false;
+			if (!(i == 0)) {
+				System.out.println("----------------------------------------------------------");
+			}
+			System.out.println("Name :" + owner.getEmployeeArray().get(i).getFirstName() + " "
+					+ owner.getEmployeeArray().get(i).getLastName());
+			System.out.println("ID: " + owner.getEmployeeArray().get(i).getId());
+
+			available = false;
 			for (int j = 0; j < owner.getEmployeeArray().get(i).getStartTimes().size(); j++) {
-				if (owner.getEmployeeArray().get(i).getStartTimes().get(j).isBefore(now.plusDays(7))
-						&& owner.getEmployeeArray().get(i).getStartTimes().get(j).isAfter(now.plusHours(1))) {
-					if (printed == false) {
-						System.out.println("Name :" + owner.getEmployeeArray().get(i).getFirstName() + " "
-								+ owner.getEmployeeArray().get(i).getLastName());
-						System.out.println("ID: " + owner.getEmployeeArray().get(i).getId());
+
+				if (!(owner.getEmployeeArray().get(i).getStartTimes().get(j) == null)) {
+					if (available == false) {
 						System.out.println("Is available on:");
-						printed = true;
+						available = true;
 					}
-					validEntry = true;
-					System.out.println(owner.getEmployeeArray().get(i).getStartTimes().get(j).format(dateAndDayFormat)
-							+ " " + owner.getEmployeeArray().get(i).getStartTimes().get(j).format(timeFormat) + "-"
+					System.out.println(DayOfWeek.of(j + 1) + " "
+							+ owner.getEmployeeArray().get(i).getStartTimes().get(j).format(timeFormat) + "-"
 							+ owner.getEmployeeArray().get(i).getEndTimes().get(j).format(timeFormat));
 				}
-
 			}
-			if (validEntry == false) {
-				System.out.println(owner.getEmployeeArray().get(i).getId() + " has no work hours this week");
+			if (available == false) {
+				System.out.println("Has no work times yet");
 			}
-			if (!(i == owner.getEmployeeArray().size() - 1)) {
-				System.out.println("--------------------------");
-			}
-			printed = false;
 		}
 	}
 
+	/**
+	 * Prints out all the bookings made in the past month along with its details
+	 * of the booking, the employee conducting the appointment, the customer
+	 * attending and the date and time
+	 * 
+	 * @author David Ping
+	 */
 	public void viewBookingSummary() {
 		Utility util = new Utility();
 		Appointment appointment = new Appointment();
-		LocalDateTime currentDay = LocalDateTime.now().minusMonths(1);
 		String formattedTime, formattedTimePlusDuration, dateAndDay;
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
 		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
@@ -306,7 +372,7 @@ public class Owner extends Member {
 				formattedTime = sortedList.get(i).getDateAndTime().format(timeFormat);
 				formattedTimePlusDuration = sortedList.get(i).getDateAndTime()
 						.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
-				util.printAppointmentDetails(i, sortedList);
+				printAppointmentDetails(i, sortedList);
 				System.out.println(
 						"Appointment time: " + dateAndDay + " " + formattedTime + "-" + formattedTimePlusDuration);
 				System.out.println("----------------------------------------------------------");
@@ -317,15 +383,27 @@ public class Owner extends Member {
 		return;
 	}
 
+	/**
+	 * Extension of viewBookingSummary, checks the date input to ensure it is
+	 * within the time frame between now and 1 month ago
+	 * 
+	 * @author David Ping
+	 */
 	public boolean validateBookingSummaryDate(LocalDate date) {
 		LocalDateTime now = LocalDateTime.now();
-		if (date.isAfter(now.minusMonths(1).toLocalDate())&& date.isBefore(now.toLocalDate())||date.equals(now.minusMonths(1).toLocalDate())) {
+		if (date.isAfter(now.minusMonths(1).toLocalDate()) && date.isBefore(now.toLocalDate())
+				|| date.equals(now.minusMonths(1).toLocalDate())) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	/**
+	 * Prints out all bookings coming up from the current day to 1 week ahead
+	 * 
+	 * @author David Ping
+	 */
 	public void viewUpcomingBookings() {
 		Utility util = new Utility();
 		Appointment appointment = new Appointment();
@@ -343,34 +421,72 @@ public class Owner extends Member {
 		System.out.println("Upcoming Appointments");
 		System.out.println("**********************************************************");
 
-			for (int i = 0; i < sortedList.size(); i++) {
-				if (validateUpcomingBookingDate(sortedList.get(i).getDateAndTime().toLocalDate())==true) {
-					dateAndDay = sortedList.get(i).getDateAndTime().format(dateAndDayFormat);
-					formattedTime = sortedList.get(i).getDateAndTime().format(timeFormat);
-					formattedTimePlusDuration = sortedList.get(i).getDateAndTime()
-							.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
-					util.printAppointmentDetails(i, sortedList);
-					System.out.println(
-							"Appointment time: " + dateAndDay + " " + formattedTime + "-" + formattedTimePlusDuration);
-					System.out.println("----------------------------------------------------------");
-				}
+		for (int i = 0; i < sortedList.size(); i++) {
+			if (validateUpcomingBookingDate(sortedList.get(i).getDateAndTime().toLocalDate()) == true) {
+				dateAndDay = sortedList.get(i).getDateAndTime().format(dateAndDayFormat);
+				formattedTime = sortedList.get(i).getDateAndTime().format(timeFormat);
+				formattedTimePlusDuration = sortedList.get(i).getDateAndTime()
+						.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
+				printAppointmentDetails(i, sortedList);
+				System.out.println(
+						"Appointment time: " + dateAndDay + " " + formattedTime + "-" + formattedTimePlusDuration);
+				System.out.println("----------------------------------------------------------");
 			}
+		}
 
 		System.out.println("\n**********************************************************\n");
 		LOGGER.info("");
 		return;
 	}
-	
-	public boolean validateUpcomingBookingDate(LocalDate date){
+
+	/**
+	 * Extension of viewUpcomingBookings(), checks the date input to ensure it
+	 * is within the time frame between now and 1 week ahead
+	 * 
+	 * @author David Ping
+	 */
+	public boolean validateUpcomingBookingDate(LocalDate date) {
 		LocalDateTime now = LocalDateTime.now();
-		if (date.isBefore(now.plusWeeks(1).toLocalDate())&& date.isAfter(now.toLocalDate())||date.equals(now.toLocalDate().plusWeeks(1))
-				||date.equals(now.toLocalDate())) {
+		if (date.isBefore(now.plusWeeks(1).toLocalDate()) && date.isAfter(now.toLocalDate())
+				|| date.equals(now.toLocalDate().plusWeeks(1)) || date.equals(now.toLocalDate())) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	/**
+	 * Extension of viewBookingSummary() and viewUpcomingBookings(), used to
+	 * print out details of the appointments
+	 * 
+	 * @author David Ping
+	 */
+	public void printAppointmentDetails(int counter, List<Appointment> arrayList) {
+		Main main = new Main();
+		Owner owner = new Owner();
+
+		for (int j = 0; j < main.getCustomerArray().size(); j++) {
+			if (main.getCustomerArray().get(j).getUsername().equals(arrayList.get(counter).getCustomerUsername())) {
+				System.out.println("Customer Name: " + main.getCustomerArray().get(j).getFirstName() + " "
+						+ main.getCustomerArray().get(j).getLastname());
+				System.out.println("Address: " + main.getCustomerArray().get(j).getAddress());
+				System.out.println("Contact Number: " + main.getCustomerArray().get(j).getContactNumber());
+			}
+		}
+		for (int k = 0; k < owner.getEmployeeArray().size(); k++) {
+			if (owner.getEmployeeArray().get(k).getId().equals(arrayList.get(counter).getEmployeeId())) {
+				System.out.println("Employee Name: " + owner.getEmployeeArray().get(k).getFirstName() + " "
+						+ owner.getEmployeeArray().get(k).getLastName());
+				System.out.println("Employee ID: " + owner.getEmployeeArray().get(k).getId());
+			}
+		}
+	}
+
+	/**
+	 * Login function for owner, after logging in successfully owner is given a
+	 * menu with many options for tasks to do
+	 * @author Luke Waldren
+	 */
 	public Boolean login(String username, String password) {
 		Main main = new Main();
 		ArrayList<String> MembersSearch = new ArrayList<String>();

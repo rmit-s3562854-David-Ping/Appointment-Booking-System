@@ -2,12 +2,20 @@ package main;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Reader {
+	
+	/**
+	 * Reader class, reads input from files found next to the src folder and stores them into appropriate arrays
+	 * @version 1.00 05 Apr 2017
+	 * @author David Ping, Luke Waldren, Hassan Mender
+	 * */
 
 	Scanner keyboard = new Scanner(System.in);
 	Main main = new Main();
@@ -68,30 +76,35 @@ public class Reader {
 			while (inputStream3.hasNextLine()) {
 				String line = inputStream3.nextLine();
 				StringTokenizer stringToken = new StringTokenizer(line, "|");
-
+				int dayOfWeek = 0;
+				
 				String id = stringToken.nextToken();
 				String firstName = stringToken.nextToken();
 				String lastName = stringToken.nextToken();
-
-				Employee employee = new Employee(firstName, lastName, id, null, null);
-
-				if (stringToken.hasMoreTokens()) {
-					String startTimes = stringToken.nextToken();
-
-					StringTokenizer stringToken2 = new StringTokenizer(startTimes, ",");
-
-					while (stringToken2.hasMoreTokens()) {
-						LocalDateTime newStartTime = LocalDateTime.parse(stringToken2.nextToken());
-						employee.getStartTimes().add(newStartTime);
-					}
-
-					String endTimes = stringToken.nextToken();
-					StringTokenizer stringToken3 = new StringTokenizer(endTimes, ",");
-					while (stringToken3.hasMoreTokens()) {
-						LocalDateTime newEndTime = LocalDateTime.parse(stringToken3.nextToken());
-						employee.getEndTimes().add(newEndTime);
-					}
+				String startTimes = stringToken.nextToken();
+				String endTimes = stringToken.nextToken();
+				ArrayList<LocalTime> startTimeList = new ArrayList<LocalTime>();
+				ArrayList<LocalTime> endTimeList = new ArrayList<LocalTime>();
+				for(int i=0;i<7;i++){
+					startTimeList.add(null);
+					endTimeList.add(null);
 				}
+				
+				StringTokenizer stringToken2 = new StringTokenizer(startTimes, ",");
+
+				while (stringToken2.hasMoreTokens()) {
+					LocalTime newStartTime = LocalTime.parse(stringToken2.nextToken());
+					startTimeList.set(dayOfWeek, newStartTime);
+					dayOfWeek++;
+				}
+				dayOfWeek=0;
+				StringTokenizer stringToken3 = new StringTokenizer(endTimes, ",");
+				while (stringToken3.hasMoreTokens()) {
+					LocalTime newEndTime = LocalTime.parse(stringToken3.nextToken());
+					endTimeList.set(dayOfWeek, newEndTime);
+					dayOfWeek++;
+				}
+				Employee employee = new Employee(firstName, lastName, id, startTimeList, endTimeList);
 				owner.getEmployeeArray().add(employee);
 			}
 

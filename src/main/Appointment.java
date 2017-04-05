@@ -4,8 +4,16 @@ import java.time.*;
 
 public class Appointment {
 
+	/**
+	 * Appointment class contains attributes of appointment
+	 *
+	 * @version 1.00 05 Mar 2017
+	 * @author David Ping
+	 */
+
 	private LocalDateTime dateAndTime;
-	private int appointmentDuration = 60;// Minutes will be used
+	private int appointmentDuration = 60;
+	// (Minutes) used, will join constructor when services are made
 	private String customerUsername;
 	private String employeeId;
 
@@ -17,8 +25,7 @@ public class Appointment {
 		this.customerUsername = customerUsername;
 		this.employeeId = employeeId;
 	}
-	
-	
+
 	public LocalDateTime getDateAndTime() {
 		return dateAndTime;
 	}
@@ -26,7 +33,7 @@ public class Appointment {
 	public void setDateAndTime(LocalDateTime dateAndTime) {
 		this.dateAndTime = dateAndTime;
 	}
-	
+
 	public int getAppointmentDuration() {
 		return appointmentDuration;
 	}
@@ -38,8 +45,8 @@ public class Appointment {
 	public String getEmployeeId() {
 		return employeeId;
 	}
-	
+
 	public String toString() {
- 		return this.getCustomerUsername()+ "|" +this.getEmployeeId()+ "|" +this.getDateAndTime();
- 	}
+		return this.getCustomerUsername() + "|" + this.getEmployeeId() + "|" + this.getDateAndTime();
+	}
 }
