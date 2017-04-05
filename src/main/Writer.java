@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class Writer {
+	
+	/**
+	 * Writer class, writes array contents to the files
+	 * @author David Ping, Luke Waldren, Hassan Mender
+	 * @version 1.00 05 Apr 2017
+	 * */
+	
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	public void save(ArrayList<Customer> customers) throws IOException {
 
@@ -23,12 +30,10 @@ public class Writer {
 
 		}
     LOGGER.info("customers file saved");
-		System.out.println("Files saved.");
 		writerCustomers.close();
 
 
 	}
-	
 	
 	public void saveEmployees(ArrayList<Employee> employees) throws IOException {
 
@@ -44,12 +49,18 @@ public class Writer {
 							if(!(j==0)){
 								writerEmployees.write(",");
 							}
+							if(employees.get(i).getStartTimes().get(j)==null){
+								continue;
+							}
 							writerEmployees.write(employees.get(i).getStartTimes().get(j).toString());
 						}
 						writerEmployees.write("|");
 						for(int j=0;j<employees.get(i).getEndTimes().size();j++){
 							if(!(j==0)){
 								writerEmployees.write(",");
+							}
+							if(employees.get(i).getEndTimes().get(j)==null){
+								continue;
 							}
 							writerEmployees.write(employees.get(i).getEndTimes().get(j).toString());
 						}
@@ -60,7 +71,6 @@ public class Writer {
 
 		}
 		LOGGER.info("employees file saved");
-		System.out.println("Files saved.");
 		writerEmployees.close();
 
 	}

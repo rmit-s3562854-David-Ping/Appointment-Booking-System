@@ -2,29 +2,33 @@ package main;
 
 import java.util.Scanner;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class Main {
+
+	/**
+	 * Main class, contains main method and array lists with customer data,
+	 * owner and appointments
+	 *
+	 * @version 1.00 05 Apr 2017
+	 * @author David Ping, Hassan Mender, Luke Waldren
+	 */
 
 	private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
 	private static ArrayList<Appointment> appointmentArray = new ArrayList<Appointment>();
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
-	
+
 	public static void main(String[] args) {
 		Reader reader = new Reader();
 		Customer customer = new Customer();
 		Owner owner = new Owner();
 		Utility util = new Utility();
 
+		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
-		//Setup the logger
-		myLogger logger = new myLogger();
 		try {
 			myLogger.setup();
 		} catch (IOException e) {
@@ -45,7 +49,7 @@ public class Main {
 				select = input.nextLine();
 				selection = Integer.parseInt(select);
 			} catch (Exception e) {
-				LOGGER.log( Level.SEVERE, e.toString(), e );
+				LOGGER.log(Level.SEVERE, e.toString(), e);
 			}
 
 			switch (selection) {
@@ -56,14 +60,12 @@ public class Main {
 					String password = "";
 					System.out.println("Please enter username: ");
 					username = input.nextLine();
-					if((util.quitFunction(username))== true)
-					{
+					if ((util.quitFunction(username)) == true) {
 						break;
 					}
 					System.out.println("Please enter password: ");
 					password = input.nextLine();
-					if((util.quitFunction(username))== true)
-					{
+					if ((util.quitFunction(username)) == true) {
 						break;
 					}
 					if (!owner.login(username, password) && !customer.login(username, password)) {
@@ -93,6 +95,7 @@ public class Main {
 		} while (!(selection == 3));
 	}
 
+	/** Prints the menu of the booking system */
 	public static void createMenu() {
 		System.out.println("*************** Appointment Booking System ***************\n");
 		System.out.println("1.   Login");
@@ -103,6 +106,7 @@ public class Main {
 
 	}
 
+	/** Prints the menu of the owner's login */
 	public void createOwnerMenu() {
 		System.out.println("*************** Appointment Booking System ***************\n");
 		System.out.println("Owner's Page\n");
@@ -116,7 +120,8 @@ public class Main {
 		System.out.println("**********************************************************");
 		LOGGER.info("Owner menu created.");
 	}
-	
+
+	/** Prints the menu of the customer's login */
 	public void createCustomerMenu() {
 		System.out.println("*************** Appointment Booking System ***************\n");
 		System.out.println("Customer's Page\n");

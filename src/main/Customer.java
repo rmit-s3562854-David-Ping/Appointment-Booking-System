@@ -1,12 +1,20 @@
 package main;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Customer extends Member {
+	
+	/**
+	 * Customer class, attributes and behaviors of customers
+	 *
+	 * @version 1.00 05 Apr 2017
+	 * @author David Ping, Hassan Mender, Luke Waldren
+	 */
 
 	public Customer() {
 		super(null, null, null, null, null, null);
@@ -16,9 +24,14 @@ public class Customer extends Member {
 			String contactNumber) {
 		super(username, password, firstName, lastName, address, contactNumber);
 	}
-
+	
+	/**
+	 * Login function for customers, takes values username and password
+	 * @author Luke Waldren, David Ping
+	 */
 	public Boolean login(String username, String password) {
 		Main main = new Main();
+		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		ArrayList<String> MembersSearch = new ArrayList<String>();
 		ArrayList<Customer> customerArray = main.getCustomerArray();
@@ -41,7 +54,6 @@ public class Customer extends Member {
 					select = input.nextLine();
 					selection = Integer.parseInt(select);
 				} catch (Exception e) {
-
 				}
 				switch (selection) {
 				case 1: {
@@ -65,11 +77,14 @@ public class Customer extends Member {
 		return true;
 	}
 
+	/**
+	 * Registration function for customers, asks for input and submits it
+	 * @author Hassan Mender
+	 */
 	public Boolean register() {
 		System.out.println("                      REGISTRATION");
 		System.out.println("**********************************************************");
-		System.out.println("Enter 'q','b','quit' to exit at anytime ");
-		System.out.println("");
+		System.out.println("Enter 'q','b','quit' to exit at anytime \n");
 		Customer customer;
 		customer = getRegisterInformation();
 		if (customer == null) {
@@ -82,10 +97,13 @@ public class Customer extends Member {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
 	public Customer getRegisterInformation() {
-
 		Utility util = new Utility();
-		Main driver = new Main();
+		@SuppressWarnings("resource")
 		Scanner keyboard = new Scanner(System.in);
 		String username = null, password, firstName, lastName, address, contactNumber;
 		Boolean valid = true;
@@ -143,8 +161,6 @@ public class Customer extends Member {
 		}
 		System.out.println("Username: ");
 		username = keyboard.nextLine();
-		boolean validUsername;
-
 		if ((util.quitFunction(username)) == true) {
 			valid = false;
 			return null;
@@ -172,6 +188,10 @@ public class Customer extends Member {
 
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
 	public Customer makeObj(String username, String password, String firstName, String lastName, String address,
 			String contactNumber, Boolean valid) {
 
@@ -183,6 +203,10 @@ public class Customer extends Member {
 		}
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
 	public Boolean addCustomer(String username, String password, String firstName, String lastName, String address,
 			String contactNumber) {
 		Main driver = new Main();
@@ -199,18 +223,22 @@ public class Customer extends Member {
 
 	}
 
+	/**
+	 * View Appointment time function, allows customers to view times which are available for appointments
+	 * @author David Ping
+	 */
 	public void viewAppointmentTimes() {
 		Owner owner = new Owner();
-		Customer customer = new Customer();
 		Appointment appointment = new Appointment();
 		Business business = new Business();
 		Utility util = new Utility();
 
 		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
+		LocalDateTime now= LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mma");
 		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
 		boolean open;
-		String dateAndDay;
-		int counter = 0;
+		String dateAndDay, formattedTime;
 
 		if (owner.getEmployeeArray().isEmpty()) {
 			System.out.println("No employees working for this company");
@@ -219,31 +247,93 @@ public class Customer extends Member {
 		if (currentTime.toLocalTime().compareTo(business.getClosingTime()) == 1) {
 			currentTime = currentTime.plusHours(24 - currentTime.getHour());
 		}
-		while (counter < 7) {
+		
+		while (currentTime.isBefore(now.plusWeeks(1))||currentTime.toLocalDate().equals(now.plusWeeks(1).toLocalDate())) {
 			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
 			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
-			util.adjustTimePresentDay(currentTime);
+			currentTime = adjustTimePresentDay(currentTime);
 			open = util.validateDayOfWeek(currentTime);
 			if (open == false) {
 				currentTime = currentTime.plusHours(24 - currentTime.getHour());
 				continue;
 			} else if (open == true) {
 				dateAndDay = currentTime.format(formatter2);
-				System.out.println("================");
-				System.out.println(dateAndDay);
-				System.out.println("================");
+				System.out.println("================\n"+dateAndDay+"\n================");
 				while (currentTime.toLocalTime().compareTo(business.getClosingTime()) == -1
 						|| currentTime.getHour() == 0) {
-					util.printAvailableAppointment(currentTime);
-
+					if(validateAvailableTime(currentTime)==true){
+						formattedTime = currentTime.format(formatter);
+						System.out.println(formattedTime);
+					}
 					currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
 				}
 				currentTime = currentTime.plusHours(24 - currentTime.getHour());
 			}
-			counter++;
 		}
 	}
+	
+	/**
+	 * Extension of above function viewAppointmentTimes(), if currentTime is on
+	 * the present day the available appointment times must be adjusted
+	 * accordingly to the current hour
+	 * @author David Ping
+	 */
+	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime) {
+		Appointment appointment = new Appointment();
+		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
+		while (now.toLocalDate().equals(currentTime.toLocalDate()) && now.toLocalTime().isAfter(currentTime.toLocalTime())){
+			if (now.isAfter(currentTime)) {
+				currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
+			}
+		}
+		return currentTime;
+	}
+	
+	/**
+	 * Extension of function viewAppointmentTimes(), will check if an
+	 * employee is available at the time being passed in by ensuring 1. The
+	 * employee does not currently have an appointment at that exact time and 2.
+	 * whether or not the employee is working on that day
+	 * @author David Ping
+	 */
+	public boolean validateAvailableTime(LocalDateTime currentTime) {
+		Main main = new Main();
+		Owner owner = new Owner();
+		Appointment appointment = new Appointment();
+		Boolean employeeAvailable = null;
 
+		for (int j = 0; j < owner.getEmployeeArray().size(); j++) {
+			employeeAvailable = true;
+			for (int i = 0; i < main.getAppointmentArray().size(); i++) {
+				if (main.getAppointmentArray().get(i).getEmployeeId().equals(owner.getEmployeeArray().get(j).getId())
+						&& main.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)) {
+					employeeAvailable = false;
+					break;
+				}
+			}
+			if (employeeAvailable == false) {
+				continue;
+			}
+			for (int k = 0; k < owner.getEmployeeArray().get(j).getStartTimes().size(); k++) {
+				if (owner.getEmployeeArray().get(j).getStartTimes().get(k) == null) {
+					continue;
+				}
+				if ((owner.getEmployeeArray().get(j).getStartTimes().get(k).equals(currentTime.toLocalTime()) || owner
+						.getEmployeeArray().get(j).getStartTimes().get(k).isBefore(currentTime.toLocalTime()))) {
+					if ((owner.getEmployeeArray().get(j).getEndTimes().get(k)
+							.equals(currentTime.plusMinutes(appointment.getAppointmentDuration()).toLocalTime()))
+							|| owner.getEmployeeArray().get(j).getEndTimes().get(k).isAfter(
+									currentTime.plusMinutes(appointment.getAppointmentDuration()).toLocalTime())) {
+						if (DayOfWeek.of(k + 1).equals(currentTime.getDayOfWeek())) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	public String toString() {
 		return this.getUsername() + ":" + this.getPassword() + ":" + this.getFirstName() + ":" + this.getLastname()
 				+ ":" + this.getAddress() + ":" + this.getContactNumber();
