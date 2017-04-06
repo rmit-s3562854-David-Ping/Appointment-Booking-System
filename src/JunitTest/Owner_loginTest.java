@@ -19,7 +19,6 @@ public class Owner_loginTest {
 	@Before
 	public void before_login_test() {
 		owner = new Owner("username","password","", "", "", "", "");
-		
 		main = new Main();
 		main.getOwnerArray().add(owner);
 	}
