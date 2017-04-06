@@ -6,7 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import main.Customer;
+import main.Employee;
 import main.Main;
+import main.Owner;
 import main.Utility;
 
 public class validation_Test {
@@ -14,12 +16,18 @@ public class validation_Test {
 	private Utility util;
 	private Main main;
 	private Customer customer;
+	private Employee employee;
+	private Owner owner;
 	
 	@Before
 	public void before_checkDuplicate_test(){
 		customer = new Customer("username","password", null, null, null, null);
 		main = new Main();
 		main.getCustomerArray().add(customer);
+		employee = new Employee("employeeName","lastName", "e12345", null, null);
+		owner = new Owner();
+		owner.getEmployeeArray().add(employee);
+		
 	}
 	@Test
 	public void checkDuplicateUsername_test(){
@@ -226,35 +234,35 @@ public class validation_Test {
 	public void validateTime_test12(){
 		assertFalse("invalid time", util.validateTime("10-30"));
 	}
-	
+		
 	@Test
 	public void validateMakeEmployeeId_test(){
-		assertTrue("valid Emplyee ID", util.validateMakeEmployeeId("e12345"));
+		assertTrue("valid Emplyee ID", util.validateEmployeeId("e12345"));
 	}
 	
 	@Test
 	public void validateMakeEmployeeId_test2(){
-		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("e1234"));
+		assertFalse("invalid Emplyee ID", util.validateEmployeeId("e1234"));
 	}
 	
 	@Test
 	public void validateMakeEmployeeId_test3(){
-		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("e1234567"));
+		assertFalse("invalid Emplyee ID", util.validateEmployeeId("e1234567"));
 	}
 	
 	@Test
 	public void validateMakeEmployeeId_test4(){
-		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("eqazwsx"));
+		assertFalse("invalid Emplyee ID", util.validateEmployeeId("eqazwsx"));
 	}
 	
 	@Test
 	public void validateMakeEmployeeId_test5(){
-		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("12345"));
+		assertFalse("invalid Emplyee ID", util.validateEmployeeId("12345"));
 	}
 	
 	@Test
 	public void validateMakeEmployeeId_test6(){
-		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("b1234"));
+		assertFalse("invalid Emplyee ID", util.validateEmployeeId("b1234"));
 	}
 	
 	
