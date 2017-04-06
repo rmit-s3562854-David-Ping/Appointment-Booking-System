@@ -2,6 +2,7 @@ package JunitTest;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +22,7 @@ public class validation_Test {
 	
 	@Before
 	public void before_checkDuplicate_test(){
+		util = new Utility();
 		customer = new Customer("username","password", null, null, null, null);
 		main = new Main();
 		main.getCustomerArray().add(customer);
@@ -28,6 +30,12 @@ public class validation_Test {
 		owner = new Owner();
 		owner.getEmployeeArray().add(employee);
 		
+	}
+	@After
+	public void after_validation_test(){
+		main.getCustomerArray().remove(customer);
+		owner.getEmployeeArray().remove(employee);
+
 	}
 	@Test
 	public void checkDuplicateUsername_test(){
@@ -37,13 +45,7 @@ public class validation_Test {
 	@Test
 	public void checkDuplicateUsername_test2(){
 		assertTrue("already in the System username",util.customerUsernameIsDuplicate("username"));
-	}
-	
-	@Before
-	public void before_test(){
-		util = new Utility();
-		
-	}
+	}	
 	
 	@Test
 	public void validateName_test() {		
