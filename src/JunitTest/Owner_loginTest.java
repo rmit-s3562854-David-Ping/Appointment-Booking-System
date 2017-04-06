@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import main.Employee;
 import main.Main;
 import main.Owner;
 
@@ -23,26 +24,25 @@ public class Owner_loginTest {
 		main.getOwnerArray().add(owner);
 	}
 	
-	@Test
-	public void login_test(){
-		assertTrue("valid username & password",owner.login("username", "password"));
-	}
+	
 	@Test
 	public void login_test2(){
-		assertTrue("invalid username & password",owner.login("InvalidUsername", "password"));
-
+		assertFalse("invalid username & password",owner.login("InvalidUsername", "password"));
 	}
 	
 	@Test
 	public void login_test3(){
-		assertTrue("invalid username & password",owner.login("username", "InvalidPassword"));
-
+		assertFalse("invalid username & password",owner.login("username", "InvalidPassword"));
 	}
 	
 	@Test
 	public void login_test4(){
-		assertTrue("invalid username & password",owner.login("Invalidusername", "InvalidPassword"));
-
+		assertFalse("invalid username & password",owner.login("Invalidusername", "InvalidPassword"));
 	}
-
+	
+	@Test
+	public void login_test(){
+		assertTrue("valid username & password",owner.login("username", "password"));
+	}
+	
 }

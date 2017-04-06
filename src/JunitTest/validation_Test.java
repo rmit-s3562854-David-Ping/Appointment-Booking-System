@@ -28,7 +28,7 @@ public class validation_Test {
 	
 	@Test
 	public void checkDuplicateUsername_test2(){
-		assertFalse("already in the System username",util.customerUsernameIsDuplicate("username"));
+		assertTrue("already in the System username",util.customerUsernameIsDuplicate("username"));
 	}
 	
 	@Before
@@ -44,17 +44,17 @@ public class validation_Test {
 	
 	@Test
 	public void validateName_test2() {		
-		assertTrue("invalid input",util.validateName("username"));
+		assertFalse("invalid input",util.validateName("username"));
 	}
 	
 	@Test
 	public void validateName_test3() {		
-		assertTrue("less than Min",util.validateName(""));
+		assertFalse("less than Min",util.validateName(""));
 	}
 	
 	@Test
 	public void validateName_test4() {		
-		assertTrue("more than Max",util.validateName("usernameandpasswordalltogether"));
+		assertFalse("more than Max",util.validateName("usernameandpasswordalltogether"));
 	}
 	
 	@Test
@@ -64,27 +64,27 @@ public class validation_Test {
 	
 	@Test
 	public void validatelogin_username_test2(){
-		assertTrue("less than required length",util.validateLogin("user"));
+		assertFalse("less than required length",util.validateLogin("user"));
 	}
 	
 	@Test
 	public void validatelogin_username_test3(){
-		assertTrue("more than allowed length",util.validateLogin("usernameismorethantwinty"));
+		assertFalse("more than allowed length",util.validateLogin("usernameismorethantwinty"));
 	}
 	
 	@Test
 	public void validatelogin_password_test(){
-		assertTrue("valid username",util.validateLogin("password"));
+		assertTrue("valid password",util.validateLogin("password"));
 	}
 	
 	@Test
 	public void validatelogin_password_test2(){
-		assertTrue("less than required length",util.validateLogin("pass"));
+		assertFalse("less than required length",util.validateLogin("pass"));
 	}
 	
 	@Test
 	public void validatelogin_password_test3(){
-		assertTrue("more than allowed length",util.validateLogin("passwordismorethantwinty"));
+		assertFalse("more than allowed length",util.validateLogin("passwordismorethantwinty"));
 	}
 	
 	@Test
@@ -94,17 +94,17 @@ public class validation_Test {
 	
 	@Test
 	public void validateContactNumber_test2(){
-		assertTrue("invalid number",util.validateContactNumber("0412345678910"));
+		assertFalse("invalid number",util.validateContactNumber("0412345678910"));
 	}
 	
 	@Test
 	public void validateContactNumber_test3(){
-		assertTrue("invalid number",util.validateContactNumber("1234567890"));
+		assertFalse("invalid number",util.validateContactNumber("1234567890"));
 	}
 	
 	@Test
 	public void validateContactNumber_test4(){
-		assertTrue("invalid number",util.validateContactNumber("phoneNum"));
+		assertFalse("invalid number",util.validateContactNumber("phoneNum"));
 	}
 	
 	@Test
@@ -114,12 +114,12 @@ public class validation_Test {
 	
 	@Test
 	public void validateAddress_test2(){
-		assertTrue("invalid Address length less than allowed",util.validateAddress("1 st"));
+		assertFalse("invalid Address length less than allowed",util.validateAddress("1 st"));
 	}
 	
 	@Test
 	public void validateAddress_test3(){
-		assertTrue("invalid Address length more than allowed",util.validateAddress("80 RMIT swanston st Melbourne Victoria 3000 Australia the Earth"));
+		assertFalse("invalid Address length more than allowed",util.validateAddress("80 RMIT swanston st Melbourne Victoria 3000 Australia the Earth"));
 	}
 	
 	@Test
@@ -129,42 +129,42 @@ public class validation_Test {
 	
 	@Test
 	public void validateDate_test2(){
-		assertTrue("invalid date", util.validateDate("3/25/2017"));
+		assertFalse("invalid date", util.validateDate("3/25/2017"));
 	}
 	
 	@Test
 	public void validateDate_test3(){
-		assertTrue("invalid date", util.validateDate("25/2017/03"));
+		assertFalse("invalid date", util.validateDate("25/2017/03"));
 	}
 	
 	@Test
 	public void validateDate_test4(){
-		assertTrue("invalid date", util.validateDate("2017/03/25"));
+		assertFalse("invalid date", util.validateDate("2017/03/25"));
 	}
 	
 	@Test
 	public void validateDate_test5(){
-		assertTrue("invalid date", util.validateDate("3/2017/25"));
+		assertFalse("invalid date", util.validateDate("3/2017/25"));
 	}
 	
 	@Test
 	public void validateDate_test6(){
-		assertTrue("invalid date", util.validateDate("2017/25/03"));
+		assertFalse("invalid date", util.validateDate("2017/25/03"));
 	}
 	
 	@Test
 	public void validateDate_test7(){
-		assertTrue("invalid date", util.validateDate("3/25/17"));
+		assertFalse("invalid date", util.validateDate("3/25/17"));
 	}
 	
 	@Test
 	public void validateDate_test8(){
-		assertTrue("invalid date", util.validateDate("3-25-2017"));
+		assertFalse("invalid date", util.validateDate("3-25-2017"));
 	}
 	
 	@Test
 	public void validateDate_test9(){
-		assertTrue("invalid date", util.validateDate(""));
+		assertFalse("invalid date", util.validateDate(""));
 	}
 	
 	@Test
@@ -189,47 +189,72 @@ public class validation_Test {
 	
 	@Test
 	public void validateTime_test5(){
-		assertTrue("invalid time", util.validateTime("15:30AM"));
+		assertFalse("invalid time", util.validateTime("15:30AM"));
 	}
 	
 	@Test
 	public void validateTime_test6(){
-		assertTrue("invalid time", util.validateTime("15:30PM"));
+		assertFalse("invalid time", util.validateTime("15:30PM"));
 	}
 	
 	@Test
 	public void validateTime_test7(){
-		assertTrue("invalid time", util.validateTime("10:30am"));
+		assertFalse("invalid time", util.validateTime("10:30am"));
 	}
 	
 	@Test
 	public void validateTime_test8(){
-		assertTrue("invalid time", util.validateTime("10:30pm"));
+		assertFalse("invalid time", util.validateTime("10:30pm"));
 	}
 	
 	@Test
 	public void validateTime_test9(){
-		assertTrue("invalid time", util.validateTime("30:30"));
+		assertFalse("invalid time", util.validateTime("30:30"));
 	}
 	
 	@Test
 	public void validateTime_test10(){
-		assertTrue("invalid time", util.validateTime("24:30"));
+		assertFalse("invalid time", util.validateTime("24:30"));
 	}
 	
 	@Test
 	public void validateTime_test11(){
-		assertTrue("valid time", util.validateTime("1030"));
+		assertFalse("invalid time", util.validateTime("1030"));
 	}
 	
 	@Test
 	public void validateTime_test12(){
-		assertTrue("valid time", util.validateTime("10-30"));
+		assertFalse("invalid time", util.validateTime("10-30"));
 	}
 	
 	@Test
 	public void validateMakeEmployeeId_test(){
 		assertTrue("valid Emplyee ID", util.validateMakeEmployeeId("e12345"));
+	}
+	
+	@Test
+	public void validateMakeEmployeeId_test2(){
+		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("e1234"));
+	}
+	
+	@Test
+	public void validateMakeEmployeeId_test3(){
+		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("e1234567"));
+	}
+	
+	@Test
+	public void validateMakeEmployeeId_test4(){
+		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("eqazwsx"));
+	}
+	
+	@Test
+	public void validateMakeEmployeeId_test5(){
+		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("12345"));
+	}
+	
+	@Test
+	public void validateMakeEmployeeId_test6(){
+		assertFalse("invalid Emplyee ID", util.validateMakeEmployeeId("b1234"));
 	}
 	
 	
