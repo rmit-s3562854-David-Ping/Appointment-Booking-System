@@ -9,6 +9,12 @@ import org.junit.Test;
 import main.*;
 
 public class ValidateBookingSummary_Test {
+	
+	/**
+	 * Tests validateBookingSummary(LocalDate date) to determine if the date is between the current date 
+	 * and 1 month ago
+	 * @author David Ping
+	 * */
 
 	//Tests if date being considered for booking summary is before the current date and up to 1 month behind
 	//Used boundary checking

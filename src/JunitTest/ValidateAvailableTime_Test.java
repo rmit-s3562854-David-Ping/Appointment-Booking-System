@@ -15,6 +15,13 @@ import main.*;
 public class ValidateAvailableTime_Test {
 
 	/**
+	 * Test validateAvailableTime(LocalDateTime) to ensure that
+	 * 1. there is an employee available to work on that day
+	 * 2. the employee does not already have an appointment at the time
+	 * @author David Ping
+	 * */
+	
+	/**
 	 * Sets up an employee that works on Monday from openingTime - openingTime(plus 3 hours)
 	 * eg 8:00AM-11:00AM
 	 * Sets up an appointment on next weeks Monday at opening time
@@ -34,7 +41,7 @@ public class ValidateAvailableTime_Test {
 		}
 		startTimeList.set(0, monday);
 		endTimeList.set(0, monday2);
-		Employee employee = new Employee("Ben", "Riordan", "e00001", startTimeList, endTimeList);
+		Employee employee = new Employee("Ben", "Rick", "e00001", startTimeList, endTimeList);
 		owner.getEmployeeArray().add(employee);
 		LocalDateTime dateAndTime = LocalDateTime.now().plusWeeks(1).with(DayOfWeek.MONDAY).withSecond(0).withNano(0)
 				.withHour(business.getOpeningTime().getHour()).withMinute(business.getOpeningTime().getMinute());
