@@ -1,17 +1,28 @@
 package main;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Owner extends Member {
 
-	private static ArrayList<Employee> employeeArray = new ArrayList<Employee>();
+	/**
+	 * Owner class, contains attributes and behaviors of owner
+	 * 
+	 * @version 1.00 05 Apr 2017
+	 * @author David Ping, Hassan Mender, Luke Waldren
+	 */
 
+	private static ArrayList<Employee> employeeArray = new ArrayList<Employee>();
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	private String businessName;
 	Scanner input = new Scanner(System.in);
 
@@ -28,54 +39,62 @@ public class Owner extends Member {
 	public String getBusinessName() {
 		return businessName;
 	}
-	
-	
 
-	public Boolean createEmployee(){
-		
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
+	public Boolean createEmployee() {
+
 		System.out.println("                     Adding New Employee");
 		System.out.println("**********************************************************");
 		System.out.println("Enter 'q','b','quit' to exit at anytime ");
 		System.out.println("");
-		
+
 		Employee newEmployee;
-		
+		Writer writer = new Writer();
+
 		newEmployee = getEmployeeInfo();
-		if(newEmployee == null){
-			System.out.println("Adding new emplyee failed");
+		if (newEmployee == null) {
+			System.out.println("Adding new employee failed");
 			return false;
 		}
 		addEmployee(newEmployee);
-			//getEmployeeArray().add(newEmployee);
+
 		System.out.println("Employee " + newEmployee.getFirstName() + " " + newEmployee.getLastName() + " added.");
 		
-		return true;		
-	}
-	
-	public Boolean addEmployee(Employee employee){
-		if(employee == null){
-			return false;
+		try {
+			writer.saveEmployees(getEmployeeArray());
+		} catch (IOException e) {
+			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, e.toString(), e);
 		}
-		getEmployeeArray().add(employee);
 		return true;
 	}
 
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
+	public Boolean addEmployee(Employee employee) {
+		if (employee == null) {
+			return false;
+		}
+		getEmployeeArray().add(employee);
+		LOGGER.info("Employee Added.");
+		
+		return true;
+	}
+
+	/**
+	 * 
+	 * @author Hassan Mender, Luke Waldren
+	 */
 	public Employee getEmployeeInfo() {
 		// Add error checking make sure id is unique
+
 		Utility util = new Utility();
-		System.out.println("Employee ID: ");
-		String id = input.nextLine();
-
-		if (util.quitFunction(id)) {
-			return null;
-		}
-		while (util.validateMakeEmployeeId(id) == false) {
-			id = input.nextLine();
-			if (util.quitFunction(id)) {
-				return null;
-			}
-		}
-
+		String id = util.createID();
 		System.out.println("Employee First Name: ");
 		String firstName = input.nextLine();
 		if (util.quitFunction(firstName)) {
@@ -101,101 +120,132 @@ public class Owner extends Member {
 		}
 
 		Employee employee = makeEmployeeObj(firstName, lastName, id);
+		LOGGER.info("Employee information returned");
 		return employee;
 	}
 
-	public Employee makeEmployeeObj(String firstName,String lastName, String id){
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
+	public Employee makeEmployeeObj(String firstName, String lastName, String id) {
 		Utility util = new Utility();
-		if( (util.checkString(firstName)==false) || (util.checkString(lastName)==false) || (util.checkString(id) == false) ){
-			return null;
+		ArrayList<LocalTime> startTimes = new ArrayList<LocalTime>();
+		ArrayList<LocalTime> endTimes = new ArrayList<LocalTime>();
+		for(int i=0;i<7;i++){
+			startTimes.add(null);
+			endTimes.add(null);
 		}
-		else{
-		Employee newEmployee = new Employee(firstName, lastName, id, null, null);
-		return newEmployee;
+		if ((util.checkString(firstName) == false) || (util.checkString(lastName) == false)
+				|| (util.checkString(id) == false)) {
+			return null;
+		} else {
+			Employee newEmployee = new Employee(firstName, lastName, id, startTimes, endTimes);
+			return newEmployee;
 		}
 	}
-	
-	public Boolean deleteEmployee(){
-			
-			Utility util = new Utility();
-			Scanner keyboard = new Scanner(System.in);
-			String employeeId;
-			String sure;
-			Owner owner = new Owner();
-			System.out.println("               Delete Employee");
-			System.out.println("************************************************");
-			
-			int j = 0;
-			while(j < owner.getEmployeeArray().size()){
-				System.out.print(owner.getEmployeeArray().get(j).getId() + " | ");
-				System.out.print(owner.getEmployeeArray().get(j).getFirstName() + " ");
-				System.out.println(owner.getEmployeeArray().get(j).getLastName() + " ");
-				j++;
+
+	/**
+	 * 
+	 * @author Hassan Mender
+	 */
+	public Boolean deleteEmployee() {
+		Utility util = new Utility();
+		@SuppressWarnings("resource")
+		Scanner keyboard = new Scanner(System.in);
+		String employeeId;
+		String sure;
+		Writer writer = new Writer();
+		Owner owner = new Owner();
+		System.out.println("               Delete Employee");
+		System.out.println("************************************************");
+
+		int j = 0;
+		while (j < owner.getEmployeeArray().size()) {
+			System.out.print(owner.getEmployeeArray().get(j).getId() + " | ");
+			System.out.print(owner.getEmployeeArray().get(j).getFirstName() + " ");
+			System.out.println(owner.getEmployeeArray().get(j).getLastName() + " ");
+			j++;
+		}
+		System.out.println("");
+		System.out.println("Select an employee, input Id: ");
+		do {
+			employeeId = keyboard.nextLine();
+			if (util.quitFunction(employeeId)) {
+				return false;
 			}
-			System.out.println("");
-			System.out.println("Select an employee, input Id: ");
-			do {
-				employeeId = keyboard.nextLine();
-				if (util.quitFunction(employeeId)) {
+		} while (util.validateEmployeeId(employeeId) == false);
+
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
+				System.out.println("are you sure you want to delete " + getEmployeeArray().get(i).getId() + " Y - N");
+				sure = keyboard.nextLine();
+				if ((sure.equals("Y")) || (sure.equals("y"))) {
+					System.out.println("Employee " + owner.getEmployeeArray().get(i).getFirstName() + " "
+							+ owner.getEmployeeArray().get(i).getLastName() + " deleted successfully");
+					owner.getEmployeeArray().remove(i);
+					LOGGER.info("Employee Deleted");
+				} else {
 					return false;
 				}
-			} while (util.validateEmployeeId(employeeId) == false);
-			
-			
-			for(int i = 0; i < owner.getEmployeeArray().size(); i++){
-				if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
-					System.out.println("are you sure you want to delete " + getEmployeeArray().get(i).getId() + " Y - N" );
-					sure = keyboard.nextLine();
-					if((sure.equals("Y")) || (sure.equals("y"))){
-						System.out.println("Employee " + owner.getEmployeeArray().get(i).getFirstName() + " " + owner.getEmployeeArray().get(i).getLastName() + " deleted successfully");
-						owner.getEmployeeArray().remove(i);
-					}
-					else{
-						return false;
-					}
-				}
 			}
-			return true;
 		}
+		try {
+			writer.saveEmployees(getEmployeeArray());
+		} catch (IOException e) {
+			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, e.toString(), e);
+		}
+		return true;
+	}
 
+	/**
+	 * Function for owner to add working times to employees, first specify which
+	 * employee from the list using the id then picking a day and finally adding
+	 * the times
+	 * 
+	 * @author David Ping
+	 */
 	public void addWorkingTimes() {
 		Owner owner = new Owner();
 		Utility util = new Utility();
+		@SuppressWarnings("resource")
 		Scanner keyboard = new Scanner(System.in);
-		String employeeId, newDate, newTime;
+		String employeeId, newTime, newDay;
 		DateTimeFormatter timeFormatter;
-		LocalDate date;
 		LocalTime startTime, endTime;
-		LocalDateTime startDateTime, endDateTime;
-		boolean validEntry;
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("d/M/yyyy");
+		int counter = 0;
+		int dayOfWeek = 0;
 
 		System.out.println("Add employee work time");
-		System.out.println("*************************");
-		System.out.println("Employees");
-		System.out.println("=====================");
+		System.out.println("************************************************1");
 		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
-			System.out.println("Name: " + owner.getEmployeeArray().get(i).getFirstName() + " "
-					+ owner.getEmployeeArray().get(i).getLastName());
-			System.out.println("Id:   " + owner.getEmployeeArray().get(i).getId());
-			System.out.println("---------------------");
+			System.out.println(
+					owner.getEmployeeArray().get(i).getId() + " | " + owner.getEmployeeArray().get(i).getFirstName()
+							+ " " + owner.getEmployeeArray().get(i).getLastName());
 		}
-		System.out.println("Select an employee, input Id: ");
+		System.out.println("\nSelect an employee, input Id: ");
 		do {
 			employeeId = keyboard.nextLine();
 			if (util.quitFunction(employeeId)) {
 				return;
 			}
 		} while (util.validateEmployeeId(employeeId) == false);
-
-		System.out.println("Type in new work date (day/month/year)");
+		printDaysOfWeek();
+		System.out.println("Select day of the week to add working times:");
+		System.out.println("(Previous working times on this day will be overwritten)");
 		do {
-			newDate = keyboard.nextLine();
-			if (util.quitFunction(newDate)) {
+			newDay = keyboard.nextLine();
+			if (util.quitFunction(newDay)) {
 				return;
 			}
-		} while (util.validateDate(newDate) == false);
-		date = LocalDate.parse(newDate, dateFormat);
+			try {
+				dayOfWeek = Integer.parseInt(newDay);
+			} catch (Exception e) {
+				System.err.println("Not a valid input");
+				continue;
+			}
+		} while (util.validateDayOfWeek(dayOfWeek) == false);
 
 		System.out.println("Type in start time (hours:minutes)");
 		do {
@@ -204,7 +254,7 @@ public class Owner extends Member {
 				return;
 			}
 		} while (util.validateTime(newTime) == false);
-		timeFormatter = assignTimeFormat(newTime);
+		timeFormatter = util.assignTimeFormat(newTime);
 		startTime = LocalTime.parse(newTime, timeFormatter);
 
 		System.out.println("Type in end time (hours:minutes)");
@@ -214,261 +264,216 @@ public class Owner extends Member {
 				return;
 			}
 		} while (util.validateTime(newTime) == false);
-		timeFormatter = assignTimeFormat(newTime);
+		timeFormatter = util.assignTimeFormat(newTime);
 		endTime = LocalTime.parse(newTime, timeFormatter);
 
-		startDateTime = LocalDateTime.of(date, startTime);
-		endDateTime = LocalDateTime.of(date, endTime);
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
+				counter = i;
+				break;
+			}
+		}
 
-		validEntry = validateNewWorkTime(employeeId, startDateTime, endDateTime);
-		if (validEntry == true) {
+		if (util.validateNewWorkTime(startTime, endTime)) {
+			owner.getEmployeeArray().get(counter).getStartTimes().set(dayOfWeek - 1, startTime);
+			owner.getEmployeeArray().get(counter).getEndTimes().set(dayOfWeek - 1, endTime);
 			System.out.println("New work hours added for " + employeeId);
 		} else {
 			System.out.println("New work hours were not added");
 		}
+		Writer writer = new Writer();
+		try {
+			writer.saveEmployees(owner.getEmployeeArray());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return;
 	}
 
-	public DateTimeFormatter assignTimeFormat(String time) {
-		LocalTime currentTime;
-		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("H:mm");
-		DateTimeFormatter timeFormat2 = DateTimeFormatter.ofPattern("h:mma");
-
-		try {
-			currentTime = LocalTime.parse(time, timeFormat);
-			return timeFormat;
-		} catch (Exception e) {}
-
-		try {
-			currentTime = LocalTime.parse(time, timeFormat2);
-			return timeFormat2;
-		} catch (Exception e) {}
-
-		return null;
-
-	}
-
-	public boolean validateNewWorkTime(String employeeId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-		Owner owner = new Owner();
+	/**
+	 * Prints days of the week where the business is open along with the days
+	 * corresponding number
+	 * 
+	 * @author David Ping
+	 */
+	public void printDaysOfWeek() {
 		Business business = new Business();
-		LocalDateTime now = LocalDateTime.now();
-
-		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
-			if (owner.getEmployeeArray().get(i).getId().equals(employeeId)) {
-				for (int j = 0; j < owner.getEmployeeArray().get(i).getStartTimes().size(); j++) {
-					if (owner.getEmployeeArray().get(i).getStartTimes().get(j).toLocalDate()
-							.equals(startDateTime.toLocalDate())) {
-						System.out.println("employee already working on this date");
-						return false;
-					}
+		for (int i = 1; i <= 7; i++) {
+			for (int j = 0; j < business.getOpeningDays().length; j++) {
+				if (business.getOpeningDays()[j].equals(DayOfWeek.of(i))) {
+					System.out.println(i + ". " + DayOfWeek.of(i));
 				}
-				if(validateDayOfWeek(startDateTime)==false){
-					return false;
-				}
-
-				if (startDateTime.compareTo(endDateTime) > 0) {
-					System.out.println("end time is before start time");
-					return false;
-				} else if (startDateTime.toLocalTime().isBefore(business.getOpeningTime())) {
-					System.out.println("cannot start before business is open");
-					return false;
-				} else if (endDateTime.toLocalTime().isAfter(business.getClosingTime())) {
-					System.out.println("cannot have end after business is closed");
-					return false;
-				} else if (startDateTime.toLocalDate().isBefore(now.toLocalDate())) {
-					System.out.println("cannot make work time in the past");
-					return false;
-				} else if(startDateTime.toLocalDate().isAfter(now.plusMonths(1).toLocalDate())){
-					System.out.println("cannot assign work time beyond one month");
-					return false;
-				}
-				
-				owner.getEmployeeArray().get(i).getStartTimes().add(startDateTime);
-				owner.getEmployeeArray().get(i).getEndTimes().add(endDateTime);
-				System.out.print("new work time added");
-				return true;
 			}
 		}
-		return false;
+		return;
 	}
 
+	/**
+	 * Shows the employees availability any particular week, this will print out
+	 * employee details followed by the day and times when they are available
+	 * 
+	 * @author Luke Waldren, David Ping
+	 */
 	public void showAllWorkerAvailability() {
 		Owner owner = new Owner();
-		Utility util = new Utility();
-		Scanner keyboard = new Scanner(System.in);
-		String employeeId, newDate, newTime;
-		boolean validEntry;
-		ArrayList<Employee> employees = owner.getEmployeeArray();
-		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
+		boolean available = false;
+
 		System.out.println("View employee availability");
-		System.out.println("*************************");
-		int i=0;
-		while(i<employees.size()){
-			System.out.println(getEmployeeArray().get(i).getId() + "'s availability:");
-				if(owner.getEmployeeArray().get(i).getStartTimes().isEmpty()){
-					System.out.println(owner.getEmployeeArray().get(i).getId() + " has no work hours");
-				}
-				else{
-					ArrayList<LocalDateTime> startTimes= owner.getEmployeeArray().get(i).getStartTimes();
-					ArrayList<LocalDateTime> endTimes= owner.getEmployeeArray().get(i).getEndTimes();
-					int k = 0;
-					while (k <owner.getEmployeeArray().get(i).getStartTimes().size()) {
-						int week=1;
-						while(week<=7){
-						if(now.plusDays(week).toString().substring(0,10).equals(owner.getEmployeeArray().get(i).getStartTimes().toString().substring(1,11))){
-							outputWorkHours(startTimes.get(i).toString()+endTimes.get(k).toString());
-							}
-							week++;
-						}
-						k++;
-					}
-					System.out.println("*************************");
+		System.out.println("**********************************************************");
+
+		for (int i = 0; i < owner.getEmployeeArray().size(); i++) {
+			if (!(i == 0)) {
+				System.out.println("----------------------------------------------------------");
 			}
-			i++;
+			System.out.println("Name :" + owner.getEmployeeArray().get(i).getFirstName() + " "
+					+ owner.getEmployeeArray().get(i).getLastName());
+			System.out.println("ID: " + owner.getEmployeeArray().get(i).getId());
+
+			available = false;
+			for (int j = 0; j < owner.getEmployeeArray().get(i).getStartTimes().size(); j++) {
+
+				if (!(owner.getEmployeeArray().get(i).getStartTimes().get(j) == null)) {
+					if (available == false) {
+						System.out.println("Is available on:");
+						available = true;
+					}
+					System.out.println(DayOfWeek.of(j + 1) + " "
+							+ owner.getEmployeeArray().get(i).getStartTimes().get(j).format(timeFormat) + "-"
+							+ owner.getEmployeeArray().get(i).getEndTimes().get(j).format(timeFormat));
+				}
+			}
+			if (available == false) {
+				System.out.println("Has no work times yet");
+			}
 		}
-
 	}
-	public  void outputWorkHours(String workHours) {
-		String endTime = (workHours.substring(27,32));
-		String date = workHours.substring(0,10);
-		String startTime = workHours.substring(11,16);
-		System.out.println("Date: " + date + " from " +startTime + " to " + endTime);
 
-	}
+	/**
+	 * Prints out all the bookings made in the past month along with its details
+	 * of the booking, the employee conducting the appointment, the customer
+	 * attending and the date and time
+	 * 
+	 * @author David Ping
+	 */
 	public void viewBookingSummary() {
-		Main main = new Main();
-		Owner owner = new Owner();
+		Utility util = new Utility();
 		Appointment appointment = new Appointment();
-		Business business = new Business();
 		String formattedTime, formattedTimePlusDuration, dateAndDay;
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
 		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		int counter = main.getAppointmentArray().size();
-		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
-		Boolean open = null;
+		List<Appointment> sortedList = new ArrayList<Appointment>();
 
-		if (main.getAppointmentArray().isEmpty()) {
-			System.out.println("No appointments made yet");
+		sortedList = util.sortPastAppointments();
+
+		if (sortedList.isEmpty()) {
+			System.out.println("No appointments in the past month");
 			return;
 		}
-		currentTime = owner.setEarliestDate(currentTime);
 		System.out.println("Booking Summary");
-		while (counter > 0) {
-			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
-			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
-			open = owner.validateDayOfWeek(currentTime);
-			if (open == false) {
-				currentTime = currentTime.plusHours(24 - currentTime.getHour());
-				continue;
-			} else if (open == true) {
-				dateAndDay = currentTime.format(dateAndDayFormat);
-				System.out.println("==================================================");
-				System.out.println(dateAndDay);
-				System.out.println("==================================================");
+		System.out.println("**********************************************************");
+
+		for (int i = 0; i < sortedList.size(); i++) {
+			if (validateBookingSummaryDate(sortedList.get(i).getDateAndTime().toLocalDate()) == true) {
+				dateAndDay = sortedList.get(i).getDateAndTime().format(dateAndDayFormat);
+				formattedTime = sortedList.get(i).getDateAndTime().format(timeFormat);
+				formattedTimePlusDuration = sortedList.get(i).getDateAndTime()
+						.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
+				printAppointmentDetails(i, sortedList);
+				System.out.println(
+						"Appointment time: " + dateAndDay + " " + formattedTime + "-" + formattedTimePlusDuration);
+				System.out.println("----------------------------------------------------------");
 			}
-			while (currentTime.toLocalTime().compareTo(business.getClosingTime()) == -1 || currentTime.getHour() == 0) {
-				for (int i = 0; i < main.getAppointmentArray().size(); i++) {
-					if (main.getAppointmentArray().get(i).getDateAndTime().equals(currentTime)) {
-						formattedTime = currentTime.format(timeFormat);
-						formattedTimePlusDuration = currentTime.plusMinutes(appointment.getAppointmentDuration())
-								.format(timeFormat);
-						System.out.println("--------------------------------------------------");
-						System.out.println(formattedTime + "-" + formattedTimePlusDuration);
-						owner.printAppointmentDetails(i);
-						System.out.println("--------------------------------------------------");
-						counter--;
-						currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
-						i = 0;
-					}
-				}
-				currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
-			}
-			currentTime = currentTime.plusHours(24 - currentTime.getHour());
 		}
+
+		System.out.println("\n**********************************************************\n");
 		return;
 	}
 
-	// Test
-	public LocalDateTime setEarliestDate(LocalDateTime currentTime) {
-		Main main = new Main();
-		for (int i = 0; i < main.getAppointmentArray().size(); i++) {
-			if (main.getAppointmentArray().get(i).getDateAndTime().compareTo(currentTime) < 0) {
-				currentTime = main.getAppointmentArray().get(i).getDateAndTime();
-			}
+	/**
+	 * Extension of viewBookingSummary, checks the date input to ensure it is
+	 * within the time frame between now and 1 month ago
+	 * 
+	 * @author David Ping
+	 */
+	public boolean validateBookingSummaryDate(LocalDate date) {
+		LocalDateTime now = LocalDateTime.now();
+		if (date.isAfter(now.minusMonths(1).toLocalDate()) && date.isBefore(now.toLocalDate())
+				|| date.equals(now.minusMonths(1).toLocalDate())) {
+			return true;
+		} else {
+			return false;
 		}
-		return currentTime;
 	}
 
-	// Test
-	public boolean validateDayOfWeek(LocalDateTime currentTime) {
-		Business business = new Business();
-		for (int i = 0; i < business.getOpeningDays().length; i++) {
-			if (business.getOpeningDays()[i].equals(currentTime.getDayOfWeek())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
+	/**
+	 * Prints out all bookings coming up from the current day to 1 week ahead
+	 * 
+	 * @author David Ping
+	 */
 	public void viewUpcomingBookings() {
-		Main main = new Main();
-		Owner owner = new Owner();
+		Utility util = new Utility();
 		Appointment appointment = new Appointment();
-		Business business = new Business();
-
+		String formattedTime, formattedTimePlusDuration, dateAndDay;
 		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mma");
 		DateTimeFormatter dateAndDayFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy E");
-		String formattedTime, formattedTimePlusDuration, dateAndDay;
-		LocalDateTime currentTime = LocalDateTime.now().withSecond(0).withNano(0);
-		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
-		int counter = 0;
+		List<Appointment> sortedList = new ArrayList<Appointment>();
 
-		if (main.getAppointmentArray().isEmpty()) {
-			System.out.println("No appointments made yet");
+		sortedList = util.sortFutureAppointments();
+
+		if (sortedList.isEmpty()) {
+			System.out.println("No appointments in the next week");
 			return;
 		}
-		if (currentTime.toLocalTime().compareTo(business.getClosingTime()) > 0) {
-			currentTime = currentTime.plusHours(24 - currentTime.getHour());
-		}
-		System.out.println("Bookings over the next week");
-		while (currentTime.compareTo(now.plusDays(7)) < 0) {
-			currentTime = currentTime.withHour(business.getOpeningTime().getHour());
-			currentTime = currentTime.withMinute(business.getOpeningTime().getMinute());
-			currentTime = owner.adjustTimePresentDay(currentTime);
-			dateAndDay = currentTime.format(dateAndDayFormat);
-			System.out.println("==================================================");
-			System.out.println(dateAndDay);
-			System.out.println("==================================================");
+		System.out.println("Upcoming Appointments");
+		System.out.println("**********************************************************");
 
-			while (!(currentTime.toLocalTime().compareTo(business.getClosingTime()) == 0)) {
-				if (currentTime.compareTo(main.getAppointmentArray().get(counter).getDateAndTime()) == 0) {
-					formattedTime = main.getAppointmentArray().get(counter).getDateAndTime().format(timeFormat);
-					formattedTimePlusDuration = main.getAppointmentArray().get(counter).getDateAndTime()
-							.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
-					System.out.println("--------------------------------------------------");
-					System.out.println(formattedTime + "-" + formattedTimePlusDuration);
-					owner.printAppointmentDetails(counter);
-					System.out.println("--------------------------------------------------");
-				}
-				if (counter == main.getAppointmentArray().size() - 1) {
-					currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
-					counter = 0;
-				} else {
-					counter++;
-				}
+		for (int i = 0; i < sortedList.size(); i++) {
+			if (validateUpcomingBookingDate(sortedList.get(i).getDateAndTime().toLocalDate()) == true) {
+				dateAndDay = sortedList.get(i).getDateAndTime().format(dateAndDayFormat);
+				formattedTime = sortedList.get(i).getDateAndTime().format(timeFormat);
+				formattedTimePlusDuration = sortedList.get(i).getDateAndTime()
+						.plusMinutes(appointment.getAppointmentDuration()).format(timeFormat);
+				printAppointmentDetails(i, sortedList);
+				System.out.println(
+						"Appointment time: " + dateAndDay + " " + formattedTime + "-" + formattedTimePlusDuration);
+				System.out.println("----------------------------------------------------------");
 			}
-			currentTime = currentTime.plusHours(24 - currentTime.getHour());
 		}
+
+		System.out.println("\n**********************************************************\n");
+		LOGGER.info("");
 		return;
 	}
 
-	public void printAppointmentDetails(int counter) {
+	/**
+	 * Extension of viewUpcomingBookings(), checks the date input to ensure it
+	 * is within the time frame between now and 1 week ahead
+	 * 
+	 * @author David Ping
+	 */
+	public boolean validateUpcomingBookingDate(LocalDate date) {
+		LocalDateTime now = LocalDateTime.now();
+		if (date.isBefore(now.plusWeeks(1).toLocalDate()) && date.isAfter(now.toLocalDate())
+				|| date.equals(now.toLocalDate().plusWeeks(1)) || date.equals(now.toLocalDate())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Extension of viewBookingSummary() and viewUpcomingBookings(), used to
+	 * print out details of the appointments
+	 * 
+	 * @author David Ping
+	 */
+	public void printAppointmentDetails(int counter, List<Appointment> arrayList) {
 		Main main = new Main();
 		Owner owner = new Owner();
 
 		for (int j = 0; j < main.getCustomerArray().size(); j++) {
-			if (main.getCustomerArray().get(j).getUsername()
-					.equals(main.getAppointmentArray().get(counter).getCustomerUsername())) {
+			if (main.getCustomerArray().get(j).getUsername().equals(arrayList.get(counter).getCustomerUsername())) {
 				System.out.println("Customer Name: " + main.getCustomerArray().get(j).getFirstName() + " "
 						+ main.getCustomerArray().get(j).getLastname());
 				System.out.println("Address: " + main.getCustomerArray().get(j).getAddress());
@@ -476,8 +481,7 @@ public class Owner extends Member {
 			}
 		}
 		for (int k = 0; k < owner.getEmployeeArray().size(); k++) {
-			if (owner.getEmployeeArray().get(k).getId()
-					.equals(main.getAppointmentArray().get(counter).getEmployeeId())) {
+			if (owner.getEmployeeArray().get(k).getId().equals(arrayList.get(counter).getEmployeeId())) {
 				System.out.println("Employee Name: " + owner.getEmployeeArray().get(k).getFirstName() + " "
 						+ owner.getEmployeeArray().get(k).getLastName());
 				System.out.println("Employee ID: " + owner.getEmployeeArray().get(k).getId());
@@ -485,18 +489,11 @@ public class Owner extends Member {
 		}
 	}
 
-	public LocalDateTime adjustTimePresentDay(LocalDateTime currentTime) {
-		Appointment appointment = new Appointment();
-		LocalDateTime now = LocalDateTime.now().withSecond(0).withNano(0);
-		while (now.getDayOfWeek().equals(currentTime.getDayOfWeek()) && now.getHour() >= currentTime.getHour()
-				&& now.getDayOfYear() == currentTime.getDayOfYear()) {
-			if (now.getHour() >= currentTime.getHour()) {
-				currentTime = currentTime.plusMinutes(appointment.getAppointmentDuration());
-			}
-		}
-		return currentTime;
-	}
-
+	/**
+	 * Login function for owner, after logging in successfully owner is given a
+	 * menu with many options for tasks to do
+	 * @author Luke Waldren
+	 */
 	public Boolean login(String username, String password) {
 		Main main = new Main();
 		ArrayList<String> MembersSearch = new ArrayList<String>();
@@ -509,7 +506,7 @@ public class Owner extends Member {
 		}
 		if (MembersSearch.contains(username + password)) {
 			System.out.println("Login Successful (Owner)");
-
+			LOGGER.info("Owner logged in");
 			int selection;
 			String select;
 			do {
@@ -520,14 +517,14 @@ public class Owner extends Member {
 					select = input.nextLine();
 					selection = Integer.parseInt(select);
 				} catch (Exception e) {
-
+					LOGGER.log(Level.SEVERE, e.toString(), e);
 				}
 				switch (selection) {
 				case 1: {
 					createEmployee();
 					break;
 				}
-				
+
 				case 2: {
 					deleteEmployee();
 					break;
@@ -557,7 +554,7 @@ public class Owner extends Member {
 				}
 				}
 
-			} while (selection != 6);
+			} while (selection != 7);
 		} else {
 			return false;
 		}
