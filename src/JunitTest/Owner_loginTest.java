@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +22,10 @@ public class Owner_loginTest {
 		owner = new Owner("username","password","", "", "", "", "");
 		main = new Main();
 		main.getOwnerArray().add(owner);
+	}
+	@After
+	public void after_login_test(){
+		main.getOwnerArray().remove(owner);
 	}
 	
 	
