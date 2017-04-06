@@ -2,6 +2,7 @@ package JunitTest;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,6 +57,12 @@ public class Customer_Test {
 				return false;
 			}		
 		return true;		
+	}
+	
+	@After
+	public void after_test(){
+		main.getCustomerArray().remove(customer);
+
 	}
 		
 	@Test
