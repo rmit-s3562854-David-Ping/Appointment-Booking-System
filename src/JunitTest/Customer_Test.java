@@ -25,7 +25,6 @@ public class Customer_Test {
 		util = new Utility();
 		main.getCustomerArray().add(customer);
 		customer2 = new Customer(null,null, null, null, null, null);
-		//info2 = customer2.getRegisterInformation();
 		info3 = customer.makeObj("","","","","","",true);
 		info4 = customer.makeObj("","","","","","",false);
 		customer5 = new Customer(null,null, null, null, null, null);
@@ -67,22 +66,22 @@ public class Customer_Test {
 		
 	@Test
 	public void login_test() {		
-		assertTrue("valid username & password",customer.login("username1", "password1"));
+		assertTrue("valid username & password",customer.checkLogin("username1", "password1"));
 	}
 	
 	@Test
 	public void login_test2(){
-		assertFalse("invalid username & password",customer.login("InvalidUsername", "password"));
+		assertFalse("invalid username & password",customer.checkLogin("InvalidUsername", "password"));
 	}
 	
 	@Test
 	public void login_test3(){
-		assertFalse("invalid username & password",customer.login("username", "InvalidPassword"));
+		assertFalse("invalid username & password",customer.checkLogin("username", "InvalidPassword"));
 	}
 	
 	@Test
 	public void login_test4(){
-		assertFalse("invalid username & password",customer.login("Invalidusername", "InvalidPassword"));
+		assertFalse("invalid username & password",customer.checkLogin("Invalidusername", "InvalidPassword"));
 	}	
 	
 	@Test
