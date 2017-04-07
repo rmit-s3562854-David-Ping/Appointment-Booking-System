@@ -12,6 +12,19 @@ import main.Main;
 import main.Owner;
 import main.Utility;
 
+/**
+ * validation Junit tests
+ * tests the validation for all entries
+ * if entry matches the pattern tests passes success
+ * else returns false
+ * 
+ * also tests the check for duplicate username if customer wanted to register 
+ * and the username is already used by another customer
+ * 
+ * @author hassen
+ *
+ */
+
 public class validation_Test {
 
 	private Utility util;
