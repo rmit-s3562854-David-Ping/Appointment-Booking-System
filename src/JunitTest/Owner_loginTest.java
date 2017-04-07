@@ -12,6 +12,15 @@ import main.Employee;
 import main.Main;
 import main.Owner;
 
+/**
+ * Owner Junit tests
+ * test the owner login method and that it accepts the right username and password
+ * otherwise it will return false as non acceptance for entries 
+ * 
+ * @author hassen
+ *
+ */
+
 public class Owner_loginTest {
 	
 	private Owner owner;
