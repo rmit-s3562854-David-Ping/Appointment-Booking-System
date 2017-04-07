@@ -33,15 +33,8 @@ public class Customer extends Member {
 		Main main = new Main();
 		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
-		ArrayList<String> MembersSearch = new ArrayList<String>();
-		ArrayList<Customer> customerArray = main.getCustomerArray();
-
-		int index = 0;
-		while (index < customerArray.size()) {
-			MembersSearch.add(customerArray.get(index).getUsername() + customerArray.get(index).getPassword());
-			index++;
-		}
-		if (MembersSearch.contains(username + password)) {
+		
+		if (checkLogin(username, password) == true) {
 			System.out.println("Login Successful (Customer)");
 
 			int selection;
@@ -73,6 +66,22 @@ public class Customer extends Member {
 
 		} else {
 			return false;
+		}
+		return false;
+	}
+	
+	public Boolean checkLogin(String username, String password){
+		Main main = new Main();
+		ArrayList<String> MembersSearch = new ArrayList<String>();
+		ArrayList<Customer> customerArray = main.getCustomerArray();
+
+		int index = 0;
+		while (index < customerArray.size()) {
+			MembersSearch.add(customerArray.get(index).getUsername() + customerArray.get(index).getPassword());
+			index++;
+		}
+		if (MembersSearch.contains(username + password)){
+			return true;
 		}
 		return false;
 	}
