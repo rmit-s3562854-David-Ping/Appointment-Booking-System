@@ -21,6 +21,8 @@ import main.Utility;
  * if any of the fileds is invalid the registration isn't successfull
  * a boolean value is passed to makeObj if fields are valid or not 
  * according to the boolean value the customer is created
+ *
+ * @author Hassen Mender
  */
 
 public class Customer_Test {
