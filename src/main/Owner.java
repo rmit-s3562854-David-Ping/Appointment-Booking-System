@@ -56,6 +56,7 @@ public class Owner extends Member {
 		System.out.println("");
 
 		Employee newEmployee;
+
 		Writer writer = new Writer();
 
 		newEmployee = getEmployeeInfo();
@@ -73,6 +74,7 @@ public class Owner extends Member {
 			e.printStackTrace();
 			LOGGER.log(Level.SEVERE, e.toString(), e);
 		}
+
 		return true;
 	}
 
@@ -81,12 +83,13 @@ public class Owner extends Member {
 	 * @author Hassan Mender
 	 */
 	public Boolean addEmployee(Employee employee) {
+
 		if (employee == null) {
 			return false;
 		}
 		getEmployeeArray().add(employee);
 		LOGGER.info("Employee Added.");
-		
+
 		return true;
 	}
 
@@ -99,7 +102,9 @@ public class Owner extends Member {
 
 		Utility util = new Utility();
 		String id = util.createID();
+
 		System.out.println("Employee id: " + id);
+
 		System.out.println("Employee First Name: ");
 		String firstName = input.nextLine();
 		if (util.quitFunction(firstName)) {

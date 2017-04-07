@@ -72,6 +72,7 @@ public class Customer extends Member {
 	
 	public Boolean checkLogin(String username, String password){
 		Main main = new Main();
+
 		ArrayList<String> MembersSearch = new ArrayList<String>();
 		ArrayList<Customer> customerArray = main.getCustomerArray();
 
@@ -83,7 +84,7 @@ public class Customer extends Member {
 		if (MembersSearch.contains(username + password)){
 			return true;
 		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -100,7 +101,7 @@ public class Customer extends Member {
 		System.out.println("**********************************************************");
 		System.out.println("Enter 'q','b','quit' to exit at anytime \n");
 		Customer customer;
-			  
+
 		customer = getRegisterInformation();
 		if (customer == null) {
 			System.out.println("Registration Failed");
@@ -135,7 +136,7 @@ public class Customer extends Member {
 				return null;
 			}
 		}
-		
+
 		System.out.println("Last name: ");
 		lastName = keyboard.nextLine();
 		if ((util.quitFunction(lastName)) == true) {
@@ -217,7 +218,7 @@ public class Customer extends Member {
 			return customer;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @author Hassan Mender

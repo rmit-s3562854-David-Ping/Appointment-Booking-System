@@ -25,8 +25,7 @@ public class Appointment {
 		this.customerUsername = customerUsername;
 		this.employeeId = employeeId;
 	}
-	
-	
+
 	public LocalDateTime getDateAndTime() {
 		return dateAndTime;
 	}
@@ -34,7 +33,7 @@ public class Appointment {
 	public void setDateAndTime(LocalDateTime dateAndTime) {
 		this.dateAndTime = dateAndTime;
 	}
-	
+
 	public int getAppointmentDuration() {
 		return appointmentDuration;
 	}
@@ -46,12 +45,14 @@ public class Appointment {
 	public String getEmployeeId() {
 		return employeeId;
 	}
+
 	/*
 	 * to write Appointment info
 	 * customer|employee|appointment datetime
 	 * @author Hassen Mender
 	 */
+
 	public String toString() {
- 		return this.getCustomerUsername()+ "|" +this.getEmployeeId()+ "|" +this.getDateAndTime();
- 	}
+		return this.getCustomerUsername() + "|" + this.getEmployeeId() + "|" + this.getDateAndTime();
+	}
 }
