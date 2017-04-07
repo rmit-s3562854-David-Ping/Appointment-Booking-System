@@ -8,18 +8,21 @@ import org.junit.Test;
 import main.Employee;
 import main.Main;
 import main.Owner;
+import main.Utility;
 
 public class Employee_Test {
 
 	private Owner owner;
 	private Employee employee;
 	private Main main;
-
+	private Utility util;
+	
 	@Before
 	public void before_createEmplyee_test(){
 		owner = new Owner("username","password","", "", "", "", "");
+		util = new Utility();
 	}
-	
+
 	@Test
 	public void makeEmployeeObject_test(){
 		employee = owner.makeEmployeeObj("firstName", "lastName", "id");
