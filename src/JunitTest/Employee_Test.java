@@ -10,6 +10,18 @@ import main.Main;
 import main.Owner;
 import main.Utility;
 
+/**
+ * checked that the data passed to create an employee isn't null or empty string
+ * the add employee method checks if the object passed is null or not
+ * according to that object is added to list or not 
+ * makeEmployee returns null if any of the data provided is empty
+ * and the add employee returns false if object is null
+ * otherwise it returns true
+ *  
+ * @author hassen
+ *
+ */
+
 public class Employee_Test {
 
 	private Owner owner;
