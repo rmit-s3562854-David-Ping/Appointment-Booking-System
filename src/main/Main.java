@@ -86,6 +86,7 @@ public class Main {
 				// closes the program.
 				System.out.println("System Closed");
 				util.exit();
+				myLogger.closeHandler();
 				System.exit(0);
 			}
 			default:
