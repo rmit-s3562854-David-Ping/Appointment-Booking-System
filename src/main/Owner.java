@@ -41,7 +41,11 @@ public class Owner extends Member {
 	}
 
 	/**
-	 * 
+	 * get the new employee's info
+	 * then create an employee object and return it
+	 * if any of the info is null the employee object is null
+	 * and creation fails But if all info is provided
+	 * employee created successfully
 	 * @author Hassan Mender
 	 */
 	public Boolean createEmployee() {
@@ -53,14 +57,23 @@ public class Owner extends Member {
 
 		Employee newEmployee;
 
+		Writer writer = new Writer();
+
 		newEmployee = getEmployeeInfo();
 		if (newEmployee == null) {
 			System.out.println("Adding new employee failed");
 			return false;
 		}
 		addEmployee(newEmployee);
-		// getEmployeeArray().add(newEmployee);
+
 		System.out.println("Employee " + newEmployee.getFirstName() + " " + newEmployee.getLastName() + " added.");
+		
+		try {
+			writer.saveEmployees(getEmployeeArray());
+		} catch (IOException e) {
+			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, e.toString(), e);
+		}
 
 		return true;
 	}
@@ -70,18 +83,13 @@ public class Owner extends Member {
 	 * @author Hassan Mender
 	 */
 	public Boolean addEmployee(Employee employee) {
-		Writer writer = new Writer();
+
 		if (employee == null) {
 			return false;
 		}
 		getEmployeeArray().add(employee);
 		LOGGER.info("Employee Added.");
-		try {
-			writer.saveEmployees(getEmployeeArray());
-		} catch (IOException e) {
-			e.printStackTrace();
-			LOGGER.log(Level.SEVERE, e.toString(), e);
-		}
+
 		return true;
 	}
 
@@ -94,6 +102,9 @@ public class Owner extends Member {
 
 		Utility util = new Utility();
 		String id = util.createID();
+
+		System.out.println("Employee id: " + id);
+
 		System.out.println("Employee First Name: ");
 		String firstName = input.nextLine();
 		if (util.quitFunction(firstName)) {
@@ -124,7 +135,8 @@ public class Owner extends Member {
 	}
 
 	/**
-	 * 
+	 * times are null because they are added in a different method
+	 * new employees dont have any work times assigned
 	 * @author Hassan Mender
 	 */
 	public Employee makeEmployeeObj(String firstName, String lastName, String id) {
@@ -145,7 +157,9 @@ public class Owner extends Member {
 	}
 
 	/**
-	 * 
+	 * prompt the owner with employee Id 
+	 * If employee exists in the System confirm request
+	 * if confirmed remove employee from system and from file
 	 * @author Hassan Mender
 	 */
 	public Boolean deleteEmployee() {
@@ -495,15 +509,8 @@ public class Owner extends Member {
 	 */
 	public Boolean login(String username, String password) {
 		Main main = new Main();
-		ArrayList<String> MembersSearch = new ArrayList<String>();
-		ArrayList<Owner> ownerArray = main.getOwnerArray();
-
-		int index = 0;
-		while (index < ownerArray.size()) {
-			MembersSearch.add(ownerArray.get(index).getUsername() + ownerArray.get(index).getPassword());
-			index++;
-		}
-		if (MembersSearch.contains(username + password)) {
+		
+		if (checkLogin(username, password) == true) {
 			System.out.println("Login Successful (Owner)");
 			LOGGER.info("Owner logged in");
 			int selection;
@@ -562,6 +569,22 @@ public class Owner extends Member {
 
 	public ArrayList<Employee> getEmployeeArray() {
 		return employeeArray;
+	}
+	
+	public Boolean checkLogin(String username, String password){
+		Main main = new Main();
+		ArrayList<String> MembersSearch = new ArrayList<String>();
+		ArrayList<Owner> ownerArray = main.getOwnerArray();
+
+		int index = 0;
+		while (index < ownerArray.size()) {
+			MembersSearch.add(ownerArray.get(index).getUsername() + ownerArray.get(index).getPassword());
+			index++;
+		}
+		if (MembersSearch.contains(username + password)){
+			return true;
+		}
+		return false;
 	}
 
 }

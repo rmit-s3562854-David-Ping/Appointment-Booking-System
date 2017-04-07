@@ -4,9 +4,11 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import main.Employee;
 import main.Main;
 import main.Owner;
 
@@ -18,31 +20,33 @@ public class Owner_loginTest {
 	@Before
 	public void before_login_test() {
 		owner = new Owner("username","password","", "", "", "", "");
-		
 		main = new Main();
 		main.getOwnerArray().add(owner);
 	}
+	@After
+	public void after_login_test(){
+		main.getOwnerArray().remove(owner);
+	}
+	
 	
 	@Test
-	public void login_test(){
-		assertTrue("valid username & password",owner.login("username", "password"));
-	}
-	@Test
 	public void login_test2(){
-		assertTrue("invalid username & password",owner.login("InvalidUsername", "password"));
-
+		assertFalse("invalid username & password",owner.checkLogin("InvalidUsername", "password"));
 	}
 	
 	@Test
 	public void login_test3(){
-		assertTrue("invalid username & password",owner.login("username", "InvalidPassword"));
-
+		assertFalse("invalid username & password",owner.checkLogin("username", "InvalidPassword"));
 	}
 	
 	@Test
 	public void login_test4(){
-		assertTrue("invalid username & password",owner.login("Invalidusername", "InvalidPassword"));
-
+		assertFalse("invalid username & password",owner.checkLogin("Invalidusername", "InvalidPassword"));
 	}
-
+	
+	@Test
+	public void login_test(){
+		assertTrue("valid username & password",owner.checkLogin("username", "password"));
+	}
+	
 }

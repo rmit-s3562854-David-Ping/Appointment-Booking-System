@@ -33,15 +33,8 @@ public class Customer extends Member {
 		Main main = new Main();
 		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
-		ArrayList<String> MembersSearch = new ArrayList<String>();
-		ArrayList<Customer> customerArray = main.getCustomerArray();
-
-		int index = 0;
-		while (index < customerArray.size()) {
-			MembersSearch.add(customerArray.get(index).getUsername() + customerArray.get(index).getPassword());
-			index++;
-		}
-		if (MembersSearch.contains(username + password)) {
+		
+		if (checkLogin(username, password) == true) {
 			System.out.println("Login Successful (Customer)");
 
 			int selection;
@@ -74,11 +67,33 @@ public class Customer extends Member {
 		} else {
 			return false;
 		}
+		return false;
+	}
+	
+	public Boolean checkLogin(String username, String password){
+		Main main = new Main();
+
+		ArrayList<String> MembersSearch = new ArrayList<String>();
+		ArrayList<Customer> customerArray = main.getCustomerArray();
+
+		int index = 0;
+		while (index < customerArray.size()) {
+			MembersSearch.add(customerArray.get(index).getUsername() + customerArray.get(index).getPassword());
+			index++;
+		}
+		if (MembersSearch.contains(username + password)){
+			return true;
+		}
 		return true;
 	}
 
 	/**
 	 * Registration function for customers, asks for input and submits it
+	 * get the customer's Reg. info
+	 * then create a customer object and return it
+	 * if any of the info is null the customer object is null
+	 * and registration fails But if all info is provided
+	 * registration success and new customer added
 	 * @author Hassan Mender
 	 */
 	public Boolean register() {
@@ -86,6 +101,7 @@ public class Customer extends Member {
 		System.out.println("**********************************************************");
 		System.out.println("Enter 'q','b','quit' to exit at anytime \n");
 		Customer customer;
+
 		customer = getRegisterInformation();
 		if (customer == null) {
 			System.out.println("Registration Failed");

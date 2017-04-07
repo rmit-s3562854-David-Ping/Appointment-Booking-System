@@ -46,6 +46,12 @@ public class Appointment {
 		return employeeId;
 	}
 
+	/*
+	 * to write Appointment info
+	 * customer|employee|appointment datetime
+	 * @author Hassen Mender
+	 */
+
 	public String toString() {
 		return this.getCustomerUsername() + "|" + this.getEmployeeId() + "|" + this.getDateAndTime();
 	}

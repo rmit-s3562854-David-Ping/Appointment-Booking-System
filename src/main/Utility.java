@@ -23,8 +23,11 @@ public class Utility {
 
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 
-	// exit function to save all data to .txt files so it could be retrieved
-	// when program starts
+	/**
+	 * exit function to save all data to .txt files so it could be retrieved
+	 * when program starts
+	 * @author Hassan Mender
+	 * */
 	public void exit() {
 		Writer writer = new Writer();
 		Owner owner = new Owner();
@@ -42,6 +45,9 @@ public class Utility {
 	}
 
 	/**
+	 * when user is prompt any input
+	 * if input is any of the strings b,q or quit 
+	 * exit the function and return to menu
 	 * @author Hassan Mender
 	 * */
 	public boolean quitFunction(String input) {
@@ -55,6 +61,7 @@ public class Utility {
 	}
 
 	/**
+	 * check that the String entered isnt empty 
 	 * @author Hassan Mender
 	 * */
 	public boolean checkString(String string) {
