@@ -9,13 +9,13 @@ import java.util.logging.Logger;
  */
 public class myLogger {
 
-
+    private static FileHandler fh;
 
 
 
     public static void setup() throws IOException{
+
         Logger logger = Logger.getLogger("MyLog");
-        FileHandler fh;
 
         try {
 
@@ -35,7 +35,9 @@ public class myLogger {
 
 
     }
-
+    public static void closeHandler(){
+        fh.close();
+    }
 
 
 }
