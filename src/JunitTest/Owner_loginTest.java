@@ -31,22 +31,22 @@ public class Owner_loginTest {
 	
 	@Test
 	public void login_test2(){
-		assertFalse("invalid username & password",owner.login("InvalidUsername", "password"));
+		assertFalse("invalid username & password",owner.checkLogin("InvalidUsername", "password"));
 	}
 	
 	@Test
 	public void login_test3(){
-		assertFalse("invalid username & password",owner.login("username", "InvalidPassword"));
+		assertFalse("invalid username & password",owner.checkLogin("username", "InvalidPassword"));
 	}
 	
 	@Test
 	public void login_test4(){
-		assertFalse("invalid username & password",owner.login("Invalidusername", "InvalidPassword"));
+		assertFalse("invalid username & password",owner.checkLogin("Invalidusername", "InvalidPassword"));
 	}
 	
 	@Test
 	public void login_test(){
-		assertTrue("valid username & password",owner.login("username", "password"));
+		assertTrue("valid username & password",owner.checkLogin("username", "password"));
 	}
 	
 }
