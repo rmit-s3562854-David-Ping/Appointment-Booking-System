@@ -9,6 +9,17 @@ import org.junit.Test;
 import main.Employee;
 import main.Owner;
 
+/**
+ * employees are created and added to the list before running the tests
+ * the delete employee method runs through the employees list 
+ * and checks if there is an employee with the id entered
+ * if such employee exist remove employee from list 
+ * otherwise return false
+ * 
+ * @author hassen
+ *
+ */
+
 public class deleteEmployee_test {
 
 	Owner owner = new Owner();
