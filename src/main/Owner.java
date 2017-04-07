@@ -504,15 +504,8 @@ public class Owner extends Member {
 	 */
 	public Boolean login(String username, String password) {
 		Main main = new Main();
-		ArrayList<String> MembersSearch = new ArrayList<String>();
-		ArrayList<Owner> ownerArray = main.getOwnerArray();
-
-		int index = 0;
-		while (index < ownerArray.size()) {
-			MembersSearch.add(ownerArray.get(index).getUsername() + ownerArray.get(index).getPassword());
-			index++;
-		}
-		if (MembersSearch.contains(username + password)) {
+		
+		if (checkLogin(username, password) == true) {
 			System.out.println("Login Successful (Owner)");
 			LOGGER.info("Owner logged in");
 			int selection;
@@ -571,6 +564,22 @@ public class Owner extends Member {
 
 	public ArrayList<Employee> getEmployeeArray() {
 		return employeeArray;
+	}
+	
+	public Boolean checkLogin(String username, String password){
+		Main main = new Main();
+		ArrayList<String> MembersSearch = new ArrayList<String>();
+		ArrayList<Owner> ownerArray = main.getOwnerArray();
+
+		int index = 0;
+		while (index < ownerArray.size()) {
+			MembersSearch.add(ownerArray.get(index).getUsername() + ownerArray.get(index).getPassword());
+			index++;
+		}
+		if (MembersSearch.contains(username + password)){
+			return true;
+		}
+		return false;
 	}
 
 }
