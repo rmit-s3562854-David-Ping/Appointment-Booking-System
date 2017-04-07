@@ -8,6 +8,15 @@ import org.junit.Test;
 import main.Owner;
 import main.Utility;
 
+/**
+ * test checks that the data passed for employee is valid
+ * if any of the data is not valid employee isn't created 
+ * validation tests are in a different class
+ * 
+ * @author hassen
+ *
+ */
+
 public class createEmployee_test {
 	private Owner owner;
 	private Utility util;
