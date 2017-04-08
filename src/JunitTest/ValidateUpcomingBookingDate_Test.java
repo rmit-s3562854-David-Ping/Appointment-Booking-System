@@ -10,9 +10,17 @@ import main.*;
 
 public class ValidateUpcomingBookingDate_Test {
 
-	// Tests if the date being considered for upcoming bookings is after the current date and up to 1 week ahead
-	// Used boundary checking to see if working as intended
 
+	/**
+	 * Tests if the date being considered for upcoming bookings is after the
+	 * current date and up to 1 week ahead
+	 * Used boundary checking to see if working as intended
+	 * 
+	 * @author David Ping
+	 * 
+	 * Latest test date: 8/4/2017 
+	 * Status: Passed
+	 */
 
 	// Checks if current date which is valid
 	@Test

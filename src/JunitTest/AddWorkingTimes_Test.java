@@ -14,6 +14,9 @@ public class AddWorkingTimes_Test {
 	 * valid work times for employees
 	 * 
 	 * @author David Ping
+	 * 
+	 * Latest test date: 8/4/2017
+	 * Status: Passed
 	 */
 
 	// Checks if valid times for working, returns true (uses opening time and

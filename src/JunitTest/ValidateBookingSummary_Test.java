@@ -14,6 +14,9 @@ public class ValidateBookingSummary_Test {
 	 * Tests validateBookingSummaryDate(LocalDate date) to determine if the date is between the current date 
 	 * and 1 month ago
 	 * @author David Ping
+	 * 
+	 * Latest test date: 8/4/2017
+	 * Status: Passed
 	 * */
 
 	//Tests if date being considered for booking summary is before the current date and up to 1 month behind

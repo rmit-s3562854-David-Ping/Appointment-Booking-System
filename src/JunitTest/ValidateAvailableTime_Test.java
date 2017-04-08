@@ -19,6 +19,9 @@ public class ValidateAvailableTime_Test {
 	 * 1. there is an employee available to work on that day
 	 * 2. the employee does not already have an appointment at the time
 	 * @author David Ping
+	 * 
+	 * Latest test date: 8/4/2017
+	 * Status: Passed
 	 * */
 	
 	/**
