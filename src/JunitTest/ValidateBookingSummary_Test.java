@@ -11,7 +11,7 @@ import main.*;
 public class ValidateBookingSummary_Test {
 	
 	/**
-	 * Tests validateBookingSummary(LocalDate date) to determine if the date is between the current date 
+	 * Tests validateBookingSummaryDate(LocalDate date) to determine if the date is between the current date 
 	 * and 1 month ago
 	 * @author David Ping
 	 * */
