@@ -84,7 +84,7 @@ public class Customer extends Member {
 		if (MembersSearch.contains(username + password)){
 			return true;
 		}
-		return true;
+		return false;
 	}
 
 	/**
