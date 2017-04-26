@@ -60,11 +60,13 @@ public class Utility {
 		MainApp main = new MainApp();
 		for (int i = 0; i < main.getOwnerArray().size(); i++) {
 			if (main.getOwnerArray().get(i).getUsername().equals(username)) {
+				LOGGER.info("Username already exists.");
 				return true;
 			}
 		}
 		for (int i = 0; i < main.getCustomerArray().size(); i++) {
 			if (main.getCustomerArray().get(i).getUsername().equals(username)) {
+				LOGGER.info("Username already exists.");
 				return true;
 			}
 		}
@@ -80,8 +82,10 @@ public class Utility {
 	public boolean validateUsername(String username) {
 		String pattern = "^[a-zA-Z0-9-_]{6,20}$";
 		if (username.matches(pattern)) {
+			LOGGER.info("Vaild username.");
 			return true;
 		} else {
+			LOGGER.info("Invaild username.");
 			return false;
 		}
 	}
@@ -89,8 +93,10 @@ public class Utility {
 	public boolean validatePassword(String password){
 		String pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{7,30}$";
 		if(password.matches(pattern)){
+			LOGGER.info("Valid password.");
 			return true;
 		}else{
+			LOGGER.info("Invaild password.");
 			return false;
 		}
 	}
@@ -104,8 +110,10 @@ public class Utility {
 	public boolean validateName(String name) {
 		String pattern = "^[A-Z]{1}[a-z]{1,19}$";
 		if (name.matches(pattern)) {
+			LOGGER.info("Valid name.");
 			return true;
 		} else {
+			LOGGER.info("Invaild name.");
 			return false;
 		}
 	}
@@ -120,11 +128,14 @@ public class Utility {
 		String pattern = "^(((0|[+]61)(2|3|4|7|8))|(\\((0|[+]61)(2|3|4|7|8)\\)))?( |-)?[0-9]{2}( |-)?[0-9]{2}( |-)?[0-9]{1}( |-)?[0-9]{3}$";
 		try{
 		if (number.matches(pattern)) {
+			LOGGER.info("Valid contact number.");
 			return true;
 		} else {
+			LOGGER.info("Invaild contact number.");
 			return false;
 		}
 		}catch(Exception e){
+			LOGGER.log(Level.SEVERE, e.toString(), e);
 			return false;
 		}
 	}
@@ -142,8 +153,10 @@ public class Utility {
 		for (int i = 0; i < mainApp.getEmployeeData().size(); i++) {
 			if (mainApp.getEmployeeData().get(i).getId().equals(id) && id.matches(pattern)) {
 				if (id.matches(pattern)) {
+					LOGGER.info("Valid employee id.");
 					return true;
 				} else {
+					LOGGER.info("Invaild employee id.");
 					System.out.println("Id is invalid, please enter in the format eXXXXX (X=[0-9])");
 				}
 			}
@@ -229,9 +242,11 @@ public class Utility {
 		Business business = new Business();
 		for (int i = 0; i < business.getOpeningDays().length; i++) {
 			if (business.getOpeningDays()[i].equals(currentTime.getDayOfWeek())) {
+				LOGGER.info("Valid business time");
 				return true;
 			}
 		}
+		LOGGER.info("Invalid business time");
 		return false;
 	}
 
@@ -245,9 +260,11 @@ public class Utility {
 		Business business = new Business();
 		for (int i = 0; i < business.getOpeningDays().length; i++) {
 			if (business.getOpeningDays()[i].equals(DayOfWeek.of(counter))) {
+				LOGGER.info("Valid business day");
 				return true;
 			}
 		}
+		LOGGER.info("Invalid business day");
 		return false;
 	}
 
@@ -264,18 +281,23 @@ public class Utility {
 		Business business = new Business();
 		if (startTime.compareTo(endTime) > 0) {
 			System.out.println("end time is before start time");
+			LOGGER.info("end time is before start time");
 			return false;
 		} else if (startTime.isBefore(business.getOpeningTime())) {
 			System.out.println("cannot start before business is open");
+			LOGGER.info("cannot start before business is open");
 			return false;
 		} else if (endTime.isAfter(business.getClosingTime())) {
 			System.out.println("cannot have end after business is closed");
+			LOGGER.info("cannot have end after business is closed");
 			return false;
 		} else if (endTime.getHour() - startTime.getHour() < 3) {
 			System.out.println("cannot work for less than 3 hours");
+			LOGGER.info("cannot work for less than 3 hours");
 			return false;
 		} else if (endTime.getHour() - startTime.getHour() == 3 && startTime.getMinute() > endTime.getMinute()) {
 			System.out.println("cannot work for less than 3 hours");
+			LOGGER.info("cannot work for less than 3 hours");
 			return false;
 		}
 		return true;
