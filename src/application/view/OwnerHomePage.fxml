@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.OwnerHomePageController">
+   <children>
+      <Pane layoutX="259.0" layoutY="179.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button layoutX="200.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleManageEmployeesClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Employees">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button layoutX="200.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleManageBookingsClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Bookings">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Label layoutX="275.0" layoutY="75.0" prefHeight="50.0" prefWidth="250.0" text="Owner's Menu">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

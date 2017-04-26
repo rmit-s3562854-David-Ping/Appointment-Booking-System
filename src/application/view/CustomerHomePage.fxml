@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.CustomerHomePageController">
+   <children>
+      <Label layoutX="250.0" layoutY="75.0" prefHeight="50.0" prefWidth="300.0" text="Customer's Menu">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="200.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleMakeAppointmentClicked" prefHeight="50.0" prefWidth="400.0" text="Make an Appointment">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="200.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleViewAppointmentsClicked" prefHeight="50.0" prefWidth="400.0" text="View Appointments">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

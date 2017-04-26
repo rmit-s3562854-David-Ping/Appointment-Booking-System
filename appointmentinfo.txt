@@ -1,0 +1,8 @@
+username2|e00001|2017-04-24T14:00|service3
+username3|e00001|2017-04-19T09:00|service1
+username1|e00001|2017-05-03T09:30|service2
+username1|e00001|2017-04-26T08:00|service1
+username1|e00001|2017-04-26T12:00|service1
+username2|e00001|2017-04-27T09:30|service2
+username1|e00001|2017-04-27T08:00|service2
+username1|e00001|2017-05-04T10:00|service1
