@@ -2,6 +2,8 @@ package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import application.main.*;
 import application.view.*;
@@ -32,7 +34,7 @@ public class MainApp extends Application {
 	private static ArrayList<Service> serviceArray = new ArrayList<Service>();
 	private static ObservableList<Employee> employeeData = FXCollections.observableArrayList();
 	private static ObservableList<Appointment> appointmentArray = FXCollections.observableArrayList();
-	
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	public static void main(String[] args) {
         launch(args);
     }
@@ -43,12 +45,12 @@ public class MainApp extends Application {
 	 * */
     @Override
     public void start(Stage primaryStage) {
-    	
+    	LOGGER.info("Program started.");
     	Reader reader = new Reader();
     	reader.read();
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Appointment Booking System");
-
+        LOGGER.info("primary window initiated.");
         initRootLayout();
 
         showLoginPage();
@@ -91,8 +93,9 @@ public class MainApp extends Application {
 
             LoginPageController controller = loader.getController();
             controller.setMainApp(this);
-
+            LOGGER.info("Login page displayed.");
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
         }
     }
@@ -118,8 +121,10 @@ public class MainApp extends Application {
             controller.setCustomer(customer);
 
             registrationStage.showAndWait();
+            LOGGER.info("Registation page displayed.");
             return controller.isOkClicked();
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
             return false;
         }
@@ -143,7 +148,9 @@ public class MainApp extends Application {
 
             OwnerHomePageController controller = loader.getController();
             controller.setMainApp(this);
+            LOGGER.info("Owner home page displayed.");
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
         }
     	
@@ -162,7 +169,9 @@ public class MainApp extends Application {
 
             EmployeePageController controller = loader.getController();
             controller.setMainApp(this);
+            LOGGER.info("Employee page displayed.");
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
         }
     }
@@ -188,8 +197,10 @@ public class MainApp extends Application {
             controller.setNewEmployee(employee);
             
             employeeStage.showAndWait();
+            LOGGER.info("Employee dialog displayed");
             return controller.isOkClicked();
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
             return false;
         }
@@ -216,8 +227,10 @@ public class MainApp extends Application {
             controller.setEmployee(employee);
 
             employeeStage.showAndWait();
+            LOGGER.info("Employee edit dialog displayed.");
             return controller.isOkClicked();
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
             return false;
         }
@@ -236,7 +249,9 @@ public class MainApp extends Application {
 
             OwnerBookingsPageController controller = loader.getController();
             controller.setMainApp(this);
+            LOGGER.info("Owner booking page displayed.");
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
         }
 	}
@@ -262,8 +277,10 @@ public class MainApp extends Application {
             controller.setNewAppointment(appointment);
             
             appointmentStage.showAndWait();
+            LOGGER.info("Booking dialog displayed.");
             return controller.isOkClicked();
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
             return false;
         }
@@ -290,8 +307,10 @@ public class MainApp extends Application {
             controller.setAppointment(appointment);
 
             apppointmentStage.showAndWait();
+            LOGGER.info("Edit bookings dialog displayed.");
             return controller.isOkClicked();
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
             return false;
         }
@@ -315,8 +334,9 @@ public class MainApp extends Application {
 
             CustomerHomePageController controller = loader.getController();
             controller.setMainApp(this);
-
+            LOGGER.info("Customer home page displayed");
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
         }
     }
@@ -342,8 +362,10 @@ public class MainApp extends Application {
             controller.setNewAppointment(appointment);
 
             apppointmentStage.showAndWait();
+            LOGGER.info("Customer booking dialog displayed.");
             return controller.isOkClicked();
         } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
             e.printStackTrace();
             return false;
         }
