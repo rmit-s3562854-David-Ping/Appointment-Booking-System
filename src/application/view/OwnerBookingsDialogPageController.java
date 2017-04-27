@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import application.MainApp;
 import application.main.Service;
@@ -58,7 +59,7 @@ public class OwnerBookingsDialogPageController {
 	private Stage appointmentStage;
 	private Appointment appointment;
 	private boolean okClicked = false;
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	@FXML
 	private void initialize() {
 
@@ -100,6 +101,7 @@ public class OwnerBookingsDialogPageController {
 	}
 
 	public void setAppointment(Appointment appointment) {
+		LOGGER.info("Appointment set.");
 		MainApp mainApp = new MainApp();
 		Service service = new Service();
 		Business business = new Business();
@@ -202,6 +204,7 @@ public class OwnerBookingsDialogPageController {
 	}
 
 	public void setNewAppointment(Appointment appointment) {
+		LOGGER.info("New appointment set.");
 		this.appointment = appointment;
 		customerUsernameField.setText("");
 		customerNameLabel.setText("");
@@ -232,6 +235,7 @@ public class OwnerBookingsDialogPageController {
 	@FXML
 	private void handleCancel() {
 		appointmentStage.close();
+		LOGGER.info("Selected cancel from appointment window.");
 	}
 
 	private boolean isInputValid() {
@@ -254,6 +258,7 @@ public class OwnerBookingsDialogPageController {
 			errorMessage += "No time has been selected\n";
 		}
 		if (errorMessage.length() == 0) {
+			LOGGER.info("Input validated.");
 			return true;
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -262,12 +267,13 @@ public class OwnerBookingsDialogPageController {
 			alert.setHeaderText("Please correct invalid fields");
 			alert.setContentText(errorMessage);
 			alert.showAndWait();
-
+			LOGGER.info(errorMessage);
 			return false;
 		}
 	}
 	
 	public void handleUsernameEntered(){
+		LOGGER.info("Username entered.");
 		MainApp mainApp = new MainApp();
 		Customer customer = new Customer();
 		for(int i=0;i<mainApp.getCustomerArray().size();i++){
@@ -286,6 +292,7 @@ public class OwnerBookingsDialogPageController {
 	}
 
 	public void handleDateSelected() {
+		LOGGER.info("Date selected.");
 		MainApp mainApp = new MainApp();
 		serviceBox.getItems().clear();
 		employeeIdBox.getItems().clear();
@@ -318,6 +325,7 @@ public class OwnerBookingsDialogPageController {
 	}
 
 	public void handleServiceSelected() {
+		LOGGER.info("Service selected");
 		MainApp mainApp = new MainApp();
 		Service service = new Service();
 		employeeIdBox.getItems().clear();
@@ -349,6 +357,7 @@ public class OwnerBookingsDialogPageController {
 	}
 
 	public void handleEmployeeSelected() {
+		LOGGER.info("Employee selected");
 		MainApp mainApp = new MainApp();
 		Service service = new Service();
 		Business business = new Business();

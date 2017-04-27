@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import application.MainApp;
 import application.main.Business;
@@ -67,7 +68,7 @@ public class EmployeeDialogPageController {
 	private Stage employeeStage;
 	private Employee employee;
 	private boolean okClicked = false;
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	@FXML
 	private void initialize() {
 	}
@@ -114,6 +115,7 @@ public class EmployeeDialogPageController {
 					sundayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
 				}
 			}
+			
 		}
 		LocalTime currentTime = business.getOpeningTime();
 
@@ -143,6 +145,7 @@ public class EmployeeDialogPageController {
 				}
 			}
 		}
+		LOGGER.info("Employee set.");
 	}
 
 	public void setNewEmployee(Employee employee) {
@@ -172,7 +175,7 @@ public class EmployeeDialogPageController {
 		}
 		servicesList.getItems().addAll(qualifications);
 		servicesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		
+		LOGGER.info("New employee created.");
 		
 	}
 
@@ -225,6 +228,7 @@ public class EmployeeDialogPageController {
 
 	@FXML
 	private void handleCancel() {
+		LOGGER.info("User cancelled.");
 		employeeStage.close();
 	}
 
@@ -239,6 +243,7 @@ public class EmployeeDialogPageController {
 			errorMessage += "Invalid last name, must start with a capital letter\n";
 		}
 		if (errorMessage.length() == 0) {
+			LOGGER.info("User input valid.");
 			return true;
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -248,7 +253,7 @@ public class EmployeeDialogPageController {
 			alert.setContentText(errorMessage);
 
 			alert.showAndWait();
-
+			LOGGER.info(errorMessage);
 			return false;
 		}
 	}
@@ -275,6 +280,7 @@ public class EmployeeDialogPageController {
 		fridayEnd.getItems().clear();
 		saturdayEnd.getItems().clear();
 		sundayEnd.getItems().clear();
+		LOGGER.info("Working times cleared.");
 	}
 
 	public void changeEndTimeMonday() {
@@ -292,6 +298,7 @@ public class EmployeeDialogPageController {
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}	
 		mondayEnd.setValue(mondayStart.getValue().plusHours(3));
+		LOGGER.info("Monday end time changed.");
 	}
 
 	public void changeEndTimeTuesday() {
@@ -309,6 +316,7 @@ public class EmployeeDialogPageController {
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
 		tuesdayEnd.setValue(tuesdayStart.getValue().plusHours(3));
+		LOGGER.info("Tuesday end time changed.");
 	}
 
 	public void changeEndTimeWednesday() {
@@ -326,6 +334,7 @@ public class EmployeeDialogPageController {
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
 		wednesdayEnd.setValue(wednesdayStart.getValue().plusHours(3));
+		LOGGER.info("Wednesday end time changed.");
 	}
 
 	public void changeEndTimeThursday() {
@@ -343,6 +352,7 @@ public class EmployeeDialogPageController {
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
 		thursdayEnd.setValue(thursdayStart.getValue().plusHours(3));
+		LOGGER.info("Thursday end time changed.");
 	}
 
 	public void changeEndTimeFriday() {
@@ -360,6 +370,7 @@ public class EmployeeDialogPageController {
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
 		fridayEnd.setValue(fridayStart.getValue().plusHours(3));
+		LOGGER.info("Friday end time changed.");
 	}
 
 	public void changeEndTimeSaturday() {
@@ -377,6 +388,7 @@ public class EmployeeDialogPageController {
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
 		saturdayEnd.setValue(saturdayStart.getValue().plusHours(3));
+		LOGGER.info("Saturday end time changed.");
 	}
 
 	public void changeEndTimeSunday() {
@@ -394,6 +406,7 @@ public class EmployeeDialogPageController {
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
 		sundayEnd.setValue(sundayStart.getValue().plusHours(3));
+		LOGGER.info("Sunday end time changed.");
 	}
 
 	/**
@@ -418,6 +431,7 @@ public class EmployeeDialogPageController {
 			}
 		}
 		String ID = "e" + String.format("%05d", IDCounter);
+		LOGGER.info("ID generated.");
 		return ID;
 	}
 }

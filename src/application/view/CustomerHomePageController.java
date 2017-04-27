@@ -1,6 +1,8 @@
 package application.view;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import application.MainApp;
 import application.main.Appointment;
@@ -22,7 +24,7 @@ public class CustomerHomePageController {
     }
 	
 	private MainApp mainApp;
-	
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -33,10 +35,12 @@ public class CustomerHomePageController {
 		boolean okClicked = mainApp.showBookingsDialogPage(appointment);
 		if (okClicked) {
 			mainApp.getAppointmentArray().add(appointment);
+			LOGGER.info("Make appointment clicked.");
 			try {
 				writer.saveAppointments(mainApp.getAppointmentArray());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				LOGGER.log(Level.SEVERE, e.toString(), e);
 				e.printStackTrace();
 			}
 		}

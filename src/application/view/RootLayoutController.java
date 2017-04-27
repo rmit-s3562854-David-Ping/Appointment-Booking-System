@@ -1,5 +1,7 @@
 package application.view;
 
+import java.util.logging.Logger;
+
 import application.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -12,7 +14,7 @@ import javafx.scene.control.Button;
  * */
 
 public class RootLayoutController {
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	private MainApp mainApp;
 
 	public void setMainApp(MainApp mainApp) {
@@ -25,6 +27,7 @@ public class RootLayoutController {
 	
 	@FXML
 	public void handleHome(){
+		LOGGER.info("Selected HOME.");
 		for(int i=0;i<mainApp.getOwnerArray().size();i++){
 			if(mainApp.getUsername().equals(mainApp.getOwnerArray().get(i).getUsername())){
 				mainApp.showOwnerHomePage();
@@ -40,6 +43,7 @@ public class RootLayoutController {
 	
 	@FXML
 	public void handleLogout(){
+		LOGGER.info("Selected LOGOUT.");
 		mainApp.setUsername("");
 		Scene scene = mainApp.getRootLayout().getScene();
 		Button homeBtn = (Button) scene.lookup("#HomeButton");

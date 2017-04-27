@@ -22,7 +22,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * @author David Ping
  * @version 1.00
@@ -45,7 +46,7 @@ public class BookingsDialogPageController {
 	private Stage appointmentStage;
 	private Appointment appointment;
 	private boolean okClicked = false;
-	
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	@FXML
 	private void initialize() {
 
@@ -83,6 +84,7 @@ public class BookingsDialogPageController {
 	}
 
 	public boolean isOkClicked() {
+		LOGGER.info("User selected ok.");
 		return okClicked;
 	}
 	
@@ -112,11 +114,13 @@ public class BookingsDialogPageController {
 			appointment.setServiceName(serviceBox.getValue());
 			okClicked = true;
 			appointmentStage.close();
+			LOGGER.info("Appointment set.");
 		}
 	}
 
 	@FXML
 	private void handleCancel() {
+		LOGGER.info("Appointment setup cancelled.");
 		appointmentStage.close();
 	}
 	
@@ -136,6 +140,7 @@ public class BookingsDialogPageController {
 			errorMessage += "No time has been selected\n";
 		}
 		if (errorMessage.length() == 0) {
+			LOGGER.info("User input valdiadted.");
 			return true;
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
@@ -144,7 +149,7 @@ public class BookingsDialogPageController {
 			alert.setHeaderText("Please correct invalid fields");
 			alert.setContentText(errorMessage);
 			alert.showAndWait();
-
+			LOGGER.info(errorMessage);
 			return false;
 		}
 	}
@@ -209,6 +214,7 @@ public class BookingsDialogPageController {
 				}
 			}
 		}
+		LOGGER.info("Service selected.");
 	}
 	
 	public void handleEmployeeSelected() {
@@ -270,5 +276,7 @@ public class BookingsDialogPageController {
 			}
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
+		LOGGER.info("Employee selected.");
 	}
+
 }
