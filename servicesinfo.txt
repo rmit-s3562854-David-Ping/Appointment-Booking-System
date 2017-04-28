@@ -1,7 +1,0 @@
-service1-90
-service2-60
-service3-30
-service4-30
-service1-90
-service2-60
-Back-60
