@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -58,7 +59,7 @@ public class ServicePageController {
 		if (okClicked){
 			mainApp.getServiceArray().add(service);	
 			try {
-				writer.saveServices(mainApp.getServiceArray());
+				writer.saveOwner();
 			} catch (IOException e){
 				e.printStackTrace();
 			}
@@ -68,21 +69,41 @@ public class ServicePageController {
 	private void handleDelete(){
 		
 		Writer writer = new Writer();
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirm delete");
-		alert.setHeaderText(null);
-		alert.setContentText("Are you sure you want to delete service?");
-		Optional <ButtonType> action = alert.showAndWait();
-		
+		boolean serviceUsed = false;
 		int selectedIndex = serviceTable.getSelectionModel().getSelectedIndex();
-		
-		if (action.get() == ButtonType.OK){
-			serviceTable.getItems().remove(selectedIndex);
-			try {
-				writer.saveServices(mainApp.getServiceArray());
-			} catch (IOException e){
-				
-				e.printStackTrace();
+		if(selectedIndex >= 0){
+			for(int i=0;i<mainApp.getAppointmentArray().size();i++){
+				if(mainApp.getAppointmentArray().get(i).getServiceName().equals(serviceTable.getItems().get(selectedIndex).getServiceName())){
+					serviceUsed = true;
+					
+				}
+			}		
+			
+			Alert confirm = new Alert(AlertType.CONFIRMATION);
+			confirm.setTitle("Confirm delete");
+			confirm.setHeaderText(null);
+			confirm.setContentText("Are you sure you want to delete service?");
+			Optional <ButtonType> action = confirm.showAndWait();
+			
+			if(serviceUsed == false){
+				if (action.get() == ButtonType.OK){
+					serviceTable.getItems().remove(selectedIndex);
+					try {
+						writer.saveOwner();
+					} catch (IOException e){
+						
+						e.printStackTrace();
+					}
+				}
+			}else{
+				//the service has been booked for an appointment
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.initOwner(mainApp.getPrimaryStage());
+				alert.setTitle("service has been booked for an appointments");
+				alert.setHeaderText("Delete Failed");
+				alert.setContentText("Please edit or delete appointments with this service in future");
+
+				alert.showAndWait();
 			}
 		}else {
 			// Nothing selected.

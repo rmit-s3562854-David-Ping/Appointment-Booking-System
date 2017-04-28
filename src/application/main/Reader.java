@@ -35,19 +35,16 @@ public class Reader {
 		String ownerFile = "business.txt";
 		String employeeFile = "employeeinfo.txt";
 		String apptFile = "appointmentinfo.txt";
-		String servFile = "servicesinfo.txt";
 		Scanner inputStream = null;
 		Scanner inputStream2 = null;
 		Scanner inputStream3 = null;
 		Scanner inputStream4 = null;
-		Scanner inputStream5 = null;
 
 		try {
 			inputStream = new Scanner(new File(customerFile));
 			inputStream2 = new Scanner(new File(ownerFile));
 			inputStream3 = new Scanner(new File(employeeFile));
 			inputStream4 = new Scanner(new File(apptFile));
-			inputStream5 = new Scanner(new File(servFile));
 
 			while (inputStream.hasNextLine()) {
 				String line = inputStream.nextLine();
@@ -152,18 +149,6 @@ public class Reader {
 
 			}
 			
-			while (inputStream5.hasNextLine()){
-				String line = inputStream5.nextLine();
-				StringTokenizer stringToken = new StringTokenizer(line, "-");
-				
-				String serviceName = stringToken.nextToken();
-				String length = stringToken.nextToken();
-				int duration = Integer.parseInt(length);
-				Service service = new Service(serviceName, duration);
-				
-				main.getServiceArray().add(service);
-				
-			}
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -173,7 +158,6 @@ public class Reader {
 			inputStream2.close();
 			inputStream3.close();
 			inputStream4.close();
-			inputStream5.close();
 		}
 
 		LOGGER.info("Files read.");
