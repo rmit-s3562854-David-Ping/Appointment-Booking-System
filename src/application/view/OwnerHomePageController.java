@@ -30,5 +30,9 @@ public class OwnerHomePageController {
 	public void handleManageBookingsClicked(){
 		mainApp.showOwnerBookingsPage();
 	}
+	
+	public void handleManageServicesClicked(){
+		mainApp.showServicesPage();
+	}
 
 }
