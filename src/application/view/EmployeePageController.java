@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import application.MainApp;
 import application.main.Employee;
@@ -53,7 +55,7 @@ public class EmployeePageController {
 	private Label saturdayLabel;
 	@FXML
 	private Label sundayLabel;
-
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	@FXML
 	private void initialize() {
 		// Initialize the person table with the two columns.
@@ -139,6 +141,7 @@ public class EmployeePageController {
 			saturdayLabel.setText("");
 			sundayLabel.setText("");
 		}
+		LOGGER.info("Employee details shown.");
 	}
 
 	@FXML
@@ -150,8 +153,10 @@ public class EmployeePageController {
 			mainApp.getEmployeeData().add(employee);
 			try {
 				writer.saveEmployees(mainApp.getEmployeeData());
+				LOGGER.info("Employee saved.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				LOGGER.log(Level.SEVERE, e.toString(), e);
 				e.printStackTrace();
 			}
 		}
@@ -167,8 +172,10 @@ public class EmployeePageController {
 				showEmployeeDetails(selectedEmployee);
 				try {
 					writer.saveEmployees(mainApp.getEmployeeData());
+					LOGGER.info("Employee edited.");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+					LOGGER.log(Level.SEVERE, e.toString(), e);
 					e.printStackTrace();
 				}
 			}
@@ -202,10 +209,12 @@ public class EmployeePageController {
 			
 			if (hasAppointment == false) {
 				employeeTable.getItems().remove(selectedIndex);
+				LOGGER.info("Employee removed.");
 				try {
 					writer.saveEmployees(mainApp.getEmployeeData());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+					LOGGER.log(Level.SEVERE, e.toString(), e);
 					e.printStackTrace();
 				}
 			}else{

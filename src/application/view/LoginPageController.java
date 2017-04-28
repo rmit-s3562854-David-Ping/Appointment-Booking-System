@@ -2,6 +2,8 @@ package application.view;
 
 import application.main.*;
 import java.io.IOException;
+import java.util.logging.Logger;
+
 import application.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,7 +25,7 @@ public class LoginPageController {
     private Label invalid; 
     
     private MainApp mainApp;
-    
+    private static final Logger LOGGER = Logger.getLogger("MyLog");
     public LoginPageController(){}
     
     @FXML
@@ -35,11 +37,13 @@ public class LoginPageController {
     }
     
     public void handleLoginClicked(){
+    	LOGGER.info("Login selected.");
     	Customer customer = new Customer();
     	Owner owner = new Owner();
     	if(owner.checkLogin(usernameField.getText(), passwordField.getText())){
     		mainApp.setUsername(usernameField.getText());
     		mainApp.showOwnerHomePage();
+    		
     	}else if(customer.checkLogin(usernameField.getText(), passwordField.getText())){
     		mainApp.setUsername(usernameField.getText());
     		mainApp.showCustomerHomePage();
@@ -51,6 +55,7 @@ public class LoginPageController {
     
     @FXML
     private void handleRegisterClicked() {
+    	LOGGER.info("Register selected.");
     	MainApp main = new MainApp();
     	Writer writer = new Writer();
         Customer customer = new Customer("","","","","","");

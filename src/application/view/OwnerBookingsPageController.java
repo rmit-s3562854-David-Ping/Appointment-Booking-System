@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import application.MainApp;
 import application.main.Service;
@@ -55,7 +57,7 @@ public class OwnerBookingsPageController {
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mma");
 	
 	private static LocalDate date = LocalDate.now();
-	
+	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	@FXML
 	private void initialize() {
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateTimeProperty());
@@ -82,6 +84,7 @@ public class OwnerBookingsPageController {
 		        }
 		        else{
 		            setText(String.format(item.format(timeFormatter)));
+		            LOGGER.info("Item updated.");
 		        }
 		    }
 		});
@@ -95,6 +98,7 @@ public class OwnerBookingsPageController {
 					setText(null);
 				}else{
 					setText(String.valueOf(service.getService(item).getDuration())+" minutes");
+					LOGGER.info("Item updated.");
 				}
 			}
 		});
@@ -111,6 +115,7 @@ public class OwnerBookingsPageController {
 					setText(null);
 				}else{
 					setText(customer.getCustomer(item).getFirstName()+" "+customer.getCustomer(item).getLastName());
+					LOGGER.info("Item updated.");
 				}
 			}
 		});
@@ -124,6 +129,7 @@ public class OwnerBookingsPageController {
 					setText(null);
 				}else{
 					setText(employee.getEmployee(item).getFirstName()+" "+employee.getEmployee(item).getLastName());
+					LOGGER.info("Item updated.");
 				}
 			}
 		});
@@ -168,6 +174,7 @@ public class OwnerBookingsPageController {
         	}
 		}
 		dateRangeLabel.setText(date.format(dateFormatter)+"-"+date.plusWeeks(1).minusDays(1).format(dateFormatter));
+		LOGGER.info("Next week clicked.");
 	}
 	
 	public void handleLastWeekClicked(){	
@@ -187,6 +194,7 @@ public class OwnerBookingsPageController {
         	}
 		}
 		dateRangeLabel.setText(date.format(dateFormatter)+"-"+date.plusWeeks(1).minusDays(1).format(dateFormatter));
+		LOGGER.info("Previous week selected.");
 	}
 	
 	@FXML
@@ -199,8 +207,10 @@ public class OwnerBookingsPageController {
 			tempList.add(appointment);
 			try {
 				writer.saveAppointments(mainApp.getAppointmentArray());
+				LOGGER.info("Appointment saved.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				LOGGER.log(Level.SEVERE, e.toString(), e);
 				e.printStackTrace();
 			}
 		}
@@ -224,7 +234,7 @@ public class OwnerBookingsPageController {
 				alert.setTitle("Invalid edit");
 				alert.setHeaderText("Cannot edit");
 				alert.setContentText("Cannot edit past appointments");
-
+				LOGGER.info("Cannot edit appointmnet");
 				alert.showAndWait();
 				return;
 			}
@@ -233,7 +243,9 @@ public class OwnerBookingsPageController {
 			if (okClicked) {
 				try {
 					writer.saveAppointments(mainApp.getAppointmentArray());
+					LOGGER.info("Appointment edited.");
 				} catch (IOException e) {
+					LOGGER.log(Level.SEVERE, e.toString(), e);
 					e.printStackTrace();
 				}
 			}
@@ -257,12 +269,14 @@ public class OwnerBookingsPageController {
 		if (selectedIndex >= 0) {
 			if(mainApp.getAppointmentArray().contains(timeTable.getItems().get(selectedIndex))){
 				mainApp.getAppointmentArray().remove(timeTable.getItems().get(selectedIndex));
+				LOGGER.info("Appointment delted.");
 			}
 			timeTable.getItems().remove(selectedIndex);
 			try {
 				writer.saveAppointments(mainApp.getAppointmentArray());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				LOGGER.log(Level.SEVERE, e.toString(), e);
 				e.printStackTrace();
 			}
 		} else {
