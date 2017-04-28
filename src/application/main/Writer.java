@@ -102,5 +102,24 @@ public class Writer {
 		System.out.println("Files saved.");
 		writerAppointments.close();
 	}
+	
+	public void saveServices(ObservableList<Service>service) throws IOException{
+		
+		BufferedWriter writerServices = new BufferedWriter(new FileWriter("servicesinfo.txt"));
+		MainApp main = new MainApp();
+		int i = 0;
+		// A loop that writes each element of the array line by line to files.
+		while (i < service.size()) {
+			// Write to servicesinfo.txt			
+			writerServices.write(main.getServiceArray().get(i).getServiceName() + "-" 
+			+ main.getServiceArray().get(i).getDuration());
+			
+			writerServices.newLine();
+			i++;
+		}
+		LOGGER.info("services file saved");
+		System.out.println("Files saved.");
+		writerServices.close();
+	}
 
 }

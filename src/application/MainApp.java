@@ -29,7 +29,7 @@ public class MainApp extends Application {
 
     private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
-	private static ArrayList<Service> serviceArray = new ArrayList<Service>();
+	private static ObservableList<Service> serviceArray = FXCollections.observableArrayList();
 	private static ObservableList<Employee> employeeData = FXCollections.observableArrayList();
 	private static ObservableList<Appointment> appointmentArray = FXCollections.observableArrayList();
 	
@@ -164,6 +164,50 @@ public class MainApp extends Application {
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    //show services available and add or edit or delete
+    public void showServicesPage(){
+    	try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/ServicesPage.fxml"));
+            AnchorPane servicesPage = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(servicesPage);
+
+            ServicePageController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows dialog box for new services, all fields are empty when initialised
+     * */
+    public boolean showNewServiceDialog(Service service){
+    	try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/ServiceDialogPage.fxml"));
+            AnchorPane dialogPage = (AnchorPane) loader.load();
+
+            Stage serviceStage = new Stage();
+            serviceStage.setTitle("Service");
+            serviceStage.initModality(Modality.WINDOW_MODAL);
+            serviceStage.initOwner(primaryStage);
+            Scene scene = new Scene(dialogPage);
+            serviceStage.setScene(scene);
+
+            ServiceDialogPageController controller = loader.getController();
+            controller.setServiceStage(serviceStage);
+            controller.setNewService(service);
+            
+            serviceStage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
     
@@ -368,8 +412,8 @@ public class MainApp extends Application {
 	public ObservableList<Appointment> getAppointmentArray() {
 		return appointmentArray;
 	}
-	
-	public ArrayList<Service> getServiceArray(){
+	//changed to obs
+	public ObservableList<Service> getServiceArray(){
 		return serviceArray;
 	}
 	
