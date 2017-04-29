@@ -414,6 +414,27 @@ public class MainApp extends Application {
             return false;
         }
 	}
+    public void showBookingsSummaryPage()  {
+    	try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/BookingSummaryDialogPage.fxml"));
+            AnchorPane dialogPage = (AnchorPane) loader.load();
+            Stage apppointmentStage = new Stage();
+            apppointmentStage.setTitle("My Appointments");
+            apppointmentStage.initModality(Modality.WINDOW_MODAL);
+            apppointmentStage.initOwner(primaryStage);
+            Scene scene = new Scene(dialogPage);
+            apppointmentStage.setScene(scene);
+            BookingSummaryDialogPageController controller = loader.getController();
+            controller.setAppointmentArray(getAppointmentArray());
+            controller.setUsername(getUsername());
+            controller.loadTable();
+            apppointmentStage.show();
+            LOGGER.info("Customer bookings displayed.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
     public Stage getPrimaryStage() {
         return primaryStage;

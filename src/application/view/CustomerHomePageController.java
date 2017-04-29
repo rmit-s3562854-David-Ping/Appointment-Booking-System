@@ -47,6 +47,7 @@ public class CustomerHomePageController {
 	}
 	
 	public void handleViewAppointmentsClicked(){
-		
+		LOGGER.info("View appointments clicked.");
+		mainApp.showBookingsSummaryPage();
 	}
 }
