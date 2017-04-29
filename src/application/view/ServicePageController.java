@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -70,12 +71,12 @@ public class ServicePageController {
 		
 		Writer writer = new Writer();
 		boolean serviceUsed = false;
+		Service service = serviceTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = serviceTable.getSelectionModel().getSelectedIndex();
 		if(selectedIndex >= 0){
 			for(int i=0;i<mainApp.getAppointmentArray().size();i++){
 				if(mainApp.getAppointmentArray().get(i).getServiceName().equals(serviceTable.getItems().get(selectedIndex).getServiceName())){
-					serviceUsed = true;
-					
+					serviceUsed = true;					
 				}
 			}		
 			
@@ -87,7 +88,20 @@ public class ServicePageController {
 			
 			if(serviceUsed == false){
 				if (action.get() == ButtonType.OK){
-					serviceTable.getItems().remove(selectedIndex);
+					serviceTable.getItems().remove(selectedIndex);	
+					//service to be deleted for employees providing it
+					for(int z=0; z < mainApp.getEmployeeData().size(); z++){											
+						for (int x=0; x < mainApp.getEmployeeData().get(z).getEmployeeServices().size(); x++){						
+							if (mainApp.getEmployeeData().get(z).getEmployeeServices().get(x).equals(service.getServiceName())){
+								mainApp.getEmployeeData().get(z).getEmployeeServices().remove(x);
+								try {
+									writer.saveEmployees(mainApp.getEmployeeData());
+								} catch (IOException e){
+									e.printStackTrace();
+								}
+							}
+						}			
+					}
 					try {
 						writer.saveOwner();
 					} catch (IOException e){

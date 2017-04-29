@@ -52,7 +52,6 @@ public class ServiceDialogPageController {
 	public void setNewService(Service service){
 		MainApp mainApp = new MainApp();
 		this.service = service;
-	//	serviceNameField.setText("");		
 		duration.setItems(options);
 		
 		}
@@ -109,7 +108,7 @@ public class ServiceDialogPageController {
 		String errorMsg = "";
 		boolean optionIsEmpty = (duration.getValue() == null);
 		
-		if(util.validateName(serviceNameF.getText()) == false){
+		if(util.checkString(serviceNameF.getText()) == false){
 			errorMsg += "Invalid service name, must start with a capital letter\n";
 		}
 		if (optionIsEmpty == true){
