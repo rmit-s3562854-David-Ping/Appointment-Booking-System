@@ -124,9 +124,9 @@ public class Reader {
 				}
 				
 				if(servicesString!=""){
-					StringTokenizer stringToken4 = new StringTokenizer(servicesString, ", ");
-					while(stringToken4.hasMoreTokens()){
-						String service = stringToken4.nextToken();
+					String[] sArray = servicesString.split(", ");
+					for(int i=0;i<sArray.length;i++){
+						String service = sArray[i];
 						services.add(service);
 					}
 				}
