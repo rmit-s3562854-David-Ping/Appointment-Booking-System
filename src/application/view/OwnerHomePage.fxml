@@ -18,6 +18,10 @@
                <font>
                   <Font size="18.0" />
                </font></Button>
+            <Button layoutX="200.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleManageServicesClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Services">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
             <Label layoutX="275.0" layoutY="75.0" prefHeight="50.0" prefWidth="250.0" text="Owner's Menu">
                <font>
                   <Font name="System Bold" size="36.0" />

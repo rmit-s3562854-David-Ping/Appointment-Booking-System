@@ -148,6 +148,7 @@ public class Reader {
 				main.getAppointmentArray().add(appointment);
 
 			}
+			
 
 		} catch (Exception e) {
 			System.out.println(e);

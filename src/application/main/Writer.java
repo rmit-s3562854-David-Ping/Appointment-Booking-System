@@ -47,10 +47,10 @@ public class Writer {
 					+ ":" + main.getOwnerArray().get(i).getFirstName() + ":" + main.getOwnerArray().get(i).getLastName()
 					+ ":" + main.getOwnerArray().get(i).getAddress() + ":"
 					+ main.getOwnerArray().get(i).getContactNumber() + ":"
-					+ main.getOwnerArray().get(i).getBusinessName());
-			for (int j = 0; j < main.getServiceArray().size(); i++) {
-				writer.write(main.getServiceArray().get(i).getServiceName() + "-"
-						+ main.getServiceArray().get(i).getDuration());
+					+ main.getOwnerArray().get(i).getBusinessName() + ":");
+			for (int j = 0; j < main.getServiceArray().size(); j++) {
+				writer.write(main.getServiceArray().get(j).getServiceName() + "-"
+						+ main.getServiceArray().get(j).getDuration() + "|");
 			}
 			writer.newLine();
 		}
@@ -102,5 +102,6 @@ public class Writer {
 		System.out.println("Files saved.");
 		writerAppointments.close();
 	}
+
 
 }
