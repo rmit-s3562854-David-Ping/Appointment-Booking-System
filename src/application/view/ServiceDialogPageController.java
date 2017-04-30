@@ -109,7 +109,7 @@ public class ServiceDialogPageController {
 		boolean optionIsEmpty = (duration.getValue() == null);
 		
 		if(util.checkString(serviceNameF.getText()) == false){
-			errorMsg += "Invalid service name, must start with a capital letter\n";
+			errorMsg += "Invalid service name\n";
 		}
 		if (optionIsEmpty == true){
 			errorMsg += "must select a duration\n";
