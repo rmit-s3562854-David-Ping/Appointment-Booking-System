@@ -19,9 +19,6 @@ import application.main.Utility;
  * the individual validation tests are done separately in a different Junit class
  * registerCustomer method checks that the registration fields are all valid to create a customer
  * if any of the fileds is invalid the registration isn't successfull
- * a boolean value is passed to makeObj if fields are valid or not 
- * according to the boolean value the customer is created
- *
  * @author Hassen Mender
  */
 
