@@ -12,13 +12,11 @@ import application.main.Utility;
 import application.view.EmployeeDialogPageController;
 
 /**
- * checked that the data passed to create an employee isn't null or empty string
- * the add employee method checks if the object passed is null or not
+ * checked that the data passed to create an employee is valid
  * according to that object is added to list or not 
- * makeEmployee returns null if any of the data provided is empty
- * and the add employee returns false if object is null
+ * newEmployee returns false if any of the data provided is invalid
  * otherwise it returns true
- *  
+ * Note ID is auto generated   
  * @author hassen
  *
  */
