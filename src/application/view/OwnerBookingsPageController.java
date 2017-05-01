@@ -221,13 +221,13 @@ public class OwnerBookingsPageController {
 		Writer writer = new Writer();
 		int counter = timeTable.getSelectionModel().getSelectedIndex();
 		Appointment selectedAppointment = timeTable.getSelectionModel().getSelectedItem();
-		for(int i=0;i<mainApp.getAppointmentArray().size();i++){
-			if(selectedAppointment.equals(mainApp.getAppointmentArray().get(i))){
-				selectedAppointment=mainApp.getAppointmentArray().get(i);
-			}
-		}
 		
 		if (selectedAppointment != null) {
+			for(int i=0;i<mainApp.getAppointmentArray().size();i++){
+				if(selectedAppointment.equals(mainApp.getAppointmentArray().get(i))){
+					selectedAppointment=mainApp.getAppointmentArray().get(i);
+				}
+			}
 			if(selectedAppointment.getDateAndTime().toLocalDate().isBefore(LocalDate.now().plusDays(1))){
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.initOwner(mainApp.getPrimaryStage());

@@ -242,7 +242,7 @@ public class OwnerBookingsDialogPageController {
 		Utility util = new Utility();
 		String errorMessage = "";
 
-		if (util.usernameExists(customerUsernameField.getText()) == false) {
+		if (util.customerUsernameExists(customerUsernameField.getText()) == false) {
 			errorMessage += "Customer username does not exist\n";
 		}
 		if (datePicker.getValue() == null) {

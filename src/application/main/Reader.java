@@ -74,17 +74,20 @@ public class Reader {
 				String address = stringToken.nextToken();
 				String contactNumber = stringToken.nextToken();
 				String businessName = stringToken.nextToken();
-				String services = stringToken.nextToken();
-
-				StringTokenizer stringToken2 = new StringTokenizer(services, "|");
-				while (stringToken2.hasMoreTokens()) {
-					StringTokenizer stringToken3 = new StringTokenizer(stringToken2.nextToken(), "-");
-					String serviceName = stringToken3.nextToken();
-					String durationLength = stringToken3.nextToken();
-					int duration = Integer.parseInt(durationLength);
-					Service service = new Service(serviceName, duration);
-					main.getServiceArray().add(service);
+				if(stringToken.hasMoreTokens()){
+					String services = stringToken.nextToken();
+					StringTokenizer stringToken2 = new StringTokenizer(services, "|");
+					while (stringToken2.hasMoreTokens()) {
+						StringTokenizer stringToken3 = new StringTokenizer(stringToken2.nextToken(), "-");
+						String serviceName = stringToken3.nextToken();
+						String durationLength = stringToken3.nextToken();
+						int duration = Integer.parseInt(durationLength);
+						Service service = new Service(serviceName, duration);
+						main.getServiceArray().add(service);
+					}
 				}
+				
+				
 
 				Owner owner = new Owner(username, password, firstName, lastName, address, contactNumber, businessName);
 

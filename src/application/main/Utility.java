@@ -72,6 +72,17 @@ public class Utility {
 		}
 		return false;
 	}
+	
+	public boolean customerUsernameExists(String username){
+		MainApp main = new MainApp();
+		for (int i = 0; i < main.getCustomerArray().size(); i++) {
+			if (main.getCustomerArray().get(i).getUsername().equals(username)) {
+				LOGGER.info("Username already exists.");
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Test username and password that is entered to ensure the length is
