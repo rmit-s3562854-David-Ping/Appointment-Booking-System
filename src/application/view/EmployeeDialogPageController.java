@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import application.MainApp;
 import application.main.Business;
 import application.main.Employee;
+import application.main.Service;
 import application.main.Utility;
 import application.main.WorkTime;
 import javafx.collections.FXCollections;
@@ -24,9 +25,8 @@ import javafx.stage.Stage;
 
 /**
  * @author David Ping
- * @version 1.00
- * Last edited: 24/04/2017
- * */
+ * @version 1.00 Last edited: 24/04/2017
+ */
 
 public class EmployeeDialogPageController {
 
@@ -69,6 +69,7 @@ public class EmployeeDialogPageController {
 	private Employee employee;
 	private boolean okClicked = false;
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
+
 	@FXML
 	private void initialize() {
 	}
@@ -115,13 +116,13 @@ public class EmployeeDialogPageController {
 					sundayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
 				}
 			}
-			
+
 		}
 		LocalTime currentTime = business.getOpeningTime();
 
-		while (currentTime.isBefore(business.getClosingTime())) {
-			if (currentTime.isBefore(business.getClosingTime().minusHours(3))||
-					currentTime.equals(business.getClosingTime().minusHours(3))) {
+		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
+			if (currentTime.isBefore(business.getClosingTime().minusHours(3))
+					|| currentTime.equals(business.getClosingTime().minusHours(3))) {
 				mondayStart.getItems().add(currentTime);
 				tuesdayStart.getItems().add(currentTime);
 				wednesdayStart.getItems().add(currentTime);
@@ -130,17 +131,47 @@ public class EmployeeDialogPageController {
 				saturdayStart.getItems().add(currentTime);
 				sundayStart.getItems().add(currentTime);
 			}
+
+			if (mondayStart.getValue() != null && (currentTime.isAfter(mondayStart.getValue().plusHours(3))
+					|| currentTime.equals(mondayStart.getValue().plusHours(3)))) {
+				mondayEnd.getItems().add(currentTime);
+			}
+			if (tuesdayStart.getValue() != null && (currentTime.isAfter(tuesdayStart.getValue().plusHours(3))
+					|| currentTime.equals(tuesdayStart.getValue().plusHours(3)))) {
+				tuesdayEnd.getItems().add(currentTime);
+			}
+			if (wednesdayStart.getValue() != null && (currentTime.isAfter(wednesdayStart.getValue().plusHours(3))
+					|| currentTime.equals(wednesdayStart.getValue().plusHours(3)))) {
+				wednesdayEnd.getItems().add(currentTime);
+			}
+			if (thursdayStart.getValue() != null && (currentTime.isAfter(thursdayStart.getValue().plusHours(3))
+					|| currentTime.equals(thursdayStart.getValue().plusHours(3)))) {
+				thursdayEnd.getItems().add(currentTime);
+			}
+			if (fridayStart.getValue() != null && (currentTime.isAfter(fridayStart.getValue().plusHours(3))
+					|| currentTime.equals(fridayStart.getValue().plusHours(3)))) {
+				fridayEnd.getItems().add(currentTime);
+			}
+			if (saturdayStart.getValue() != null && (currentTime.isAfter(saturdayStart.getValue().plusHours(3))
+					|| currentTime.equals(saturdayStart.getValue().plusHours(3)))) {
+				saturdayEnd.getItems().add(currentTime);
+			}
+			if (sundayStart.getValue() != null && (currentTime.isAfter(sundayStart.getValue().plusHours(3))
+					|| currentTime.equals(sundayStart.getValue().plusHours(3)))) {
+				sundayEnd.getItems().add(currentTime);
+			}
+
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
 		ObservableList<String> qualifications = FXCollections.observableArrayList();
-		for(int i=0;i<mainApp.getServiceArray().size();i++){
+		for (int i = 0; i < mainApp.getServiceArray().size(); i++) {
 			qualifications.add(mainApp.getServiceArray().get(i).getServiceName());
 		}
 		servicesList.getItems().addAll(qualifications);
 		servicesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		for(int i=0;i<employee.getEmployeeServices().size();i++){
-			for(int j=0;j<servicesList.getItems().size();j++){
-				if(employee.getEmployeeServices().get(i).equals(servicesList.getItems().get(j))){
+		for (int i = 0; i < employee.getEmployeeServices().size(); i++) {
+			for (int j = 0; j < servicesList.getItems().size(); j++) {
+				if (employee.getEmployeeServices().get(i).equals(servicesList.getItems().get(j))) {
 					servicesList.getSelectionModel().select(servicesList.getItems().get(j));
 				}
 			}
@@ -170,17 +201,29 @@ public class EmployeeDialogPageController {
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
 		ObservableList<String> qualifications = FXCollections.observableArrayList();
-		for(int i=0;i<mainApp.getServiceArray().size();i++){
+		for (int i = 0; i < mainApp.getServiceArray().size(); i++) {
 			qualifications.add(mainApp.getServiceArray().get(i).getServiceName());
 		}
 		servicesList.getItems().addAll(qualifications);
 		servicesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		LOGGER.info("New employee created.");
-		
+
 	}
 
 	@FXML
 	private void handleOk() {
+		MainApp mainApp = new MainApp();
+		Service service = new Service();
+
+		for (int i = 0; i < mainApp.getAppointmentArray().size(); i++) {
+			if (employee.getId().equals(mainApp.getAppointmentArray().get(i).getEmployeeId())) {
+				if (!servicesList.getSelectionModel().getSelectedItems()
+						.contains(mainApp.getAppointmentArray().get(i).getServiceName())) {
+					errorMessage();
+					return;
+				}
+			}
+		}
 
 		if (isInputValid()) {
 			ObservableList<String> services = FXCollections.observableArrayList();
@@ -215,8 +258,39 @@ public class EmployeeDialogPageController {
 				workTimes.add(sunday);
 			}
 
+			for (int i = 0; i < mainApp.getAppointmentArray().size(); i++) {
+				if (employee.getId().equals(mainApp.getAppointmentArray().get(i).getEmployeeId())) {
+					for (int j = 0; j < workTimes.size(); j++) {
+						if (workTimes.get(j).getDayOfWeek()
+								.equals(mainApp.getAppointmentArray().get(i).getDateAndTime().getDayOfWeek())) {
+
+							if (!workTimes.get(j).getStartTime()
+									.isBefore(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime())
+									&& !workTimes.get(j).getStartTime().equals(
+											mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime())) {
+								errorMessage();
+								return;
+							}
+							if (!workTimes.get(j).getEndTime()
+									.isAfter(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime()
+											.plusMinutes(service
+													.getService(mainApp.getAppointmentArray().get(i).getServiceName())
+													.getDuration()))
+									&& !workTimes.get(j).getEndTime()
+											.equals(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime()
+													.plusMinutes(service.getService(
+															mainApp.getAppointmentArray().get(i).getServiceName())
+															.getDuration()))) {
+								errorMessage();
+								return;
+							}
+						}
+					}
+				}
+			}
+
 			services.addAll(servicesList.getSelectionModel().getSelectedItems());
-			
+
 			employee.setFirstName(firstNameField.getText());
 			employee.setLastName(lastNameField.getText());
 			employee.setWorkTimes(workTimes);
@@ -296,7 +370,7 @@ public class EmployeeDialogPageController {
 				mondayEnd.getItems().add(currentTime);
 			}
 			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
-		}	
+		}
 		mondayEnd.setValue(mondayStart.getValue().plusHours(3));
 		LOGGER.info("Monday end time changed.");
 	}
@@ -433,5 +507,15 @@ public class EmployeeDialogPageController {
 		String ID = "e" + String.format("%05d", IDCounter);
 		LOGGER.info("ID generated.");
 		return ID;
+	}
+
+	public void errorMessage() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.initOwner(employeeStage);
+		alert.setTitle("Invalid Edit");
+		alert.setHeaderText("Invalid Edit");
+		alert.setContentText("New employee attributes conflict with existing bookings");
+
+		alert.showAndWait();
 	}
 }
