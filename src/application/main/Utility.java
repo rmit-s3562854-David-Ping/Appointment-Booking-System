@@ -251,31 +251,13 @@ public class Utility {
 	 */
 	public boolean validateDayOfWeek(LocalDateTime currentTime) {
 		Business business = new Business();
-		for (int i = 0; i < business.getOpeningDays().length; i++) {
-			if (business.getOpeningDays()[i].equals(currentTime.getDayOfWeek())) {
+		for (int i = 0; i < business.getOpeningDays().size(); i++) {
+			if (business.getOpeningDays().get(i).equals(currentTime.getDayOfWeek())) {
 				LOGGER.info("Valid business time");
 				return true;
 			}
 		}
 		LOGGER.info("Invalid business time");
-		return false;
-	}
-
-	/**
-	 * Tests whether or not the input is valid and the business is open, this
-	 * one takes an integer input where 1= MONDAY .... 7 = SUNDAY
-	 * 
-	 * @author David Ping
-	 */
-	public boolean validateDayOfWeek(int counter) {
-		Business business = new Business();
-		for (int i = 0; i < business.getOpeningDays().length; i++) {
-			if (business.getOpeningDays()[i].equals(DayOfWeek.of(counter))) {
-				LOGGER.info("Valid business day");
-				return true;
-			}
-		}
-		LOGGER.info("Invalid business day");
 		return false;
 	}
 
