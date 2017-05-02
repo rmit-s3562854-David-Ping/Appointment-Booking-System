@@ -159,40 +159,14 @@ public class OwnerBookingsPageController {
 	
 	public void handleNextWeekClicked(){
 		date=date.plusWeeks(1);
-		timeTable.getItems().clear();
-		ObservableList<Appointment> tempList = FXCollections.observableArrayList();
-		for(int i=0;i<mainApp.getAppointmentArray().size();i++){
-			tempList.add(mainApp.getAppointmentArray().get(i));
-		}
-		timeTable.setItems(tempList);
-		for(int i=0;i<timeTable.getItems().size();i++){
-			if(timeTable.getItems().get(i).getDateAndTime().toLocalDate().isBefore(date)||
-					timeTable.getItems().get(i).getDateAndTime().toLocalDate().isAfter(date.plusWeeks(1))||
-					timeTable.getItems().get(i).getDateAndTime().toLocalDate().isEqual(date.plusWeeks(1))){
-        		timeTable.getItems().remove(i);
-        		i--;
-        	}
-		}
+		refreshTable();
 		dateRangeLabel.setText(date.format(dateFormatter)+"-"+date.plusWeeks(1).minusDays(1).format(dateFormatter));
 		LOGGER.info("Next week clicked.");
 	}
 	
 	public void handleLastWeekClicked(){	
 		date=date.minusWeeks(1);
-		timeTable.getItems().clear();
-		ObservableList<Appointment> tempList = FXCollections.observableArrayList();
-		for(int i=0;i<mainApp.getAppointmentArray().size();i++){
-			tempList.add(mainApp.getAppointmentArray().get(i));
-		}
-		timeTable.setItems(tempList);
-		for(int i=0;i<timeTable.getItems().size();i++){
-			if(timeTable.getItems().get(i).getDateAndTime().toLocalDate().isBefore(date)||
-					timeTable.getItems().get(i).getDateAndTime().toLocalDate().isAfter(date.plusWeeks(1))||
-					timeTable.getItems().get(i).getDateAndTime().toLocalDate().isEqual(date.plusWeeks(1))){
-        		timeTable.getItems().remove(i);
-        		i--;
-        	}
-		}
+		refreshTable();
 		dateRangeLabel.setText(date.format(dateFormatter)+"-"+date.plusWeeks(1).minusDays(1).format(dateFormatter));
 		LOGGER.info("Previous week selected.");
 	}
@@ -207,6 +181,7 @@ public class OwnerBookingsPageController {
 			tempList.add(appointment);
 			try {
 				writer.saveAppointments(mainApp.getAppointmentArray());
+				refreshTable();
 				LOGGER.info("Appointment saved.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -243,6 +218,7 @@ public class OwnerBookingsPageController {
 			if (okClicked) {
 				try {
 					writer.saveAppointments(mainApp.getAppointmentArray());
+					refreshTable();
 					LOGGER.info("Appointment edited.");
 				} catch (IOException e) {
 					LOGGER.log(Level.SEVERE, e.toString(), e);
@@ -291,4 +267,20 @@ public class OwnerBookingsPageController {
 		}
 	}
 	
+	public void refreshTable(){
+		timeTable.getItems().clear();
+		ObservableList<Appointment> tempList = FXCollections.observableArrayList();
+		for(int i=0;i<mainApp.getAppointmentArray().size();i++){
+			tempList.add(mainApp.getAppointmentArray().get(i));
+		}
+		timeTable.setItems(tempList);
+		for(int i=0;i<timeTable.getItems().size();i++){
+			if(timeTable.getItems().get(i).getDateAndTime().toLocalDate().isBefore(date)||
+					timeTable.getItems().get(i).getDateAndTime().toLocalDate().isAfter(date.plusWeeks(1))||
+					timeTable.getItems().get(i).getDateAndTime().toLocalDate().isEqual(date.plusWeeks(1))){
+        		timeTable.getItems().remove(i);
+        		i--;
+        	}
+		}
+	}
 }
