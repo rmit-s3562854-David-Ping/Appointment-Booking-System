@@ -2,6 +2,7 @@ package application.view;
 
 import application.main.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import application.MainApp;
@@ -41,12 +42,13 @@ public class LoginPageController {
     	Customer customer = new Customer();
     	Owner owner = new Owner();
     	if(owner.checkLogin(usernameField.getText(), passwordField.getText())){
+    		
     		mainApp.setUsername(usernameField.getText());
     		mainApp.showOwnerHomePage();
     		
     	}else if(customer.checkLogin(usernameField.getText(), passwordField.getText())){
     		mainApp.setUsername(usernameField.getText());
-    		mainApp.showCustomerHomePage();
+    		mainApp.showChooseBusinessPage();
     	}else{
     		invalid.setText("Invalid username/password");
     		invalid.setTextFill(Color.RED);
@@ -71,8 +73,12 @@ public class LoginPageController {
 			e.printStackTrace();
 		}
     }
+    @FXML
+    private void handleNewBusinessClicked() {
+    	mainApp.showNewBusinessPage();
+    }
 	
-    
+   
 
 
 }

@@ -19,7 +19,7 @@ public class Writer {
 	 */
 
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
-
+	MainApp main = new MainApp();
 	public void save(ArrayList<Customer> customers) throws IOException {
 
 		BufferedWriter writerCustomers = new BufferedWriter(new FileWriter("customerinfo.txt"));
@@ -40,7 +40,7 @@ public class Writer {
 	}
 
 	public void saveOwner() throws IOException {
-		MainApp main = new MainApp();
+		
 		BufferedWriter writer = new BufferedWriter(new FileWriter("business.txt"));
 		for (int i = 0; i < main.getOwnerArray().size(); i++) {
 			writer.write(main.getOwnerArray().get(i).getUsername() + ":" + main.getOwnerArray().get(i).getPassword()
@@ -56,10 +56,10 @@ public class Writer {
 		}
 		writer.close();
 	}
-
+	//Needs to be edited to include new path
 	public void saveEmployees(ObservableList<Employee> observableList) throws IOException {
-
-		BufferedWriter writerEmployees = new BufferedWriter(new FileWriter("employeeinfo.txt"));
+		String businessName = main.getBusinessName();
+		BufferedWriter writerEmployees = new BufferedWriter(new FileWriter("businesses/" + businessName +  "/employeeinfo.txt"));
 
 		int i = 0;
 		// A loop that writes each element of the array line by line to both
@@ -86,10 +86,9 @@ public class Writer {
 		writerEmployees.close();
 
 	}
-
 	public void saveAppointments(ObservableList<Appointment>appointment) throws IOException {
-
-		BufferedWriter writerAppointments = new BufferedWriter(new FileWriter("appointmentinfo.txt"));
+		String businessName = main.getBusinessName();
+		BufferedWriter writerAppointments = new BufferedWriter(new FileWriter("businesses/" + businessName + "/appointmentinfo.txt"));
 		int i = 0;
 		// A loop that writes each element of the array line by line to files.
 		while (i < appointment.size()) {

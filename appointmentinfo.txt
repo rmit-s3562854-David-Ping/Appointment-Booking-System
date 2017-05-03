@@ -1,2 +1,0 @@
-username1|e00001|2017-05-02T09:00|Back Massage
-username1|e00001|2017-05-16T09:00|Back Massage

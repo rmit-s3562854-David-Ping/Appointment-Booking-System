@@ -26,8 +26,11 @@ public class Owner extends Member {
 		super(username, password, firstName, lastName, address, contactNumber);
 		this.businessName = businessName;
 	}
-
-	public String getBusinessName() {
+	public Owner(String username, String password, String businessName) {
+		super(username, password, "null", "null", "null", "null");
+		this.businessName = businessName;
+	}
+	public  String getBusinessName() {
 		return businessName;
 	}
 	
@@ -35,13 +38,19 @@ public class Owner extends Member {
 		MainApp main = new MainApp();
 		ArrayList<String> MembersSearch = new ArrayList<String>();
 		ArrayList<Owner> ownerArray = main.getOwnerArray();
-
+		System.out.println(ownerArray.get(0).getBusinessName());
 		int index = 0;
 		while (index < ownerArray.size()) {
 			MembersSearch.add(ownerArray.get(index).getUsername() + ownerArray.get(index).getPassword());
 			index++;
 		}
+
+	      
+	    //Gets the business name and passes it to the reader class.
 		if (MembersSearch.contains(username + password)){
+			System.out.println("INDEX IS: " +MembersSearch.indexOf(username+password));
+			Reader reader = new Reader();
+    		reader.readBusiness(ownerArray.get(MembersSearch.indexOf(username+password)).getBusinessName());
 			return true;
 		}
 		return false;
