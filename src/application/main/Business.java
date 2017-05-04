@@ -2,8 +2,6 @@ package application.main;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Business {
 
@@ -14,10 +12,10 @@ public class Business {
 	 * @author David Ping
 	 */
 
-	private static ArrayList<DayOfWeek> openingDays;
-	private static LocalTime openingTime = LocalTime.of(8, 0);
-	private static LocalTime closingTime = LocalTime.of(18, 0);
-
+	private DayOfWeek openingDays[] = { DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY,
+			DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY };
+	private LocalTime openingTime = LocalTime.of(8, 0);
+	private LocalTime closingTime = LocalTime.of(18, 0);
 	public final int TIME_BLOCK = 30;
 	
 	public Business() {
@@ -27,13 +25,13 @@ public class Business {
 	 * Will add more attributes to link business and owner when multiple
 	 * businesses are supported
 	 */
-	public Business(ArrayList<DayOfWeek> openingDays, LocalTime openingTime, LocalTime closingTime) {
+	public Business(DayOfWeek[] openingDays, LocalTime openingTime, LocalTime closingTime) {
 		this.openingDays = openingDays;
 		this.openingTime = openingTime;
 		this.closingTime = closingTime;
 	}
 
-	public ArrayList<DayOfWeek> getOpeningDays() {
+	public DayOfWeek[] getOpeningDays() {
 		return openingDays;
 	}
 

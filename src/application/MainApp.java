@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -28,7 +29,7 @@ public class MainApp extends Application {
     private static Stage primaryStage;
     private static BorderPane rootLayout;
     private static String username;
-
+    private static String businessName;
     private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
 	private static ObservableList<Service> serviceArray = FXCollections.observableArrayList();
@@ -45,9 +46,9 @@ public class MainApp extends Application {
 	 * */
     @Override
     public void start(Stage primaryStage) {
-    	LOGGER.info("Program started.");
+    	LOGGER.info("Program started.");	
     	Reader reader = new Reader();
-    	reader.read();
+    	reader.readUsers();
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Appointment Booking System");
         LOGGER.info("primary window initiated.");
@@ -148,6 +149,27 @@ public class MainApp extends Application {
 
             OwnerHomePageController controller = loader.getController();
             controller.setMainApp(this);
+            LOGGER.info("Owner home page displayed.");
+        } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
+            e.printStackTrace();
+        }
+    	
+    }
+    public void showNewBusinessPage(){
+		Scene scene = rootLayout.getScene();
+		Button homeBtn = (Button) scene.lookup("#HomeButton");
+		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
+		homeBtn.setVisible(true);
+		logoutBtn.setVisible(true);
+    	try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/makeBusinessPage.fxml"));
+            AnchorPane ownerPage = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(ownerPage);
+
+            
             LOGGER.info("Owner home page displayed.");
         } catch (IOException e) {
         	LOGGER.log(Level.SEVERE, e.toString(), e);
@@ -384,7 +406,29 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-    
+    public void showChooseBusinessPage(){
+		Scene scene = rootLayout.getScene();
+		Button homeBtn = (Button) scene.lookup("#HomeButton");
+		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
+		homeBtn.setVisible(true);
+		logoutBtn.setVisible(true);
+    	try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/chooseBusinessPage.fxml"));
+            scene.getStylesheets().add
+            (MainApp.class.getResource("/styles/login.css").toExternalForm());
+            AnchorPane ownerPage = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(ownerPage);
+
+            
+            LOGGER.info("Owner home page displayed.");
+        } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
+            e.printStackTrace();
+        }
+    	
+    }
     /**
      * Shows dialog box for making a booking as a customer
      * */
@@ -467,7 +511,12 @@ public class MainApp extends Application {
 	public void setUsername(String username){
 		this.username=username;
 	}
-	
+	public void setBusinessName(String businessName){
+		this.businessName=businessName;
+	}
+	public String getBusinessName(){
+		return businessName;
+	}
 	public BorderPane getRootLayout(){
 		return rootLayout;
 	}

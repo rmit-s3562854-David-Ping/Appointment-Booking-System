@@ -3,6 +3,7 @@ package application.view;
 import java.util.logging.Logger;
 
 import application.MainApp;
+import application.main.Reader;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +17,7 @@ import javafx.scene.control.Button;
 public class RootLayoutController {
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	private MainApp mainApp;
-
+	private Reader reader = new Reader();
 	public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
@@ -48,8 +49,16 @@ public class RootLayoutController {
 		Scene scene = mainApp.getRootLayout().getScene();
 		Button homeBtn = (Button) scene.lookup("#HomeButton");
 		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
+		//Clear all new data and reload the values via readUsers and readBusiness (when called after login).
+		mainApp.getEmployeeData().clear();
+		mainApp.getServiceArray().clear();
+		mainApp.getAppointmentArray().clear();
+		mainApp.getOwnerArray().clear();
+		mainApp.getCustomerArray().clear();
+		reader.readUsers();
 		homeBtn.setVisible(false);
 		logoutBtn.setVisible(false);
+		
 		mainApp.showLoginPage();
 	}
 	
