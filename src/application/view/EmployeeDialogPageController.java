@@ -231,7 +231,7 @@ public class EmployeeDialogPageController {
 					workTimes.add(newTime);
 				}
 			}
-			if (workTimes.isEmpty() || !isWorkTimesValid(workTimes, employee)) {
+			if (!isWorkTimesValid(workTimes, employee)) {
 				errorMessage();
 				return;
 			}
@@ -294,6 +294,9 @@ public class EmployeeDialogPageController {
 		Service service = new Service();
 		for (int i = 0; i < mainApp.getAppointmentArray().size(); i++) {
 			if (employee.getId().equals(mainApp.getAppointmentArray().get(i).getEmployeeId())) {
+				if(workTimes.isEmpty()){
+					return false;
+				}
 				// if the employee matches the appointment
 				for (int j = 0; j < workTimes.size(); j++) {
 					if (workTimes.get(j).getDayOfWeek()
