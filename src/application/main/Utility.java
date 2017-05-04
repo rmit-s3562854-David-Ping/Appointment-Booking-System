@@ -20,6 +20,7 @@ public class Utility {
 	 * @author David Ping, Hassan Mender, Luke Waldren
 	 */
 
+	public final int TIME_BLOCK = 30;
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 
 	/**
@@ -249,7 +250,7 @@ public class Utility {
 	 * 
 	 * @author David Ping
 	 */
-	public boolean validateDayOfWeek(LocalDateTime currentTime) {
+	/*public boolean validateDayOfWeek(LocalDateTime currentTime) {
 		Business business = new Business();
 		for (int i = 0; i < business.getOpeningDays().length; i++) {
 			if (business.getOpeningDays()[i].equals(currentTime.getDayOfWeek())) {
@@ -259,7 +260,7 @@ public class Utility {
 		}
 		LOGGER.info("Invalid business time");
 		return false;
-	}
+	}*/
 
 	/**
 	 * Tests whether or not the input is valid and the business is open, this
@@ -267,7 +268,7 @@ public class Utility {
 	 * 
 	 * @author David Ping
 	 */
-	public boolean validateDayOfWeek(int counter) {
+	/*public boolean validateDayOfWeek(int counter) {
 		Business business = new Business();
 		for (int i = 0; i < business.getOpeningDays().length; i++) {
 			if (business.getOpeningDays()[i].equals(DayOfWeek.of(counter))) {
@@ -277,7 +278,7 @@ public class Utility {
 		}
 		LOGGER.info("Invalid business day");
 		return false;
-	}
+	}*/
 
 	/**
 	 * Tests whether or not the LocalTime values entered are valid by ensuring
@@ -288,7 +289,7 @@ public class Utility {
 	 * 
 	 * @author David Ping
 	 */
-	public boolean validateNewWorkTime(LocalTime startTime, LocalTime endTime) {
+	/*public boolean validateNewWorkTime(LocalTime startTime, LocalTime endTime) {
 		Business business = new Business();
 		if (startTime.compareTo(endTime) > 0) {
 			System.out.println("end time is before start time");
@@ -312,6 +313,35 @@ public class Utility {
 			return false;
 		}
 		return true;
-	}
+	}*/
 
+	/**
+	 * @author David Ping
+	 * This function validations whether or not the business name entered is valid, the entry must be
+	 * between 5 and 20 in length and it can contain letters, numbers and space
+	 * */
+	public boolean validateBusinessName(String businessName){
+		String pattern = "^[0-9a-zA-Z0-9 ]{1,20}$";
+		if (businessName.matches(pattern)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * @author David Ping
+	 * This function checks if the business already exists by going through all the owners and checking
+	 * the names of their businesses
+	 * */
+	public boolean businessExists(String businessName){
+		MainApp mainApp = new MainApp();
+		for(int i=0;i<mainApp.getOwnerArray().size();i++){
+			if(mainApp.getOwnerArray().get(i).getBusinessName().equals(businessName)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

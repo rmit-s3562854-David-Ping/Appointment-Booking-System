@@ -9,9 +9,9 @@ import java.util.List;
 
 import application.MainApp;
 import application.main.Appointment;
-import application.main.Business;
 import application.main.Employee;
 import application.main.Service;
+import application.main.Utility;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -24,11 +24,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  * @author David Ping
- * @version 1.00
- * Last edited: 24/04/2017
- * */
+ * @version 1.00 Last edited: 24/04/2017
+ */
 
 public class BookingsDialogPageController {
 
@@ -47,6 +47,7 @@ public class BookingsDialogPageController {
 	private Appointment appointment;
 	private boolean okClicked = false;
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
+
 	@FXML
 	private void initialize() {
 
@@ -78,7 +79,7 @@ public class BookingsDialogPageController {
 		datePicker.setValue(LocalDate.now().plusDays(1));
 
 	}
-	
+
 	public void setAppointmentStage(Stage appointmentStage) {
 		this.appointmentStage = appointmentStage;
 	}
@@ -87,7 +88,7 @@ public class BookingsDialogPageController {
 		LOGGER.info("User selected ok.");
 		return okClicked;
 	}
-	
+
 	public void setNewAppointment(Appointment appointment) {
 		this.appointment = appointment;
 		datePicker.setValue(null);
@@ -96,7 +97,7 @@ public class BookingsDialogPageController {
 		durationLabel.setText(null);
 		employeeNameBox.setValue(null);
 	}
-	
+
 	@FXML
 	private void handleOk() {
 		MainApp mainApp = new MainApp();
@@ -105,9 +106,9 @@ public class BookingsDialogPageController {
 			SimpleObjectProperty<LocalDateTime> dateAndTime = new SimpleObjectProperty<LocalDateTime>(dateTime);
 			appointment.setCustomerUsername(mainApp.getUsername());
 			appointment.setDateAndTime(dateAndTime);
-			for(int i=0;i<mainApp.getEmployeeData().size();i++){
-				if(employeeNameBox.getValue().equals(mainApp.getEmployeeData().get(i).getFirstName()+" "
-			+mainApp.getEmployeeData().get(i).getLastName())){
+			for (int i = 0; i < mainApp.getEmployeeData().size(); i++) {
+				if (employeeNameBox.getValue().equals(mainApp.getEmployeeData().get(i).getFirstName() + " "
+						+ mainApp.getEmployeeData().get(i).getLastName())) {
 					appointment.setEmployeeId(mainApp.getEmployeeData().get(i).getId());
 				}
 			}
@@ -123,7 +124,7 @@ public class BookingsDialogPageController {
 		LOGGER.info("Appointment setup cancelled.");
 		appointmentStage.close();
 	}
-	
+
 	private boolean isInputValid() {
 		String errorMessage = "";
 
@@ -153,7 +154,7 @@ public class BookingsDialogPageController {
 			return false;
 		}
 	}
-	
+
 	public void handleDateSelected() {
 		MainApp mainApp = new MainApp();
 		serviceBox.getItems().clear();
@@ -161,7 +162,7 @@ public class BookingsDialogPageController {
 		timeBox.getItems().clear();
 		serviceBox.setValue(null);
 		employeeNameBox.setValue(null);
-		timeBox.setValue(null);	
+		timeBox.setValue(null);
 		if (datePicker.getValue().isBefore(LocalDate.now().plusDays(1))
 				|| datePicker.getValue().isAfter(LocalDate.now().plusMonths(1))) {
 			return;
@@ -184,7 +185,7 @@ public class BookingsDialogPageController {
 			}
 		}
 	}
-	
+
 	public void handleServiceSelected() {
 		MainApp mainApp = new MainApp();
 		Service service = new Service();
@@ -192,7 +193,7 @@ public class BookingsDialogPageController {
 		timeBox.getItems().clear();
 		employeeNameBox.setValue(null);
 		timeBox.setValue(null);
-		if(serviceBox.getValue()==null){
+		if (serviceBox.getValue() == null) {
 			return;
 		}
 		durationLabel.setText(String.valueOf(service.getService(serviceBox.getValue()).getDuration()) + " minutes");
@@ -208,34 +209,40 @@ public class BookingsDialogPageController {
 			if (employeeAvailable == true) {
 				for (int j = 0; j < mainApp.getEmployeeData().get(i).getEmployeeServices().size(); j++) {
 					if (mainApp.getEmployeeData().get(i).getEmployeeServices().get(j).equals(serviceBox.getValue())) {
-						employeeNameBox.getItems().add(mainApp.getEmployeeData().get(i).getFirstName()+" "
-					+mainApp.getEmployeeData().get(i).getLastName());
+						employeeNameBox.getItems().add(mainApp.getEmployeeData().get(i).getFirstName() + " "
+								+ mainApp.getEmployeeData().get(i).getLastName());
 					}
 				}
 			}
 		}
 		LOGGER.info("Service selected.");
 	}
-	
+
 	public void handleEmployeeSelected() {
 		MainApp mainApp = new MainApp();
 		Service service = new Service();
-		Business business = new Business();
+		Utility util = new Utility();
 		Employee employee = new Employee();
+		LocalTime currentTime;
 		timeBox.getItems().clear();
 		timeBox.setValue(null);
-		if(employeeNameBox.getValue()==null){
+		if (employeeNameBox.getValue() == null) {
 			return;
 		}
 		String employeeId = null;
-		for(int i=0;i<mainApp.getEmployeeData().size();i++){
-			if(employeeNameBox.getValue().equals(mainApp.getEmployeeData().get(i).getFirstName()+" "
-		+mainApp.getEmployeeData().get(i).getLastName())){
-				employeeId=mainApp.getEmployeeData().get(i).getId();
+		for (int i = 0; i < mainApp.getEmployeeData().size(); i++) {
+			if (employeeNameBox.getValue().equals(mainApp.getEmployeeData().get(i).getFirstName() + " "
+					+ mainApp.getEmployeeData().get(i).getLastName())) {
+				employeeId = mainApp.getEmployeeData().get(i).getId();
 			}
 		}
+
 		int appointmentDuration = service.getService(serviceBox.getValue()).getDuration();
-		LocalTime currentTime = business.getOpeningTime();
+		for (int i = 0; i < mainApp.getBusinessWorkTimes().size(); i++) {
+			if (mainApp.getBusinessWorkTimes().get(i).getDayOfWeek().equals(datePicker.getValue().getDayOfWeek())) {
+				currentTime = mainApp.getBusinessWorkTimes().get(i).getStartTime();
+			}
+		}
 		int counter = 0;
 		for (int i = 0; i < employee.getEmployee(employeeId).getWorkTimes().size(); i++) {
 			if (employee.getEmployee(employeeId).getWorkTimes().get(i).getDayOfWeek()
@@ -245,8 +252,8 @@ public class BookingsDialogPageController {
 		}
 		List<LocalTime> unavailableTimeBlocks = new ArrayList<LocalTime>();
 		for (int i = 0; i < mainApp.getAppointmentArray().size(); i++) {
-			if (mainApp.getAppointmentArray().get(i).getEmployeeId().equals(employee) && mainApp
-					.getAppointmentArray().get(i).getDateAndTime().toLocalDate().equals(datePicker.getValue())) {
+			if (mainApp.getAppointmentArray().get(i).getEmployeeId().equals(employee) && mainApp.getAppointmentArray()
+					.get(i).getDateAndTime().toLocalDate().equals(datePicker.getValue())) {
 				int thisDuration = service.getService(mainApp.getAppointmentArray().get(i).getServiceName())
 						.getDuration();
 
@@ -255,26 +262,26 @@ public class BookingsDialogPageController {
 				LocalTime endTime = currentTime.plusMinutes(thisDuration);
 				while (currentTime.isBefore(endTime)) {
 					unavailableTimeBlocks.add(currentTime);
-					currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+					currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 				}
 			}
 		}
 		currentTime = employee.getEmployee(employeeId).getWorkTimes().get(counter).getStartTime();
-		while (currentTime.isBefore(employee.getEmployee(employeeId).getWorkTimes().get(counter)
-				.getEndTime().minusMinutes(appointmentDuration).plusMinutes(business.TIME_BLOCK))) {
+		while (currentTime.isBefore(employee.getEmployee(employeeId).getWorkTimes().get(counter).getEndTime()
+				.minusMinutes(appointmentDuration).plusMinutes(util.TIME_BLOCK))) {
 			boolean valid = true;
 			LocalTime endTime = currentTime.plusMinutes(appointmentDuration);
 			while (currentTime.isBefore(endTime)) {
 				if (unavailableTimeBlocks.contains(currentTime)) {
 					valid = false;
 				}
-				currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+				currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 			}
 			currentTime = currentTime.minusMinutes(appointmentDuration);
 			if (valid == true) {
 				timeBox.getItems().add(currentTime);
 			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+			currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 		}
 		LOGGER.info("Employee selected.");
 	}

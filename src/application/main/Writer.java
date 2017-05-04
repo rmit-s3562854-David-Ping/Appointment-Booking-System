@@ -47,11 +47,7 @@ public class Writer {
 					+ ":" + main.getOwnerArray().get(i).getFirstName() + ":" + main.getOwnerArray().get(i).getLastName()
 					+ ":" + main.getOwnerArray().get(i).getAddress() + ":"
 					+ main.getOwnerArray().get(i).getContactNumber() + ":"
-					+ main.getOwnerArray().get(i).getBusinessName() + ":");
-			for (int j = 0; j < main.getServiceArray().size(); j++) {
-				writer.write(main.getServiceArray().get(j).getServiceName() + "-"
-						+ main.getServiceArray().get(j).getDuration() + "|");
-			}
+					+ main.getOwnerArray().get(i).getBusinessName());
 			writer.newLine();
 		}
 		writer.close();
@@ -86,6 +82,7 @@ public class Writer {
 		writerEmployees.close();
 
 	}
+	
 	public void saveAppointments(ObservableList<Appointment>appointment) throws IOException {
 		String businessName = main.getBusinessName();
 		BufferedWriter writerAppointments = new BufferedWriter(new FileWriter("businesses/" + businessName + "/appointmentinfo.txt"));
@@ -98,8 +95,33 @@ public class Writer {
 			i++;
 		}
 		LOGGER.info("appointments file saved");
-		System.out.println("Files saved.");
 		writerAppointments.close();
+	}
+	
+	public void saveServices(ObservableList<Service> serviceArray) throws IOException{
+		String businessName = main.getBusinessName();
+		BufferedWriter writer = new BufferedWriter(new FileWriter("businesses/"+businessName+"/servicesinfo.txt"));
+		for(int i=0;i<serviceArray.size();i++){
+			writer.write(serviceArray.get(i).getServiceName());
+			writer.write("-");
+			writer.write(String.valueOf(serviceArray.get(i).getDuration()));
+			writer.write("|");
+		}
+		writer.close();
+	}
+	
+	public void saveWorkTimes(ArrayList<WorkTime> businessWorkTimes) throws IOException{
+		String businessName = main.getBusinessName();
+		BufferedWriter writer = new BufferedWriter(new FileWriter("businesses/"+businessName+"/worktimesinfo.txt"));
+		for(int i=0;i<businessWorkTimes.size();i++){
+			writer.write(businessWorkTimes.get(i).getDayOfWeek().toString());
+			writer.write("-");
+			writer.write(businessWorkTimes.get(i).getStartTime().toString());
+			writer.write("-");
+			writer.write(businessWorkTimes.get(i).getEndTime().toString());
+			writer.write("|");
+		}
+		writer.close();
 	}
 
 

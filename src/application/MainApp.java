@@ -1,6 +1,5 @@
 package application;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,11 +29,14 @@ public class MainApp extends Application {
     private static BorderPane rootLayout;
     private static String username;
     private static String businessName;
+    
     private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
+	private static ArrayList<WorkTime> businessWorkTimes = new ArrayList<WorkTime>();
 	private static ObservableList<Service> serviceArray = FXCollections.observableArrayList();
 	private static ObservableList<Employee> employeeData = FXCollections.observableArrayList();
 	private static ObservableList<Appointment> appointmentArray = FXCollections.observableArrayList();
+	
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	public static void main(String[] args) {
         launch(args);
@@ -49,8 +51,8 @@ public class MainApp extends Application {
     	LOGGER.info("Program started.");	
     	Reader reader = new Reader();
     	reader.readUsers();
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Appointment Booking System");
+        MainApp.primaryStage = primaryStage;
+        MainApp.primaryStage.setTitle("Appointment Booking System");
         LOGGER.info("primary window initiated.");
         initRootLayout();
 
@@ -490,6 +492,10 @@ public class MainApp extends Application {
 
 	public ArrayList<Owner> getOwnerArray() {
 		return ownerArray;
+	}
+	
+	public ArrayList<WorkTime> getBusinessWorkTimes(){
+		return businessWorkTimes;
 	}
 	
 	public ObservableList<Employee> getEmployeeData(){

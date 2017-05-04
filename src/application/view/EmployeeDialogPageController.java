@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import application.MainApp;
-import application.main.Business;
 import application.main.Employee;
 import application.main.Service;
 import application.main.Utility;
@@ -25,7 +24,9 @@ import javafx.stage.Stage;
 
 /**
  * @author David Ping
- * @version 1.00 Last edited: 24/04/2017
+ * @version 1.01 Last edited: 04/05/2017 Controls all functions of the employee
+ *          dialog box which opens after new or edit is clicked on the Employee
+ *          page
  */
 
 public class EmployeeDialogPageController {
@@ -65,6 +66,9 @@ public class EmployeeDialogPageController {
 	@FXML
 	private ComboBox<LocalTime> sundayEnd;
 
+	private List<ComboBox<LocalTime>> startTimes = new ArrayList<ComboBox<LocalTime>>();
+	private List<ComboBox<LocalTime>> endTimes = new ArrayList<ComboBox<LocalTime>>();
+
 	private Stage employeeStage;
 	private Employee employee;
 	private boolean okClicked = false;
@@ -72,6 +76,20 @@ public class EmployeeDialogPageController {
 
 	@FXML
 	private void initialize() {
+		startTimes.add(mondayStart);
+		startTimes.add(tuesdayStart);
+		startTimes.add(wednesdayStart);
+		startTimes.add(thursdayStart);
+		startTimes.add(fridayStart);
+		startTimes.add(saturdayStart);
+		startTimes.add(sundayStart);
+		endTimes.add(mondayEnd);
+		endTimes.add(tuesdayEnd);
+		endTimes.add(wednesdayEnd);
+		endTimes.add(thursdayEnd);
+		endTimes.add(fridayEnd);
+		endTimes.add(saturdayEnd);
+		endTimes.add(sundayEnd);
 	}
 
 	public void setEmployeeStage(Stage employeeStage) {
@@ -82,9 +100,13 @@ public class EmployeeDialogPageController {
 		return okClicked;
 	}
 
+	/**
+	 * @author David Ping Sets up dialog box for an existing employee
+	 */
 	public void setEmployee(Employee employee) {
 		MainApp mainApp = new MainApp();
-		Business business = new Business();
+		Utility util = new Utility();
+		LocalTime currentTime;
 		this.employee = employee;
 		firstNameField.setText(employee.getFirstName());
 		lastNameField.setText(employee.getLastName());
@@ -93,81 +115,42 @@ public class EmployeeDialogPageController {
 				if (employee.getWorkTimes().get(i) == null) {
 					continue;
 				}
-				if (employee.getWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.MONDAY)) {
-					mondayStart.setValue(employee.getWorkTimes().get(i).getStartTime());
-					mondayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
-				} else if (employee.getWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.TUESDAY)) {
-					tuesdayStart.setValue(employee.getWorkTimes().get(i).getStartTime());
-					tuesdayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
-				} else if (employee.getWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.WEDNESDAY)) {
-					wednesdayStart.setValue(employee.getWorkTimes().get(i).getStartTime());
-					wednesdayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
-				} else if (employee.getWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.THURSDAY)) {
-					thursdayStart.setValue(employee.getWorkTimes().get(i).getStartTime());
-					thursdayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
-				} else if (employee.getWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
-					fridayStart.setValue(employee.getWorkTimes().get(i).getStartTime());
-					fridayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
-				} else if (employee.getWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
-					saturdayStart.setValue(employee.getWorkTimes().get(i).getStartTime());
-					saturdayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
-				} else if (employee.getWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-					sundayStart.setValue(employee.getWorkTimes().get(i).getStartTime());
-					sundayEnd.setValue(employee.getWorkTimes().get(i).getEndTime());
+				for (int j = 0; j < DayOfWeek.values().length; j++) {
+					if (employee.getWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.of(j + 1))) {
+						startTimes.get(j).setValue(employee.getWorkTimes().get(i).getStartTime());
+						endTimes.get(j).setValue(employee.getWorkTimes().get(i).getEndTime());
+					}
 				}
 			}
-
 		}
-		LocalTime currentTime = business.getOpeningTime();
 
-		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
-			if (currentTime.isBefore(business.getClosingTime().minusHours(3))
-					|| currentTime.equals(business.getClosingTime().minusHours(3))) {
-				mondayStart.getItems().add(currentTime);
-				tuesdayStart.getItems().add(currentTime);
-				wednesdayStart.getItems().add(currentTime);
-				thursdayStart.getItems().add(currentTime);
-				fridayStart.getItems().add(currentTime);
-				saturdayStart.getItems().add(currentTime);
-				sundayStart.getItems().add(currentTime);
+		for (int i = 0; i < mainApp.getBusinessWorkTimes().size(); i++) {
+			for (int j = 0; j < DayOfWeek.values().length; j++) {
+				if (mainApp.getBusinessWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.of(j + 1))) {
+					currentTime = mainApp.getBusinessWorkTimes().get(i).getStartTime();
+					while (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime())
+							|| currentTime.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime())) {
+						if (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusHours(3))
+								|| currentTime
+										.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusHours(3))) {
+							startTimes.get(j).getItems().add(currentTime);
+						}
+						if (startTimes.get(j).getValue() != null
+								&& (currentTime.isAfter(startTimes.get(j).getValue().plusHours(3))
+										|| currentTime.equals(startTimes.get(j).getValue().plusHours(3)))) {
+							endTimes.get(j).getItems().add(currentTime);
+						}
+						currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
+					}
+				}
 			}
-
-			if (mondayStart.getValue() != null && (currentTime.isAfter(mondayStart.getValue().plusHours(3))
-					|| currentTime.equals(mondayStart.getValue().plusHours(3)))) {
-				mondayEnd.getItems().add(currentTime);
-			}
-			if (tuesdayStart.getValue() != null && (currentTime.isAfter(tuesdayStart.getValue().plusHours(3))
-					|| currentTime.equals(tuesdayStart.getValue().plusHours(3)))) {
-				tuesdayEnd.getItems().add(currentTime);
-			}
-			if (wednesdayStart.getValue() != null && (currentTime.isAfter(wednesdayStart.getValue().plusHours(3))
-					|| currentTime.equals(wednesdayStart.getValue().plusHours(3)))) {
-				wednesdayEnd.getItems().add(currentTime);
-			}
-			if (thursdayStart.getValue() != null && (currentTime.isAfter(thursdayStart.getValue().plusHours(3))
-					|| currentTime.equals(thursdayStart.getValue().plusHours(3)))) {
-				thursdayEnd.getItems().add(currentTime);
-			}
-			if (fridayStart.getValue() != null && (currentTime.isAfter(fridayStart.getValue().plusHours(3))
-					|| currentTime.equals(fridayStart.getValue().plusHours(3)))) {
-				fridayEnd.getItems().add(currentTime);
-			}
-			if (saturdayStart.getValue() != null && (currentTime.isAfter(saturdayStart.getValue().plusHours(3))
-					|| currentTime.equals(saturdayStart.getValue().plusHours(3)))) {
-				saturdayEnd.getItems().add(currentTime);
-			}
-			if (sundayStart.getValue() != null && (currentTime.isAfter(sundayStart.getValue().plusHours(3))
-					|| currentTime.equals(sundayStart.getValue().plusHours(3)))) {
-				sundayEnd.getItems().add(currentTime);
-			}
-
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
-		ObservableList<String> qualifications = FXCollections.observableArrayList();
+
+		ObservableList<String> services = FXCollections.observableArrayList();
 		for (int i = 0; i < mainApp.getServiceArray().size(); i++) {
-			qualifications.add(mainApp.getServiceArray().get(i).getServiceName());
+			services.add(mainApp.getServiceArray().get(i).getServiceName());
 		}
-		servicesList.getItems().addAll(qualifications);
+		servicesList.getItems().addAll(services);
 		servicesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		for (int i = 0; i < employee.getEmployeeServices().size(); i++) {
 			for (int j = 0; j < servicesList.getItems().size(); j++) {
@@ -179,42 +162,55 @@ public class EmployeeDialogPageController {
 		LOGGER.info("Employee set.");
 	}
 
+	/**
+	 * @author David Ping Sets up dialog box for a new employee
+	 */
 	public void setNewEmployee(Employee employee) {
 		MainApp mainApp = new MainApp();
-		Business business = new Business();
+		Utility util = new Utility();
 		this.employee = employee;
 		employee.setId(createID());
 		firstNameField.setText("");
 		lastNameField.setText("");
-		LocalTime currentTime = business.getOpeningTime();
-		while (currentTime.isBefore(business.getClosingTime())) {
-			if (currentTime.isBefore(business.getClosingTime().minusHours(3))
-					|| currentTime.equals(business.getClosingTime().minusHours(3))) {
-				mondayStart.getItems().add(currentTime);
-				tuesdayStart.getItems().add(currentTime);
-				wednesdayStart.getItems().add(currentTime);
-				thursdayStart.getItems().add(currentTime);
-				fridayStart.getItems().add(currentTime);
-				saturdayStart.getItems().add(currentTime);
-				sundayStart.getItems().add(currentTime);
+		LocalTime currentTime;
+
+		for (int i = 0; i < mainApp.getBusinessWorkTimes().size(); i++) {
+			for (int j = 0; j < DayOfWeek.values().length; j++) {
+				if (mainApp.getBusinessWorkTimes().get(i).getDayOfWeek().equals(DayOfWeek.of(j + 1))) {
+					currentTime = mainApp.getBusinessWorkTimes().get(i).getStartTime();
+					while (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime())
+							|| currentTime.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime())) {
+						if (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusHours(3))
+								|| currentTime
+										.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusHours(3))) {
+							startTimes.get(j).getItems().add(currentTime);
+						}
+						currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
+					}
+				}
 			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
-		ObservableList<String> qualifications = FXCollections.observableArrayList();
+
+		ObservableList<String> services = FXCollections.observableArrayList();
 		for (int i = 0; i < mainApp.getServiceArray().size(); i++) {
-			qualifications.add(mainApp.getServiceArray().get(i).getServiceName());
+			services.add(mainApp.getServiceArray().get(i).getServiceName());
 		}
-		servicesList.getItems().addAll(qualifications);
+		servicesList.getItems().addAll(services);
 		servicesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		LOGGER.info("New employee created.");
 
 	}
 
+	/**
+	 * @author David Ping Function checks all the fields using validation and
+	 *         sets employee details if all are passed Runs when the Ok Button
+	 *         is clicked
+	 */
 	@FXML
 	private void handleOk() {
 		MainApp mainApp = new MainApp();
-		Service service = new Service();
 
+		// Checks the Services against employees existing appointments
 		for (int i = 0; i < mainApp.getAppointmentArray().size(); i++) {
 			if (employee.getId().equals(mainApp.getAppointmentArray().get(i).getEmployeeId())) {
 				if (!servicesList.getSelectionModel().getSelectedItems()
@@ -228,69 +224,19 @@ public class EmployeeDialogPageController {
 		if (isInputValid()) {
 			ObservableList<String> services = FXCollections.observableArrayList();
 			List<WorkTime> workTimes = new ArrayList<WorkTime>();
-			if (mondayStart.getValue() != null) {
-				WorkTime monday = new WorkTime(DayOfWeek.MONDAY, mondayStart.getValue(), mondayEnd.getValue());
-				workTimes.add(monday);
-			}
-			if (tuesdayStart.getValue() != null) {
-				WorkTime tuesday = new WorkTime(DayOfWeek.TUESDAY, tuesdayStart.getValue(), tuesdayEnd.getValue());
-				workTimes.add(tuesday);
-			}
-			if (wednesdayStart.getValue() != null) {
-				WorkTime wednesday = new WorkTime(DayOfWeek.WEDNESDAY, wednesdayStart.getValue(),
-						wednesdayEnd.getValue());
-				workTimes.add(wednesday);
-			}
-			if (thursdayStart.getValue() != null) {
-				WorkTime thursday = new WorkTime(DayOfWeek.THURSDAY, thursdayStart.getValue(), thursdayEnd.getValue());
-				workTimes.add(thursday);
-			}
-			if (fridayStart.getValue() != null) {
-				WorkTime friday = new WorkTime(DayOfWeek.FRIDAY, fridayStart.getValue(), fridayEnd.getValue());
-				workTimes.add(friday);
-			}
-			if (saturdayStart.getValue() != null) {
-				WorkTime saturday = new WorkTime(DayOfWeek.SATURDAY, saturdayStart.getValue(), saturdayEnd.getValue());
-				workTimes.add(saturday);
-			}
-			if (sundayStart.getValue() != null) {
-				WorkTime sunday = new WorkTime(DayOfWeek.SUNDAY, sundayStart.getValue(), sundayEnd.getValue());
-				workTimes.add(sunday);
-			}
-
-			for (int i = 0; i < mainApp.getAppointmentArray().size(); i++) {
-				if (employee.getId().equals(mainApp.getAppointmentArray().get(i).getEmployeeId())) {
-					for (int j = 0; j < workTimes.size(); j++) {
-						if (workTimes.get(j).getDayOfWeek()
-								.equals(mainApp.getAppointmentArray().get(i).getDateAndTime().getDayOfWeek())) {
-
-							if (!workTimes.get(j).getStartTime()
-									.isBefore(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime())
-									&& !workTimes.get(j).getStartTime().equals(
-											mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime())) {
-								errorMessage();
-								return;
-							}
-							if (!workTimes.get(j).getEndTime()
-									.isAfter(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime()
-											.plusMinutes(service
-													.getService(mainApp.getAppointmentArray().get(i).getServiceName())
-													.getDuration()))
-									&& !workTimes.get(j).getEndTime()
-											.equals(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime()
-													.plusMinutes(service.getService(
-															mainApp.getAppointmentArray().get(i).getServiceName())
-															.getDuration()))) {
-								errorMessage();
-								return;
-							}
-						}
-					}
+			for (int i = 0; i < startTimes.size(); i++) {
+				if (startTimes.get(i).getValue() != null) {
+					WorkTime newTime = new WorkTime(DayOfWeek.of(i + 1), startTimes.get(i).getValue(),
+							endTimes.get(i).getValue());
+					workTimes.add(newTime);
 				}
+			}
+			if (workTimes.isEmpty() || !isWorkTimesValid(workTimes, employee)) {
+				errorMessage();
+				return;
 			}
 
 			services.addAll(servicesList.getSelectionModel().getSelectedItems());
-
 			employee.setFirstName(firstNameField.getText());
 			employee.setLastName(lastNameField.getText());
 			employee.setWorkTimes(workTimes);
@@ -306,6 +252,10 @@ public class EmployeeDialogPageController {
 		employeeStage.close();
 	}
 
+	/**
+	 * @author David Ping This function will validate the first name and last
+	 *         name fields
+	 */
 	private boolean isInputValid() {
 		Utility util = new Utility();
 		String errorMessage = "";
@@ -332,155 +282,111 @@ public class EmployeeDialogPageController {
 		}
 	}
 
+	/**
+	 * @author David Ping This function checks the whether the new work times
+	 *         being considered can be applied to the employee by checking if
+	 *         the new list of work times conflict with any of the employees
+	 *         existing bookings, it will return false if it does and true if it
+	 *         does not
+	 */
+	public boolean isWorkTimesValid(List<WorkTime> workTimes, Employee employee) {
+		MainApp mainApp = new MainApp();
+		Service service = new Service();
+		for (int i = 0; i < mainApp.getAppointmentArray().size(); i++) {
+			if (employee.getId().equals(mainApp.getAppointmentArray().get(i).getEmployeeId())) {
+				// if the employee matches the appointment
+				for (int j = 0; j < workTimes.size(); j++) {
+					if (workTimes.get(j).getDayOfWeek()
+							.equals(mainApp.getAppointmentArray().get(i).getDateAndTime().getDayOfWeek())) {
+						// if the workTime day of week matches the appointment
+						// check if the day of the week of the work time exists
+						// for the appointment day of week
+						// then check if the times are still valid for that day
+						// if any of these are invalid then error and return;
+						if (workTimes.get(j).getStartTime()
+								.isBefore(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime())
+								|| workTimes.get(j).getStartTime()
+										.equals(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime())) {
+							if (workTimes.get(j).getEndTime()
+									.isAfter(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime()
+											.plusMinutes(service
+													.getService(mainApp.getAppointmentArray().get(i).getServiceName())
+													.getDuration()))
+									|| workTimes.get(j).getEndTime()
+											.equals(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime()
+													.plusMinutes(service.getService(
+															mainApp.getAppointmentArray().get(i).getServiceName())
+															.getDuration()))) {
+								break;
+							}
+						}
+					}
+					if (j == workTimes.size() - 1) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @author David Ping This function clears all the working times in the
+	 *         dialog page, this is done because as of now an error exists in
+	 *         JRE where it will return a indexoutofbounds exception if a null
+	 *         is selected from a combo box
+	 */
 	public void clearWorkingTimes() {
-		mondayStart.setValue(null);
-		mondayEnd.setValue(null);
-		tuesdayStart.setValue(null);
-		tuesdayEnd.setValue(null);
-		wednesdayStart.setValue(null);
-		wednesdayEnd.setValue(null);
-		thursdayStart.setValue(null);
-		thursdayEnd.setValue(null);
-		fridayStart.setValue(null);
-		fridayEnd.setValue(null);
-		saturdayStart.setValue(null);
-		saturdayEnd.setValue(null);
-		sundayStart.setValue(null);
-		sundayEnd.setValue(null);
-		mondayEnd.getItems().clear();
-		tuesdayEnd.getItems().clear();
-		wednesdayEnd.getItems().clear();
-		thursdayEnd.getItems().clear();
-		fridayEnd.getItems().clear();
-		saturdayEnd.getItems().clear();
-		sundayEnd.getItems().clear();
+		for (int i = 0; i < startTimes.size(); i++) {
+			startTimes.get(i).setValue(null);
+			endTimes.get(i).setValue(null);
+			endTimes.get(i).getItems().clear();
+		}
 		LOGGER.info("Working times cleared.");
 	}
 
-	public void changeEndTimeMonday() {
-		if (mondayStart.getValue() == null) {
-			return;
-		}
-		mondayEnd.getItems().clear();
-		Business business = new Business();
-		LocalTime currentTime = mondayStart.getValue();
-		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
-			if (currentTime.isAfter(mondayStart.getValue().plusHours(3))
-					|| currentTime.equals(mondayStart.getValue().plusHours(3))) {
-				mondayEnd.getItems().add(currentTime);
-			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
-		}
-		mondayEnd.setValue(mondayStart.getValue().plusHours(3));
-		LOGGER.info("Monday end time changed.");
-	}
+	/**
+	 * @author David Ping This will refresh the end times in the dialog page
+	 *         whenever a start time is changed, this prevents any possibility
+	 *         of errors from users and supports the functionality of drop down
+	 *         boxes
+	 */
+	public void changeEndTime() {
+		MainApp mainApp = new MainApp();
+		Utility util = new Utility();
+		LocalTime currentTime;
 
-	public void changeEndTimeTuesday() {
-		if (tuesdayStart.getValue() == null) {
-			return;
-		}
-		tuesdayEnd.getItems().clear();
-		Business business = new Business();
-		LocalTime currentTime = tuesdayStart.getValue();
-		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
-			if (currentTime.isAfter(tuesdayStart.getValue().plusHours(3))
-					|| currentTime.equals(tuesdayStart.getValue().plusHours(3))) {
-				tuesdayEnd.getItems().add(currentTime);
-			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
-		}
-		tuesdayEnd.setValue(tuesdayStart.getValue().plusHours(3));
-		LOGGER.info("Tuesday end time changed.");
-	}
+		for (int i = 0; i < startTimes.size(); i++) {
+			if (startTimes.get(i).getValue() != null) {
+				LocalTime oldTime = endTimes.get(i).getValue();
+				endTimes.get(i).getItems().clear();
+				currentTime = startTimes.get(i).getValue();
+				for (int j = 0; j < mainApp.getBusinessWorkTimes().size(); j++) {
+					if (mainApp.getBusinessWorkTimes().get(j).getDayOfWeek().getValue() == i + 1) {
+						while (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(j).getEndTime())
+								|| currentTime.equals(mainApp.getBusinessWorkTimes().get(j).getEndTime())) {
+							if (currentTime.isAfter(startTimes.get(i).getValue().plusHours(3))
+									|| currentTime.equals(startTimes.get(i).getValue().plusHours(3))) {
+								endTimes.get(i).getItems().add(currentTime);
+							}
+							currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
+						}
+					}
+				}
 
-	public void changeEndTimeWednesday() {
-		if (wednesdayStart.getValue() == null) {
-			return;
-		}
-		wednesdayEnd.getItems().clear();
-		Business business = new Business();
-		LocalTime currentTime = wednesdayStart.getValue();
-		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
-			if (currentTime.isAfter(wednesdayStart.getValue().plusHours(3))
-					|| currentTime.equals(wednesdayStart.getValue().plusHours(3))) {
-				wednesdayEnd.getItems().add(currentTime);
+				if (oldTime != null) {
+					if (oldTime.isBefore(startTimes.get(i).getValue().plusHours(3))) {
+						endTimes.get(i).setValue(startTimes.get(i).getValue().plusHours(3));
+					} else {
+						endTimes.get(i).setValue(oldTime);
+					}
+				} else {
+					endTimes.get(i).setValue(startTimes.get(i).getValue().plusHours(3));
+				}
+			} else {
+				endTimes.get(i).getItems().clear();
 			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
 		}
-		wednesdayEnd.setValue(wednesdayStart.getValue().plusHours(3));
-		LOGGER.info("Wednesday end time changed.");
-	}
-
-	public void changeEndTimeThursday() {
-		if (thursdayStart.getValue() == null) {
-			return;
-		}
-		thursdayEnd.getItems().clear();
-		Business business = new Business();
-		LocalTime currentTime = thursdayStart.getValue();
-		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
-			if (currentTime.isAfter(thursdayStart.getValue().plusHours(3))
-					|| currentTime.equals(thursdayStart.getValue().plusHours(3))) {
-				thursdayEnd.getItems().add(currentTime);
-			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
-		}
-		thursdayEnd.setValue(thursdayStart.getValue().plusHours(3));
-		LOGGER.info("Thursday end time changed.");
-	}
-
-	public void changeEndTimeFriday() {
-		if (fridayStart.getValue() == null) {
-			return;
-		}
-		fridayEnd.getItems().clear();
-		Business business = new Business();
-		LocalTime currentTime = fridayStart.getValue();
-		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
-			if (currentTime.isAfter(fridayStart.getValue().plusHours(3))
-					|| currentTime.equals(fridayStart.getValue().plusHours(3))) {
-				fridayEnd.getItems().add(currentTime);
-			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
-		}
-		fridayEnd.setValue(fridayStart.getValue().plusHours(3));
-		LOGGER.info("Friday end time changed.");
-	}
-
-	public void changeEndTimeSaturday() {
-		if (saturdayStart.getValue() == null) {
-			return;
-		}
-		saturdayEnd.getItems().clear();
-		Business business = new Business();
-		LocalTime currentTime = saturdayStart.getValue();
-		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
-			if (currentTime.isAfter(saturdayStart.getValue().plusHours(3))
-					|| currentTime.equals(saturdayStart.getValue().plusHours(3))) {
-				saturdayEnd.getItems().add(currentTime);
-			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
-		}
-		saturdayEnd.setValue(saturdayStart.getValue().plusHours(3));
-		LOGGER.info("Saturday end time changed.");
-	}
-
-	public void changeEndTimeSunday() {
-		if (sundayStart.getValue() == null) {
-			return;
-		}
-		sundayEnd.getItems().clear();
-		Business business = new Business();
-		LocalTime currentTime = sundayStart.getValue();
-		while (currentTime.isBefore(business.getClosingTime()) || currentTime.equals(business.getClosingTime())) {
-			if (currentTime.isAfter(sundayStart.getValue().plusHours(3))
-					|| currentTime.equals(sundayStart.getValue().plusHours(3))) {
-				sundayEnd.getItems().add(currentTime);
-			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
-		}
-		sundayEnd.setValue(sundayStart.getValue().plusHours(3));
-		LOGGER.info("Sunday end time changed.");
 	}
 
 	/**
