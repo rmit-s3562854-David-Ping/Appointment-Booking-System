@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import application.MainApp;
 import application.main.Service;
 import application.main.Appointment;
-import application.main.Business;
 import application.main.Customer;
 import application.main.Employee;
 import application.main.Utility;
@@ -29,9 +28,8 @@ import javafx.util.Callback;
 
 /**
  * @author David Ping
- * @version 1.00
- * Last edited: 24/04/2017
- * */
+ * @version 1.00 Last edited: 24/04/2017
+ */
 
 public class OwnerBookingsDialogPageController {
 
@@ -49,7 +47,7 @@ public class OwnerBookingsDialogPageController {
 	private Label durationLabel;
 	@FXML
 	private Label customerNameLabel;
-	@FXML 
+	@FXML
 	private Label customerContactLabel;
 	@FXML
 	private Label customerAddressLabel;
@@ -60,6 +58,7 @@ public class OwnerBookingsDialogPageController {
 	private Appointment appointment;
 	private boolean okClicked = false;
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
+
 	@FXML
 	private void initialize() {
 
@@ -104,14 +103,14 @@ public class OwnerBookingsDialogPageController {
 		LOGGER.info("Appointment set.");
 		MainApp mainApp = new MainApp();
 		Service service = new Service();
-		Business business = new Business();
+		Utility util = new Utility();
 		Employee employee = new Employee();
 		Customer customer = new Customer();
 		this.appointment = appointment;
-		
+
 		customerUsernameField.setText(appointment.getCustomerUsername());
-		customerNameLabel.setText(customer.getCustomer(appointment.getCustomerUsername()).getFirstName()+" "+
-				customer.getCustomer(appointment.getCustomerUsername()).getLastName());
+		customerNameLabel.setText(customer.getCustomer(appointment.getCustomerUsername()).getFirstName() + " "
+				+ customer.getCustomer(appointment.getCustomerUsername()).getLastName());
 		customerContactLabel.setText(customer.getCustomer(appointment.getCustomerUsername()).getContactNumber());
 		customerAddressLabel.setText(customer.getCustomer(appointment.getCustomerUsername()).getAddress());
 		datePicker.setValue(appointment.getDateAndTime().toLocalDate());
@@ -120,9 +119,9 @@ public class OwnerBookingsDialogPageController {
 		durationLabel
 				.setText(String.valueOf(service.getService(appointment.getServiceName()).getDuration()) + " minutes");
 		employeeIdBox.setValue(appointment.getEmployeeId());
-		employeeNameLabel.setText(employee.getEmployee(appointment.getEmployeeId()).getFirstName()+" "+
-		employee.getEmployee(appointment.getEmployeeId()).getLastName());
-		
+		employeeNameLabel.setText(employee.getEmployee(appointment.getEmployeeId()).getFirstName() + " "
+				+ employee.getEmployee(appointment.getEmployeeId()).getLastName());
+
 		for (int i = 0; i < mainApp.getEmployeeData().size(); i++) {
 			boolean employeeAvailable = false;
 			for (int j = 0; j < mainApp.getEmployeeData().get(i).getWorkTimes().size(); j++) {
@@ -160,7 +159,7 @@ public class OwnerBookingsDialogPageController {
 		}
 
 		int appointmentDuration = service.getService(serviceBox.getValue()).getDuration();
-		LocalTime currentTime = business.getOpeningTime();
+		LocalTime currentTime;
 		int counter = 0;
 		for (int i = 0; i < employee.getEmployee(employeeIdBox.getValue()).getWorkTimes().size(); i++) {
 			if (employee.getEmployee(employeeIdBox.getValue()).getWorkTimes().get(i).getDayOfWeek()
@@ -174,32 +173,34 @@ public class OwnerBookingsDialogPageController {
 					.getAppointmentArray().get(i).getDateAndTime().toLocalDate().equals(datePicker.getValue())) {
 				int thisDuration = service.getService(mainApp.getAppointmentArray().get(i).getServiceName())
 						.getDuration();
-
+				if (mainApp.getAppointmentArray().get(i).equals(appointment)) {
+					continue;
+				}
 				currentTime = mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime();
 				unavailableTimeBlocks.add(currentTime);
 				LocalTime endTime = currentTime.plusMinutes(thisDuration);
 				while (currentTime.isBefore(endTime)) {
 					unavailableTimeBlocks.add(currentTime);
-					currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+					currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 				}
 			}
 		}
 		currentTime = employee.getEmployee(employeeIdBox.getValue()).getWorkTimes().get(counter).getStartTime();
 		while (currentTime.isBefore(employee.getEmployee(employeeIdBox.getValue()).getWorkTimes().get(counter)
-				.getEndTime().minusMinutes(appointmentDuration).plusMinutes(business.TIME_BLOCK))) {
+				.getEndTime().minusMinutes(appointmentDuration).plusMinutes(util.TIME_BLOCK))) {
 			boolean valid = true;
 			LocalTime endTime = currentTime.plusMinutes(appointmentDuration);
 			while (currentTime.isBefore(endTime)) {
 				if (unavailableTimeBlocks.contains(currentTime)) {
 					valid = false;
 				}
-				currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+				currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 			}
 			currentTime = currentTime.minusMinutes(appointmentDuration);
 			if (valid == true) {
 				timeBox.getItems().add(currentTime);
 			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+			currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 		}
 	}
 
@@ -271,19 +272,19 @@ public class OwnerBookingsDialogPageController {
 			return false;
 		}
 	}
-	
-	public void handleUsernameEntered(){
+
+	public void handleUsernameEntered() {
 		LOGGER.info("Username entered.");
 		MainApp mainApp = new MainApp();
 		Customer customer = new Customer();
-		for(int i=0;i<mainApp.getCustomerArray().size();i++){
-			if(mainApp.getCustomerArray().get(i).getUsername().equals(customerUsernameField.getText())){
-				customerNameLabel.setText(customer.getCustomer(customerUsernameField.getText()).getFirstName()+" "+
-						customer.getCustomer(customerUsernameField.getText()).getLastName());
+		for (int i = 0; i < mainApp.getCustomerArray().size(); i++) {
+			if (mainApp.getCustomerArray().get(i).getUsername().equals(customerUsernameField.getText())) {
+				customerNameLabel.setText(customer.getCustomer(customerUsernameField.getText()).getFirstName() + " "
+						+ customer.getCustomer(customerUsernameField.getText()).getLastName());
 				customerContactLabel.setText(customer.getCustomer(customerUsernameField.getText()).getContactNumber());
 				customerAddressLabel.setText(customer.getCustomer(customerUsernameField.getText()).getAddress());
 				break;
-			}else if(i==mainApp.getCustomerArray().size()-1){
+			} else if (i == mainApp.getCustomerArray().size() - 1) {
 				customerNameLabel.setText("");
 				customerContactLabel.setText("");
 				customerAddressLabel.setText("");
@@ -299,7 +300,7 @@ public class OwnerBookingsDialogPageController {
 		timeBox.getItems().clear();
 		serviceBox.setValue(null);
 		employeeIdBox.setValue(null);
-		timeBox.setValue(null);	
+		timeBox.setValue(null);
 		if (datePicker.getValue().isBefore(LocalDate.now().plusDays(1))
 				|| datePicker.getValue().isAfter(LocalDate.now().plusMonths(1))) {
 			return;
@@ -332,7 +333,7 @@ public class OwnerBookingsDialogPageController {
 		timeBox.getItems().clear();
 		employeeIdBox.setValue(null);
 		timeBox.setValue(null);
-		if(serviceBox.getValue()==null){
+		if (serviceBox.getValue() == null) {
 			return;
 		}
 		employeeNameLabel.setText("");
@@ -360,17 +361,18 @@ public class OwnerBookingsDialogPageController {
 		LOGGER.info("Employee selected");
 		MainApp mainApp = new MainApp();
 		Service service = new Service();
-		Business business = new Business();
+		Utility util = new Utility();
 		Employee employee = new Employee();
+		LocalTime currentTime;
 		timeBox.getItems().clear();
 		timeBox.setValue(null);
-		if(employeeIdBox.getValue()==null){
+		if (employeeIdBox.getValue() == null) {
 			return;
 		}
-		employeeNameLabel.setText(employee.getEmployee(employeeIdBox.getValue()).getFirstName()+" "+
-				employee.getEmployee(employeeIdBox.getValue()).getLastName());
+		employeeNameLabel.setText(employee.getEmployee(employeeIdBox.getValue()).getFirstName() + " "
+				+ employee.getEmployee(employeeIdBox.getValue()).getLastName());
 		int appointmentDuration = service.getService(serviceBox.getValue()).getDuration();
-		LocalTime currentTime = business.getOpeningTime();
+
 		int counter = 0;
 		for (int i = 0; i < employee.getEmployee(employeeIdBox.getValue()).getWorkTimes().size(); i++) {
 			if (employee.getEmployee(employeeIdBox.getValue()).getWorkTimes().get(i).getDayOfWeek()
@@ -390,26 +392,26 @@ public class OwnerBookingsDialogPageController {
 				LocalTime endTime = currentTime.plusMinutes(thisDuration);
 				while (currentTime.isBefore(endTime)) {
 					unavailableTimeBlocks.add(currentTime);
-					currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+					currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 				}
 			}
 		}
 		currentTime = employee.getEmployee(employeeIdBox.getValue()).getWorkTimes().get(counter).getStartTime();
 		while (currentTime.isBefore(employee.getEmployee(employeeIdBox.getValue()).getWorkTimes().get(counter)
-				.getEndTime().minusMinutes(appointmentDuration).plusMinutes(business.TIME_BLOCK))) {
+				.getEndTime().minusMinutes(appointmentDuration).plusMinutes(util.TIME_BLOCK))) {
 			boolean valid = true;
 			LocalTime endTime = currentTime.plusMinutes(appointmentDuration);
 			while (currentTime.isBefore(endTime)) {
 				if (unavailableTimeBlocks.contains(currentTime)) {
 					valid = false;
 				}
-				currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+				currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 			}
 			currentTime = currentTime.minusMinutes(appointmentDuration);
 			if (valid == true) {
 				timeBox.getItems().add(currentTime);
 			}
-			currentTime = currentTime.plusMinutes(business.TIME_BLOCK);
+			currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 		}
 	}
 }

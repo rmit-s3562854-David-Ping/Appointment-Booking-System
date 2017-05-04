@@ -25,6 +25,7 @@ import application.main.Appointment;
 import application.main.Customer;
 import application.main.Employee;
 import application.main.Service;
+
 public class BookingSummaryDialogPageController {
 
 	@FXML
@@ -41,9 +42,9 @@ public class BookingSummaryDialogPageController {
 	private TableColumn<Appointment, String> employeeNameColumn;
 	private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mma");
-	private  ObservableList<Appointment> appointmentArray = FXCollections.observableArrayList();
-	private  String username;
-	
+	private ObservableList<Appointment> appointmentArray = FXCollections.observableArrayList();
+	private String username;
+
 	@FXML
 	private void initialize() {
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDateTimeProperty());
@@ -100,7 +101,6 @@ public class BookingSummaryDialogPageController {
 		});
 
 	}
-
 
 	public void loadTable() {
 		ObservableList<Appointment> appointments = FXCollections.observableArrayList();

@@ -29,14 +29,15 @@ public class Reader {
 	MainApp main = new MainApp();
 	Owner owner = new Owner();
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
-	//Reads user files (business and customer). Dont read the business  files until we know which business it is.
+
+	// Reads user files (business and customer). Dont read the business files
+	// until we know which business it is.
 	public void readUsers() {
 		String customerFile = "customerinfo.txt";
 		String ownerFile = "business.txt";
-		
+
 		Scanner inputStream = null;
 		Scanner inputStream2 = null;
-
 
 		try {
 			inputStream = new Scanner(new File(customerFile));
@@ -68,29 +69,11 @@ public class Reader {
 				String address = stringToken.nextToken();
 				String contactNumber = stringToken.nextToken();
 				String businessName = stringToken.nextToken();
-				if(stringToken.hasMoreTokens()){
-					String services = stringToken.nextToken();
-					StringTokenizer stringToken2 = new StringTokenizer(services, "|");
-					while (stringToken2.hasMoreTokens()) {
-						StringTokenizer stringToken3 = new StringTokenizer(stringToken2.nextToken(), "-");
-						String serviceName = stringToken3.nextToken();
-						String durationLength = stringToken3.nextToken();
-						int duration = Integer.parseInt(durationLength);
-						Service service = new Service(serviceName, duration);
-						main.getServiceArray().add(service);
-					}
-				}
-				
-				
 
 				Owner owner = new Owner(username, password, firstName, lastName, address, contactNumber, businessName);
 
 				main.getOwnerArray().add(owner);
-				System.out.println(owner.getBusinessName());
 			}
-
-			
-			
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -98,96 +81,129 @@ public class Reader {
 		} finally {
 			inputStream.close();
 			inputStream2.close();
-			
 		}
 
 		LOGGER.info("Files read.");
 	}
-	//Reads the business files. Is called when owner logs in or customer picks a business.
+
+	// Reads the business files. Is called when owner logs in or customer picks
+	// a business.
 	public void readBusiness(String business) {
-	//Save businessName for future use for writer etc.
-	main.setBusinessName(business);
-	String employeeFile = "businesses/" + business+ "/employeeinfo.txt";
-	String apptFile = "businesses/" + business+ "/appointmentinfo.txt";
-	
-	Scanner inputStream3 = null;
-	Scanner inputStream4 = null;
+		// Save businessName for future use for writer etc.
+		main.setBusinessName(business);
+		String employeeFile = "businesses/" + business + "/employeeinfo.txt";
+		String apptFile = "businesses/" + business + "/appointmentinfo.txt";
+		String servicesFile = "businesses/" + business + "/servicesinfo.txt";
+		String workTimesFile = "businesses/" + business + "/worktimesinfo.txt";
 
-	try {
-		
-		inputStream3 = new Scanner(new File(employeeFile));
-		inputStream4 = new Scanner(new File(apptFile));
+		Scanner inputStream3 = null;
+		Scanner inputStream4 = null;
+		Scanner inputStream5 = null;
+		Scanner inputStream6 = null;
 
-		
+		try {
 
-		while (inputStream3.hasNextLine()) {
-			String line = inputStream3.nextLine();
-			StringTokenizer stringToken = new StringTokenizer(line, "|");
+			inputStream3 = new Scanner(new File(employeeFile));
+			inputStream4 = new Scanner(new File(apptFile));
+			inputStream5 = new Scanner(new File(servicesFile));
+			inputStream6 = new Scanner(new File(workTimesFile));
 
-			String id = stringToken.nextToken();
-			String firstName = stringToken.nextToken();
-			String lastName = stringToken.nextToken();
-			String servicesString = stringToken.nextToken().replace("[", "").replace ("]", "");
-			String workTimes=null;
-			if(stringToken.hasMoreTokens()){
-				workTimes = stringToken.nextToken();
-			}
+			while (inputStream3.hasNextLine()) {
+				String line = inputStream3.nextLine();
+				StringTokenizer stringToken = new StringTokenizer(line, "|");
 
-			List<WorkTime> workingTimes = new ArrayList<WorkTime>();
-			ObservableList<String> services = FXCollections.observableArrayList();
-			
-			if (workTimes != null) {
-				StringTokenizer stringToken2 = new StringTokenizer(workTimes, ",");
-				while (stringToken2.hasMoreTokens()) {
-					String workDayTime = stringToken2.nextToken();
-					StringTokenizer stringToken3 = new StringTokenizer(workDayTime, "-");
-					while (stringToken3.hasMoreTokens()) {
-						DayOfWeek day = DayOfWeek.valueOf(stringToken3.nextToken());
-						LocalTime startTime = LocalTime.parse(stringToken3.nextToken());
-						LocalTime endTime = LocalTime.parse(stringToken3.nextToken());
+				String id = stringToken.nextToken();
+				String firstName = stringToken.nextToken();
+				String lastName = stringToken.nextToken();
+				String servicesString = stringToken.nextToken().replace("[", "").replace("]", "");
+				String workTimes = null;
+				if (stringToken.hasMoreTokens()) {
+					workTimes = stringToken.nextToken();
+				}
 
-						WorkTime newWorkTime = new WorkTime(day, startTime, endTime);
-						workingTimes.add(newWorkTime);
+				List<WorkTime> workingTimes = new ArrayList<WorkTime>();
+				ObservableList<String> services = FXCollections.observableArrayList();
+
+				if (workTimes != null) {
+					StringTokenizer stringToken2 = new StringTokenizer(workTimes, ",");
+					while (stringToken2.hasMoreTokens()) {
+						String workDayTime = stringToken2.nextToken();
+						StringTokenizer stringToken3 = new StringTokenizer(workDayTime, "-");
+						while (stringToken3.hasMoreTokens()) {
+							DayOfWeek day = DayOfWeek.valueOf(stringToken3.nextToken());
+							LocalTime startTime = LocalTime.parse(stringToken3.nextToken());
+							LocalTime endTime = LocalTime.parse(stringToken3.nextToken());
+
+							WorkTime newWorkTime = new WorkTime(day, startTime, endTime);
+							workingTimes.add(newWorkTime);
+						}
 					}
 				}
+
+				if (servicesString != "") {
+					String[] sArray = servicesString.split(", ");
+					for (int i = 0; i < sArray.length; i++) {
+						String service = sArray[i];
+						services.add(service);
+					}
+				}
+				Employee employee = new Employee(firstName, lastName, id, workingTimes, services);
+				main.getEmployeeData().add(employee);
 			}
-			
-			if(servicesString!=""){
-				String[] sArray = servicesString.split(", ");
-				for(int i=0;i<sArray.length;i++){
-					String service = sArray[i];
-					services.add(service);
+
+			while (inputStream4.hasNextLine()) {
+				String line = inputStream4.nextLine();
+				StringTokenizer stringToken = new StringTokenizer(line, "|");
+
+				String customerUsername = stringToken.nextToken();
+				String employeeId = stringToken.nextToken();
+				String apptTimes = stringToken.nextToken();
+				LocalDateTime appointmentTime = LocalDateTime.parse(apptTimes);
+				String serviceName = stringToken.nextToken();
+				Appointment appointment = new Appointment(appointmentTime, customerUsername, employeeId, serviceName);
+
+				main.getAppointmentArray().add(appointment);
+
+			}
+
+			while (inputStream5.hasNextLine()) {
+				String line = inputStream5.nextLine();
+				StringTokenizer stringToken = new StringTokenizer(line, "|");
+				while (stringToken.hasMoreTokens()) {
+					String services = stringToken.nextToken();
+					StringTokenizer stringToken2 = new StringTokenizer(services, "-");
+					String serviceName = stringToken2.nextToken();
+					String durationLength = stringToken2.nextToken();
+					int duration = Integer.parseInt(durationLength);
+					Service service = new Service(serviceName, duration);
+					main.getServiceArray().add(service);
 				}
 			}
-			Employee employee = new Employee(firstName, lastName, id, workingTimes, services);
-			main.getEmployeeData().add(employee);
+			
+			while(inputStream6.hasNextLine()){
+				String line = inputStream6.nextLine();
+				StringTokenizer stringToken = new StringTokenizer(line, "|");
+				while(stringToken.hasMoreTokens()){
+					String workTimes = stringToken.nextToken();
+					StringTokenizer stringToken2 = new StringTokenizer(workTimes, "-");
+					DayOfWeek dayOfWeek = DayOfWeek.valueOf(stringToken2.nextToken());
+					LocalTime startTime = LocalTime.parse(stringToken2.nextToken());
+					LocalTime endTime = LocalTime.parse(stringToken2.nextToken());
+					WorkTime newWorkTime = new WorkTime(dayOfWeek, startTime, endTime);
+					main.getBusinessWorkTimes().add(newWorkTime);
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+			// LOGGER.log(Level.SEVERE, e.toString(), e);
+		} finally {
+			inputStream3.close();
+			inputStream4.close();
+			inputStream5.close();
+			inputStream6.close();
 		}
 
-		while (inputStream4.hasNextLine()) {
-			String line = inputStream4.nextLine();
-			StringTokenizer stringToken = new StringTokenizer(line, "|");
-
-			String customerUsername = stringToken.nextToken();
-			String employeeId = stringToken.nextToken();
-			String apptTimes = stringToken.nextToken();
-			LocalDateTime appointmentTime = LocalDateTime.parse(apptTimes);
-			String serviceName = stringToken.nextToken();
-			Appointment appointment = new Appointment(appointmentTime, customerUsername, employeeId, serviceName);
-
-			main.getAppointmentArray().add(appointment);
-
-		}
-		
-
-	} catch (Exception e) {
-		System.out.println(e);
-		//LOGGER.log(Level.SEVERE, e.toString(), e);
-	} finally {
-		;
-		inputStream3.close();
-		inputStream4.close();
+		LOGGER.info("Files read.");
 	}
-
-	LOGGER.info("Files read.");
-}
 }

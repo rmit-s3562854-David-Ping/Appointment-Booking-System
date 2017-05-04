@@ -82,19 +82,19 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="mondayStart" onAction="#changeEndTimeMonday" prefWidth="150.0" GridPane.columnIndex="1" />
+            <ComboBox fx:id="mondayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" />
             <ComboBox fx:id="mondayEnd" prefWidth="150.0" GridPane.columnIndex="3" />
-            <ComboBox fx:id="tuesdayStart" onAction="#changeEndTimeTuesday" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="tuesdayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ComboBox fx:id="tuesdayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <ComboBox fx:id="wednesdayStart" onAction="#changeEndTimeWednesday" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="wednesdayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <ComboBox fx:id="wednesdayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <ComboBox fx:id="thursdayStart" onAction="#changeEndTimeThursday" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="thursdayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <ComboBox fx:id="thursdayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <ComboBox fx:id="fridayStart" onAction="#changeEndTimeFriday" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="fridayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <ComboBox fx:id="fridayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <ComboBox fx:id="saturdayStart" onAction="#changeEndTimeSaturday" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBox fx:id="saturdayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <ComboBox fx:id="saturdayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <ComboBox fx:id="sundayStart" onAction="#changeEndTimeSunday" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ComboBox fx:id="sundayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <ComboBox fx:id="sundayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
          </children>
          <columnConstraints>

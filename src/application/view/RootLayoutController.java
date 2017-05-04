@@ -10,46 +10,47 @@ import javafx.scene.control.Button;
 
 /**
  * @author David Ping
- * @version 1.00
- * Last edited: 24/04/2017
- * */
+ * @version 1.00 Last edited: 24/04/2017
+ */
 
 public class RootLayoutController {
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	private MainApp mainApp;
 	private Reader reader = new Reader();
+
 	public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-	 
+		this.mainApp = mainApp;
+	}
+
 	@FXML
-    private void initialize() {
-    }
-	
+	private void initialize() {
+	}
+
 	@FXML
-	public void handleHome(){
+	public void handleHome() {
 		LOGGER.info("Selected HOME.");
-		for(int i=0;i<mainApp.getOwnerArray().size();i++){
-			if(mainApp.getUsername().equals(mainApp.getOwnerArray().get(i).getUsername())){
+		for (int i = 0; i < mainApp.getOwnerArray().size(); i++) {
+			if (mainApp.getUsername().equals(mainApp.getOwnerArray().get(i).getUsername())) {
 				mainApp.showOwnerHomePage();
 			}
 		}
-		for(int i=0;i<mainApp.getCustomerArray().size();i++){
-			if(mainApp.getUsername().equals(mainApp.getCustomerArray().get(i).getUsername())){
+		for (int i = 0; i < mainApp.getCustomerArray().size(); i++) {
+			if (mainApp.getUsername().equals(mainApp.getCustomerArray().get(i).getUsername())) {
 				mainApp.showCustomerHomePage();
 			}
 		}
-		
+
 	}
-	
+
 	@FXML
-	public void handleLogout(){
+	public void handleLogout() {
 		LOGGER.info("Selected LOGOUT.");
 		mainApp.setUsername("");
 		Scene scene = mainApp.getRootLayout().getScene();
 		Button homeBtn = (Button) scene.lookup("#HomeButton");
 		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
-		//Clear all new data and reload the values via readUsers and readBusiness (when called after login).
+		// Clear all new data and reload the values via readUsers and
+		// readBusiness (when called after login).
 		mainApp.getEmployeeData().clear();
 		mainApp.getServiceArray().clear();
 		mainApp.getAppointmentArray().clear();
@@ -58,8 +59,8 @@ public class RootLayoutController {
 		reader.readUsers();
 		homeBtn.setVisible(false);
 		logoutBtn.setVisible(false);
-		
+
 		mainApp.showLoginPage();
 	}
-	
+
 }

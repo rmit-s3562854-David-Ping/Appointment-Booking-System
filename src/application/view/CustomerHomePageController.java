@@ -11,25 +11,26 @@ import javafx.fxml.FXML;
 
 /**
  * @author David Ping
- * @version 1.00
- * Last edited: 24/04/2017
- * */
+ * @version 1.00 Last edited: 24/04/2017
+ */
 
 public class CustomerHomePageController {
 
-	public CustomerHomePageController(){}
-	
+	public CustomerHomePageController() {
+	}
+
 	@FXML
-    private void initialize() {
-    }
-	
+	private void initialize() {
+	}
+
 	private MainApp mainApp;
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
+
 	public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-	
-	public void handleMakeAppointmentClicked(){
+		this.mainApp = mainApp;
+	}
+
+	public void handleMakeAppointmentClicked() {
 		Writer writer = new Writer();
 		Appointment appointment = new Appointment(null, "", "", "");
 		boolean okClicked = mainApp.showBookingsDialogPage(appointment);
@@ -45,8 +46,8 @@ public class CustomerHomePageController {
 			}
 		}
 	}
-	
-	public void handleViewAppointmentsClicked(){
+
+	public void handleViewAppointmentsClicked() {
 		LOGGER.info("View appointments clicked.");
 		mainApp.showBookingsSummaryPage();
 	}
