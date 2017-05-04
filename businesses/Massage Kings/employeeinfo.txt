@@ -1,1 +1,1 @@
-e00001|Luke|Waldren|[happy ending]|MONDAY-09:30-12:30
+e00001|Luke|Waldren|[Service, Service2]|WEDNESDAY-07:00-10:00,THURSDAY-08:00-11:00
