@@ -20,30 +20,24 @@
       </Button>
       <GridPane layoutX="140.0" layoutY="110.0" prefHeight="200.0" prefWidth="340.0">
          <children>
-            <DatePicker fx:id="datePicker" onAction="#handleDateSelected" GridPane.columnIndex="1" />
-            <ComboBox fx:id="serviceBox" onAction="#handleServiceSelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox fx:id="employeeNameBox" onAction="#handleEmployeeSelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ComboBox fx:id="timeBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Time" GridPane.rowIndex="4">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label text="Service" GridPane.rowIndex="1">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
             <Label text="Date">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
+            <DatePicker fx:id="datePicker" onAction="#handleDateSelected" GridPane.columnIndex="1" />
             <Label text="Employee" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
+            <ComboBox fx:id="employeeNameBox" onAction="#handleEmployeeSelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Service" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="serviceBox" onAction="#handleServiceSelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Duration" GridPane.rowIndex="3">
                <font>
                   <Font size="14.0" />
@@ -54,6 +48,12 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Label text="Time" GridPane.rowIndex="4">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="timeBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="220.0" />
