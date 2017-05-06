@@ -83,11 +83,22 @@ public class RootLayoutController {
 		for(int i=0;i<mainApp.getCustomerArray().size();i++){
 			if(mainApp.getCustomerArray().get(i).getUsername().equals(mainApp.getUsername())){
 				saveClicked=mainApp.showMyDetailsPage(mainApp.getCustomerArray().get(i));
+				welcomeText.setText("Welcome "+mainApp.getCustomerArray().get(i).getFirstName()+" "+mainApp.getCustomerArray().get(i).getLastName());
+				mainApp.setUsername(mainApp.getCustomerArray().get(i).getUsername());
+				if(saveClicked==true){
+					break;
+				}
 			}
 		}
+
 		for(int i=0;i<mainApp.getOwnerArray().size();i++){
 			if(mainApp.getOwnerArray().get(i).getUsername().equals(mainApp.getUsername())){
 				saveClicked=mainApp.showMyDetailsPage(mainApp.getOwnerArray().get(i));
+				welcomeText.setText("Welcome "+mainApp.getOwnerArray().get(i).getFirstName()+" "+mainApp.getOwnerArray().get(i).getLastName());
+				mainApp.setUsername(mainApp.getOwnerArray().get(i).getUsername());
+				if(saveClicked==true){
+					break;
+				}
 			}
 		}
 		if (saveClicked) {

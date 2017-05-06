@@ -142,14 +142,11 @@ public class MainApp extends Application {
 		Scene scene = rootLayout.getScene();
 		AnchorPane header = (AnchorPane) scene.lookup("#header");
     	header.setVisible(true);
+    	
 		Button homeBtn = (Button) scene.lookup("#businessNameButton");
-		/*Button logoutBtn = (Button) scene.lookup("#logoutButton");
-		Button myDetailsBtn = (Button) scene.lookup("#myDetailsButton");*/
 		Label welcomeText = (Label)scene.lookup("#welcomeText");
-		/*homeBtn.setVisible(true);
-		logoutBtn.setVisible(true);
-		myDetailsBtn.setVisible(true);*/
 		homeBtn.setText(businessName);
+		
 		for(int i=0;i<ownerArray.size();i++){
 			if(ownerArray.get(i).getUsername().equals(username)){
 				welcomeText.setText("Welcome "+ownerArray.get(i).getFirstName()+" "+ownerArray.get(i).getLastName());
@@ -403,14 +400,11 @@ public class MainApp extends Application {
     	Scene scene = rootLayout.getScene();
     	AnchorPane header = (AnchorPane) scene.lookup("#header");
     	header.setVisible(true);
+    	
 		Button homeBtn = (Button) scene.lookup("#businessNameButton");
-		/*Button logoutBtn = (Button) scene.lookup("#logoutButton");
-		Button myDetailsBtn = (Button) scene.lookup("#myDetailsButton");*/
 		Label welcomeText = (Label)scene.lookup("#welcomeText");
-		/*homeBtn.setVisible(true);
-		logoutBtn.setVisible(true);
-		myDetailsBtn.setVisible(true);*/
 		homeBtn.setText(businessName);
+		
 		for(int i=0;i<customerArray.size();i++){
 			if(customerArray.get(i).getUsername().equals(username)){
 				welcomeText.setText("Welcome "+customerArray.get(i).getFirstName()+" "+customerArray.get(i).getLastName());
