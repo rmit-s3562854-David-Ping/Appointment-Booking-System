@@ -140,11 +140,9 @@ public class MainApp extends Application {
      * */
     public void showOwnerHomePage(){
 		Scene scene = rootLayout.getScene();
-		Pane topRoot = (Pane) scene.lookup("#orangePane");
-    	Pane bottomRoot = (Pane) scene.lookup("#greyPane");
-    	topRoot.setVisible(true);
-    	bottomRoot.setVisible(true);
-		Button homeBtn = (Button) scene.lookup("#homeButton");
+		AnchorPane header = (AnchorPane) scene.lookup("#header");
+    	header.setVisible(true);
+		Button homeBtn = (Button) scene.lookup("#businessNameButton");
 		/*Button logoutBtn = (Button) scene.lookup("#logoutButton");
 		Button myDetailsBtn = (Button) scene.lookup("#myDetailsButton");*/
 		Label welcomeText = (Label)scene.lookup("#welcomeText");
@@ -176,10 +174,8 @@ public class MainApp extends Application {
     }
     public void showNewBusinessPage(){
 		Scene scene = rootLayout.getScene();
-		Pane topRoot = (Pane) scene.lookup("#orangePane");
-    	Pane bottomRoot = (Pane) scene.lookup("#greyPane");
-    	topRoot.setVisible(true);
-    	bottomRoot.setVisible(true);
+		AnchorPane header = (AnchorPane) scene.lookup("#header");
+    	header.setVisible(true);
     	try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/makeBusinessPage.fxml"));
@@ -405,11 +401,9 @@ public class MainApp extends Application {
      * */
     public void showCustomerHomePage(){
     	Scene scene = rootLayout.getScene();
-    	Pane topRoot = (Pane) scene.lookup("#orangePane");
-    	Pane bottomRoot = (Pane) scene.lookup("#greyPane");
-    	topRoot.setVisible(true);
-    	bottomRoot.setVisible(true);
-		Button homeBtn = (Button) scene.lookup("#homeButton");
+    	AnchorPane header = (AnchorPane) scene.lookup("#header");
+    	header.setVisible(true);
+		Button homeBtn = (Button) scene.lookup("#businessNameButton");
 		/*Button logoutBtn = (Button) scene.lookup("#logoutButton");
 		Button myDetailsBtn = (Button) scene.lookup("#myDetailsButton");*/
 		Label welcomeText = (Label)scene.lookup("#welcomeText");
@@ -439,7 +433,7 @@ public class MainApp extends Application {
     }
     public void showChooseBusinessPage(){
 		Scene scene = rootLayout.getScene();
-		Button homeBtn = (Button) scene.lookup("#homeButton");
+		Button homeBtn = (Button) scene.lookup("#businessNameButton");
 		Button logoutBtn = (Button) scene.lookup("#logoutButton");
 		homeBtn.setVisible(true);
 		logoutBtn.setVisible(true);
@@ -469,18 +463,18 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/BookingsDialogPage.fxml"));
             AnchorPane dialogPage = (AnchorPane) loader.load();
 
-            Stage apppointmentStage = new Stage();
-            apppointmentStage.setTitle("Appointment");
-            apppointmentStage.initModality(Modality.WINDOW_MODAL);
-            apppointmentStage.initOwner(primaryStage);
+            Stage appointmentStage = new Stage();
+            appointmentStage.setTitle("Appointment");
+            appointmentStage.initModality(Modality.WINDOW_MODAL);
+            appointmentStage.initOwner(primaryStage);
             Scene scene = new Scene(dialogPage);
-            apppointmentStage.setScene(scene);
+            appointmentStage.setScene(scene);
 
             BookingsDialogPageController controller = loader.getController();
-            controller.setAppointmentStage(apppointmentStage);
+            controller.setAppointmentStage(appointmentStage);
             controller.setNewAppointment(appointment);
 
-            apppointmentStage.showAndWait();
+            appointmentStage.showAndWait();
             LOGGER.info("Customer booking dialog displayed.");
             return controller.isOkClicked();
         } catch (IOException e) {
@@ -489,6 +483,33 @@ public class MainApp extends Application {
             return false;
         }
 	}
+    
+    public boolean showMyDetailsPage(Member member) {
+    	try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/myDetailsPage.fxml"));
+            AnchorPane detailsPage = (AnchorPane) loader.load();
+
+            Stage memberStage = new Stage();
+            memberStage.setTitle("My Details");
+            memberStage.initModality(Modality.WINDOW_MODAL);
+            memberStage.initOwner(primaryStage);
+            Scene scene = new Scene(detailsPage);
+            memberStage.setScene(scene);
+
+            MyDetailsPageController controller = loader.getController();
+            controller.setMemberStage(memberStage);
+            controller.setMember(member);
+
+            memberStage.showAndWait();
+            return controller.isSaveClicked();
+        } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
+            e.printStackTrace();
+            return false;
+        }
+	}
+    
     public void showBookingsSummaryPage()  {
     	try {
             FXMLLoader loader = new FXMLLoader();

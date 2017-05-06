@@ -1,13 +1,16 @@
 package application.view;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import application.MainApp;
 import application.main.Reader;
+import application.main.Writer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 /**
@@ -19,15 +22,16 @@ public class RootLayoutController {
 	@FXML
 	private Label welcomeText;
 	@FXML
+	private Button businessNameButton;
+	@FXML
 	private Button homeButton;
 	@FXML
 	private Button logoutButton;
 	@FXML
 	private Button myDetailsButton;
 	@FXML
-	private Pane orangePane;
-	@FXML
-	private Pane greyPane;
+	private AnchorPane header;
+
 	
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	private MainApp mainApp;
@@ -68,13 +72,31 @@ public class RootLayoutController {
 		mainApp.getOwnerArray().clear();
 		mainApp.getCustomerArray().clear();
 		reader.readUsers();
-		orangePane.setVisible(false);
-		greyPane.setVisible(false);
+		header.setVisible(false);
 		mainApp.showLoginPage();
 	}
 
 	@FXML
 	public void handleMyDetails(){
-		
+		Writer writer = new Writer();
+		boolean saveClicked = false;
+		for(int i=0;i<mainApp.getCustomerArray().size();i++){
+			if(mainApp.getCustomerArray().get(i).getUsername().equals(mainApp.getUsername())){
+				saveClicked=mainApp.showMyDetailsPage(mainApp.getCustomerArray().get(i));
+			}
+		}
+		for(int i=0;i<mainApp.getOwnerArray().size();i++){
+			if(mainApp.getOwnerArray().get(i).getUsername().equals(mainApp.getUsername())){
+				saveClicked=mainApp.showMyDetailsPage(mainApp.getOwnerArray().get(i));
+			}
+		}
+		if (saveClicked) {
+			try {
+				writer.save(mainApp.getCustomerArray());
+				writer.saveOwner();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
