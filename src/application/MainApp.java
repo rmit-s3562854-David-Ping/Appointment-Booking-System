@@ -398,8 +398,10 @@ public class MainApp extends Application {
      * */
     public void showCustomerHomePage(){
     	Scene scene = rootLayout.getScene();
+    	
     	AnchorPane header = (AnchorPane) scene.lookup("#header");
     	header.setVisible(true);
+    	header.setManaged(true);
     	
 		Button homeBtn = (Button) scene.lookup("#businessNameButton");
 		Label welcomeText = (Label)scene.lookup("#welcomeText");
@@ -427,10 +429,11 @@ public class MainApp extends Application {
     }
     public void showChooseBusinessPage(){
 		Scene scene = rootLayout.getScene();
-		Button homeBtn = (Button) scene.lookup("#businessNameButton");
-		Button logoutBtn = (Button) scene.lookup("#logoutButton");
-		homeBtn.setVisible(true);
-		logoutBtn.setVisible(true);
+
+		AnchorPane header = (AnchorPane) scene.lookup("#header");
+    	header.setVisible(false);
+    	header.setManaged(false);
+
     	try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/chooseBusinessPage.fxml"));
