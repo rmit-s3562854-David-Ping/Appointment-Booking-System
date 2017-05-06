@@ -3,28 +3,33 @@ package application.view;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.awt.Button;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 
 import application.MainApp;
 import application.main.Appointment;
 import application.main.Customer;
 import application.main.Employee;
 import application.main.Service;
+import application.main.Writer;
 
 public class BookingSummaryDialogPageController {
 
@@ -123,6 +128,34 @@ public class BookingSummaryDialogPageController {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	@FXML
+	private void handleDelete() {
+		MainApp mainApp = new MainApp();
+		Writer writer = new Writer();
+		int selectedIndex = timeTable.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			if (mainApp.getAppointmentArray().contains(timeTable.getItems().get(selectedIndex))) {
+				mainApp.getAppointmentArray().remove(timeTable.getItems().get(selectedIndex));
+			}
+			timeTable.getItems().remove(selectedIndex);
+			try {
+				writer.saveAppointments(mainApp.getAppointmentArray());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			// Nothing selected.
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(mainApp.getPrimaryStage());
+			alert.setTitle("No Selection");
+			alert.setHeaderText("No Appointment Selected");
+			alert.setContentText("Please select an appointment from the table.");
+
+			alert.showAndWait();
+		}
 	}
 
 }

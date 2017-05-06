@@ -9,12 +9,12 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.OwnerBookingsPageController">
    <children>
-      <Label layoutX="320.0" layoutY="30.0" prefHeight="50.0" prefWidth="160.0" text="Bookings">
+      <Label layoutX="320.0" layoutY="20.0" prefHeight="50.0" prefWidth="160.0" text="Bookings">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <TableView fx:id="timeTable" layoutX="40.0" layoutY="120.0" prefHeight="330.0">
+      <TableView fx:id="timeTable" layoutX="40.0" layoutY="100.0" prefHeight="330.0">
         <columns>
           <TableColumn fx:id="dateColumn" prefWidth="70.0" text="Date" />
           <TableColumn fx:id="timeColumn" prefWidth="70.0" text="Time" />
@@ -29,21 +29,21 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Label fx:id="dateRangeLabel" layoutX="40.0" layoutY="83.0" text="DateStart-DateEnd">
+      <Label fx:id="dateRangeLabel" layoutX="40.0" layoutY="60.0" text="DateStart-DateEnd">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Button layoutX="640.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleNextWeekClicked" prefHeight="40.0" prefWidth="120.0" text="Next Week">
+      <Button layoutX="640.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleNextWeekClicked" prefHeight="40.0" prefWidth="120.0" text="Next Week">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="40.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleLastWeekClicked" prefHeight="40.0" prefWidth="120.0" text="Last Week">
+      <Button layoutX="40.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleLastWeekClicked" prefHeight="40.0" prefWidth="120.0" text="Last Week">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <GridPane layoutX="310.0" layoutY="480.0" prefHeight="40.0" prefWidth="180.0">
+      <GridPane layoutX="310.0" layoutY="460.0" prefHeight="40.0" prefWidth="180.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handleNew" text="New">
                <font>

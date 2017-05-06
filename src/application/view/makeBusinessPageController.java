@@ -53,6 +53,10 @@ public class makeBusinessPageController {
 
 				ArrayList<Owner> ownerArray = main.getOwnerArray();
 				Owner newOwner = new Owner(usernameField.getText(), passwordField.getText(), businessName.getText());
+				newOwner.setFirstName(" ");
+				newOwner.setLastName(" ");
+				newOwner.setAddress(" ");
+				newOwner.setContactNumber(" ");
 				ownerArray.add(newOwner);
 				writer.saveOwner();
 
