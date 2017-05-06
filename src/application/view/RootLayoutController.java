@@ -7,6 +7,8 @@ import application.main.Reader;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 
 /**
  * @author David Ping
@@ -14,6 +16,19 @@ import javafx.scene.control.Button;
  */
 
 public class RootLayoutController {
+	@FXML
+	private Label welcomeText;
+	@FXML
+	private Button homeButton;
+	@FXML
+	private Button logoutButton;
+	@FXML
+	private Button myDetailsButton;
+	@FXML
+	private Pane orangePane;
+	@FXML
+	private Pane greyPane;
+	
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	private MainApp mainApp;
 	private Reader reader = new Reader();
@@ -39,16 +54,12 @@ public class RootLayoutController {
 				mainApp.showCustomerHomePage();
 			}
 		}
-
 	}
 
 	@FXML
 	public void handleLogout() {
 		LOGGER.info("Selected LOGOUT.");
 		mainApp.setUsername("");
-		Scene scene = mainApp.getRootLayout().getScene();
-		Button homeBtn = (Button) scene.lookup("#HomeButton");
-		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
 		// Clear all new data and reload the values via readUsers and
 		// readBusiness (when called after login).
 		mainApp.getEmployeeData().clear();
@@ -57,10 +68,13 @@ public class RootLayoutController {
 		mainApp.getOwnerArray().clear();
 		mainApp.getCustomerArray().clear();
 		reader.readUsers();
-		homeBtn.setVisible(false);
-		logoutBtn.setVisible(false);
-
+		orangePane.setVisible(false);
+		greyPane.setVisible(false);
 		mainApp.showLoginPage();
 	}
 
+	@FXML
+	public void handleMyDetails(){
+		
+	}
 }

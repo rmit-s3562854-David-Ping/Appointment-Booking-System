@@ -2,7 +2,6 @@ package application.view;
 
 import application.main.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import application.MainApp;
@@ -45,7 +44,6 @@ public class LoginPageController {
 		if (owner.checkLogin(usernameField.getText(), passwordField.getText())) {
 			mainApp.setUsername(usernameField.getText());
 			mainApp.showOwnerHomePage();
-
 		} else if (customer.checkLogin(usernameField.getText(), passwordField.getText())) {
 			mainApp.setUsername(usernameField.getText());
 			mainApp.showChooseBusinessPage();

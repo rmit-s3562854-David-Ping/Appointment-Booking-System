@@ -13,8 +13,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -138,10 +140,24 @@ public class MainApp extends Application {
      * */
     public void showOwnerHomePage(){
 		Scene scene = rootLayout.getScene();
-		Button homeBtn = (Button) scene.lookup("#HomeButton");
-		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
-		homeBtn.setVisible(true);
+		Pane topRoot = (Pane) scene.lookup("#orangePane");
+    	Pane bottomRoot = (Pane) scene.lookup("#greyPane");
+    	topRoot.setVisible(true);
+    	bottomRoot.setVisible(true);
+		Button homeBtn = (Button) scene.lookup("#homeButton");
+		/*Button logoutBtn = (Button) scene.lookup("#logoutButton");
+		Button myDetailsBtn = (Button) scene.lookup("#myDetailsButton");*/
+		Label welcomeText = (Label)scene.lookup("#welcomeText");
+		/*homeBtn.setVisible(true);
 		logoutBtn.setVisible(true);
+		myDetailsBtn.setVisible(true);*/
+		homeBtn.setText(businessName);
+		for(int i=0;i<ownerArray.size();i++){
+			if(ownerArray.get(i).getUsername().equals(username)){
+				welcomeText.setText("Welcome "+ownerArray.get(i).getFirstName()+" "+ownerArray.get(i).getLastName());
+			}
+		}
+		
     	try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/OwnerHomePage.fxml"));
@@ -160,10 +176,10 @@ public class MainApp extends Application {
     }
     public void showNewBusinessPage(){
 		Scene scene = rootLayout.getScene();
-		Button homeBtn = (Button) scene.lookup("#HomeButton");
-		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
-		homeBtn.setVisible(true);
-		logoutBtn.setVisible(true);
+		Pane topRoot = (Pane) scene.lookup("#orangePane");
+    	Pane bottomRoot = (Pane) scene.lookup("#greyPane");
+    	topRoot.setVisible(true);
+    	bottomRoot.setVisible(true);
     	try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/makeBusinessPage.fxml"));
@@ -389,10 +405,23 @@ public class MainApp extends Application {
      * */
     public void showCustomerHomePage(){
     	Scene scene = rootLayout.getScene();
-		Button homeBtn = (Button) scene.lookup("#HomeButton");
-		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
-		homeBtn.setVisible(true);
+    	Pane topRoot = (Pane) scene.lookup("#orangePane");
+    	Pane bottomRoot = (Pane) scene.lookup("#greyPane");
+    	topRoot.setVisible(true);
+    	bottomRoot.setVisible(true);
+		Button homeBtn = (Button) scene.lookup("#homeButton");
+		/*Button logoutBtn = (Button) scene.lookup("#logoutButton");
+		Button myDetailsBtn = (Button) scene.lookup("#myDetailsButton");*/
+		Label welcomeText = (Label)scene.lookup("#welcomeText");
+		/*homeBtn.setVisible(true);
 		logoutBtn.setVisible(true);
+		myDetailsBtn.setVisible(true);*/
+		homeBtn.setText(businessName);
+		for(int i=0;i<customerArray.size();i++){
+			if(customerArray.get(i).getUsername().equals(username)){
+				welcomeText.setText("Welcome "+customerArray.get(i).getFirstName()+" "+customerArray.get(i).getLastName());
+			}
+		}
     	try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/CustomerHomePage.fxml"));
@@ -410,8 +439,8 @@ public class MainApp extends Application {
     }
     public void showChooseBusinessPage(){
 		Scene scene = rootLayout.getScene();
-		Button homeBtn = (Button) scene.lookup("#HomeButton");
-		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
+		Button homeBtn = (Button) scene.lookup("#homeButton");
+		Button logoutBtn = (Button) scene.lookup("#logoutButton");
 		homeBtn.setVisible(true);
 		logoutBtn.setVisible(true);
     	try {
