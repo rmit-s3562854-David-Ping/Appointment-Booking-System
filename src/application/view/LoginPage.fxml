@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -8,52 +12,52 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.LoginPageController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.LoginPageController">
    <children>
       <Pane layoutX="263.0" layoutY="181.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TextField fx:id="usernameField" layoutX="250.0" layoutY="195.0" prefHeight="30.0" prefWidth="300.0">
+            <TextField fx:id="usernameField" layoutX="250.0" layoutY="140.0" prefHeight="30.0" prefWidth="300.0">
                <font>
                   <Font size="14.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="passwordField" layoutX="250.0" layoutY="275.0" prefHeight="30.0" prefWidth="300.0">
+            <PasswordField fx:id="passwordField" layoutX="250.0" layoutY="220.0" prefHeight="30.0" prefWidth="300.0">
                <font>
                   <Font size="14.0" />
                </font>
             </PasswordField>
-            <Button layoutX="250.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleLoginClicked" prefWidth="100.0" text="Login">
+            <Button layoutX="250.0" layoutY="295.0" mnemonicParsing="false" onAction="#handleLoginClicked" prefWidth="100.0" text="Login">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="450.0" layoutY="350.0" mnemonicParsing="false" onAction="#handleRegisterClicked" prefWidth="100.0" text="Register">
+            <Button layoutX="450.0" layoutY="295.0" mnemonicParsing="false" onAction="#handleRegisterClicked" prefWidth="100.0" text="Register">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Label layoutX="393.0" layoutY="355.0" text="or">
+            <Label layoutX="393.0" layoutY="300.0" text="or">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="150.0" layoutY="75.0" text="Appointment Booking System">
+            <Label layoutX="150.0" layoutY="20.0" text="Appointment Booking System">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="160.0" prefHeight="30.0" prefWidth="120.0" text="Username:">
+            <Label layoutX="250.0" layoutY="105.0" prefHeight="30.0" prefWidth="120.0" text="Username:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="250.0" layoutY="240.0" prefHeight="30.0" prefWidth="120.0" text="Password:">
+            <Label layoutX="250.0" layoutY="185.0" prefHeight="30.0" prefWidth="120.0" text="Password:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="invalid" layoutX="253.0" layoutY="320.0" />
-            <Button onAction="#handleNewBusinessClicked" layoutX="345.0" layoutY="440.0" mnemonicParsing="false" text="Make Business" />
+            <Label fx:id="invalid" layoutX="253.0" layoutY="265.0" />
+            <Button layoutX="345.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleNewBusinessClicked" text="Make Business" />
          </children>
       </Pane>
    </children>

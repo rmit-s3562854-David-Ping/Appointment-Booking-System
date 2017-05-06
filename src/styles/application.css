@@ -1,0 +1,15 @@
+.background-orange {
+    -fx-background-color: #FFA500;
+}
+
+.background-grey {
+    -fx-background-color: #DCDCDC;
+}
+
+.button-home {
+    -fx-background-color: Transparent;
+}
+
+.button-home:hover {
+    -fx-background-color: #FF8C00;
+}
