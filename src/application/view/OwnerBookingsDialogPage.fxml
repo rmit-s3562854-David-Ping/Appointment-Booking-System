@@ -8,6 +8,16 @@
 
 <AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.OwnerBookingsDialogPageController">
    <children>
+      <Button layoutX="130.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="40.0" prefWidth="100.0" text="OK">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="370.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="40.0" prefWidth="100.0" text="Cancel">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
       <Label layoutX="305.0" layoutY="39.0" prefHeight="35.0" prefWidth="90.0" text="Booking">
          <font>
             <Font size="24.0" />
@@ -25,25 +35,22 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <DatePicker fx:id="datePicker" onAction="#handleDateSelected" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Employee Id" GridPane.rowIndex="3">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="employeeIdBox" onAction="#handleEmployeeSelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Service" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="serviceBox" onAction="#handleServiceSelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Duration" GridPane.rowIndex="4">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="durationLabel" text="Service Duration" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Label text="Time" GridPane.rowIndex="5">
                <font>
                   <Font size="14.0" />
                </font>
@@ -53,7 +60,10 @@
                   <Font size="14.0" />
                </font>
             </TextField>
-            <Label text="Time" GridPane.rowIndex="5">
+            <DatePicker fx:id="datePicker" onAction="#handleDateSelected" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="serviceBox" onAction="#handleServiceSelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="employeeIdBox" onAction="#handleEmployeeSelected" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="durationLabel" text="Service Duration" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font size="14.0" />
                </font>
@@ -73,16 +83,6 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <Button layoutX="370.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="40.0" prefWidth="100.0" text="Cancel">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="130.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="40.0" prefWidth="100.0" text="OK">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
       <GridPane layoutX="370.0" layoutY="142.0" prefHeight="90.0" prefWidth="263.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
