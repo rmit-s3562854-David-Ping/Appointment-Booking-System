@@ -1,5 +1,6 @@
 package application.view;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,8 +8,12 @@ import java.util.List;
 
 import application.MainApp;
 import application.main.Utility;
+import application.main.WorkTime;
+import application.main.Writer;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Alert.AlertType;
 
 public class BusinessPageController {
 
@@ -84,6 +89,30 @@ public class BusinessPageController {
 			currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 		}
 	}
+	
+	@FXML
+	private void handleSave() {
+		MainApp mainApp = new MainApp();
+		Writer writer = new Writer();
+		mainApp.getBusinessWorkTimes().clear();
+		for(int i=0;i<startTimes.size();i++){
+			if (startTimes.get(i).getValue() != null) {
+				WorkTime newTime = new WorkTime(DayOfWeek.of(i + 1), startTimes.get(i).getValue(),
+						endTimes.get(i).getValue());
+				mainApp.getBusinessWorkTimes().add(newTime);
+			}
+		}
+		try {
+			writer.saveWorkTimes(mainApp.getBusinessWorkTimes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Successful Save");
+		alert.setHeaderText("Success");
+		alert.setContentText("Business work hours saved.");
+		alert.showAndWait();
+	}
 
 	public void changeEndTime() {
 		Utility util = new Utility();
@@ -95,7 +124,7 @@ public class BusinessPageController {
 				endTimes.get(i).getItems().clear();
 				currentTime = startTimes.get(i).getValue();
 
-				while (currentTime.isBefore(LocalTime.MIDNIGHT.minusMinutes(util.MIN_TOTAL_LENGTH))) {
+				while (currentTime.isBefore(LocalTime.MIDNIGHT.minusMinutes(util.TIME_BLOCK))) {
 					if (currentTime.isAfter(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))
 							|| currentTime.equals(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))) {
 						endTimes.get(i).getItems().add(currentTime);
