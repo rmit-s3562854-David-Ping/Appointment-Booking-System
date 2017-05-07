@@ -21,6 +21,7 @@ public class Utility {
 	 */
 
 	public final int TIME_BLOCK = 30;
+	public final int MIN_TOTAL_LENGTH = 180;
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 
 	/**

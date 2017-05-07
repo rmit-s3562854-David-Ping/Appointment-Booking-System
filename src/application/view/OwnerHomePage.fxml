@@ -27,6 +27,11 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
+            <Button layoutX="200.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleManageBusinessHoursClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Business Hours">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>

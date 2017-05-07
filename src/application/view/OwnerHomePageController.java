@@ -34,5 +34,9 @@ public class OwnerHomePageController {
 	public void handleManageServicesClicked() {
 		mainApp.showServicesPage();
 	}
+	
+	public void handleManageBusinessHoursClicked(){
+		mainApp.showBusinessHoursPage();
+	}
 
 }

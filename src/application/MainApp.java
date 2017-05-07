@@ -427,6 +427,7 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+    
     public void showChooseBusinessPage(){
 		Scene scene = rootLayout.getScene();
 
@@ -528,6 +529,23 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
 	}
+    
+    public void showBusinessHoursPage(){		
+    	try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/BusinessPage.fxml"));
+            AnchorPane businessPage = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(businessPage);
+
+            BusinessPageController controller = loader.getController();
+            controller.setMainApp(this);
+            LOGGER.info("Customer home page displayed");
+        } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
+            e.printStackTrace();
+        }
+    }
 
     public Stage getPrimaryStage() {
         return primaryStage;
