@@ -6,19 +6,49 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.RootLayoutController">
+<BorderPane fx:id="border" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.RootLayoutController">
    <top>
-      <Pane prefHeight="40.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="header" visible="false">
          <children>
-            <Button fx:id="HomeButton" mnemonicParsing="false" onAction="#handleHome" prefHeight="40.0" prefWidth="80.0" text="Home" visible="false">
-               <font>
-                  <Font size="14.0" />
-               </font></Button>
-            <Button fx:id="LogoutButton" layoutX="720.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="80.0" text="Logout" visible="false">
-               <font>
-                  <Font size="14.0" />
-               </font></Button>
+            <Pane layoutY="50.0" prefHeight="30.0" prefWidth="800.0" styleClass="background-grey" stylesheets="@../../styles/application.css" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="logoutButton" layoutX="720.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="80.0" text="Logout">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="myDetailsButton" layoutX="620.0" mnemonicParsing="false" onAction="#handleMyDetails" prefHeight="30.0" prefWidth="100.0" text="My Details">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="welcomeText" layoutX="460.0" prefHeight="30.0" text="Welcome User">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleHome" prefHeight="30.0" prefWidth="80.0" text="Home">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane prefHeight="50.0" prefWidth="800.0" styleClass="background-orange" stylesheets="@../../styles/application.css">
+               <children>
+                  <Button fx:id="businessNameButton" maxHeight="50.0" mnemonicParsing="false" onAction="#handleHome" prefHeight="40.0" prefWidth="400.0" styleClass="button-home" stylesheets="@../../styles/application.css" text="Business Name" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="23.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="500.0" prefHeight="50.0" prefWidth="300.0" text="Appointment Booking System" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
-      </Pane>
+      </AnchorPane>
    </top>
 </BorderPane>

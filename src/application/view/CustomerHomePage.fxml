@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.CustomerHomePageController">
    <children>
-      <Label layoutX="250.0" layoutY="75.0" prefHeight="50.0" prefWidth="300.0" text="Customer's Menu">
+      <Label layoutX="250.0" layoutY="20.0" prefHeight="50.0" prefWidth="300.0" text="Customer's Menu">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>

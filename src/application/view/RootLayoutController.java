@@ -1,12 +1,17 @@
 package application.view;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import application.MainApp;
 import application.main.Reader;
+import application.main.Writer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 /**
  * @author David Ping
@@ -14,6 +19,22 @@ import javafx.scene.control.Button;
  */
 
 public class RootLayoutController {
+	@FXML
+	private Label welcomeText;
+	@FXML
+	private Button businessNameButton;
+	@FXML
+	private Button homeButton;
+	@FXML
+	private Button logoutButton;
+	@FXML
+	private Button myDetailsButton;
+	@FXML
+	private AnchorPane header;
+	@FXML
+	private BorderPane border;
+
+	
 	private static final Logger LOGGER = Logger.getLogger("MyLog");
 	private MainApp mainApp;
 	private Reader reader = new Reader();
@@ -39,16 +60,12 @@ public class RootLayoutController {
 				mainApp.showCustomerHomePage();
 			}
 		}
-
 	}
 
 	@FXML
 	public void handleLogout() {
 		LOGGER.info("Selected LOGOUT.");
 		mainApp.setUsername("");
-		Scene scene = mainApp.getRootLayout().getScene();
-		Button homeBtn = (Button) scene.lookup("#HomeButton");
-		Button logoutBtn = (Button) scene.lookup("#LogoutButton");
 		// Clear all new data and reload the values via readUsers and
 		// readBusiness (when called after login).
 		mainApp.getEmployeeData().clear();
@@ -57,10 +74,42 @@ public class RootLayoutController {
 		mainApp.getOwnerArray().clear();
 		mainApp.getCustomerArray().clear();
 		reader.readUsers();
-		homeBtn.setVisible(false);
-		logoutBtn.setVisible(false);
-
+		header.setVisible(false);
 		mainApp.showLoginPage();
 	}
 
+	@FXML
+	public void handleMyDetails(){
+		Writer writer = new Writer();
+		boolean saveClicked = false;
+		for(int i=0;i<mainApp.getCustomerArray().size();i++){
+			if(mainApp.getCustomerArray().get(i).getUsername().equals(mainApp.getUsername())){
+				saveClicked=mainApp.showMyDetailsPage(mainApp.getCustomerArray().get(i));
+				welcomeText.setText("Welcome "+mainApp.getCustomerArray().get(i).getFirstName()+" "+mainApp.getCustomerArray().get(i).getLastName());
+				mainApp.setUsername(mainApp.getCustomerArray().get(i).getUsername());
+				if(saveClicked==true){
+					break;
+				}
+			}
+		}
+
+		for(int i=0;i<mainApp.getOwnerArray().size();i++){
+			if(mainApp.getOwnerArray().get(i).getUsername().equals(mainApp.getUsername())){
+				saveClicked=mainApp.showMyDetailsPage(mainApp.getOwnerArray().get(i));
+				welcomeText.setText("Welcome "+mainApp.getOwnerArray().get(i).getFirstName()+" "+mainApp.getOwnerArray().get(i).getLastName());
+				mainApp.setUsername(mainApp.getOwnerArray().get(i).getUsername());
+				if(saveClicked==true){
+					break;
+				}
+			}
+		}
+		if (saveClicked) {
+			try {
+				writer.save(mainApp.getCustomerArray());
+				writer.saveOwner();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
