@@ -41,13 +41,18 @@ public class LoginPageController {
 		LOGGER.info("Login selected.");
 		Customer customer = new Customer();
 		Owner owner = new Owner();
+		Admin admin = new Admin();
 		if (owner.checkLogin(usernameField.getText(), passwordField.getText())) {
 			mainApp.setUsername(usernameField.getText());
 			mainApp.showOwnerHomePage();
 		} else if (customer.checkLogin(usernameField.getText(), passwordField.getText())) {
 			mainApp.setUsername(usernameField.getText());
 			mainApp.showChooseBusinessPage();
-		} else {
+		}
+		else if (admin.checkLogin(usernameField.getText(), passwordField.getText())) {
+			mainApp.showNewBusinessPage();
+		}
+		else {
 			invalid.setText("Invalid username/password");
 			invalid.setTextFill(Color.RED);
 		}
@@ -72,9 +77,6 @@ public class LoginPageController {
 		}
 	}
 
-	@FXML
-	private void handleNewBusinessClicked() {
-		mainApp.showNewBusinessPage();
-	}
+	
 
 }

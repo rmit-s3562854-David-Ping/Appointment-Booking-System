@@ -34,6 +34,7 @@ public class MainApp extends Application {
     
     private static ArrayList<Customer> customerArray = new ArrayList<Customer>();
 	private static ArrayList<Owner> ownerArray = new ArrayList<Owner>();
+	private static ArrayList<Admin> adminArray = new ArrayList<Admin>();
 	private static ArrayList<WorkTime> businessWorkTimes = new ArrayList<WorkTime>();
 	private static ObservableList<Service> serviceArray = FXCollections.observableArrayList();
 	private static ObservableList<Employee> employeeData = FXCollections.observableArrayList();
@@ -601,6 +602,13 @@ public class MainApp extends Application {
 	public BorderPane getRootLayout(){
 		return rootLayout;
 	}
+
+	public ArrayList<Admin> getAdminArray() {
+		// TODO Auto-generated method stub
+		return adminArray;
+	}
+
+
 	
     
 
