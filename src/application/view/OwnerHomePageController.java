@@ -23,19 +23,19 @@ public class OwnerHomePageController {
 		this.mainApp = mainApp;
 	}
 
-	public void handleManageEmployeesClicked() {
+	public void handleEmployeesClicked() {
 		mainApp.showEmployeePage();
 	}
 
-	public void handleManageBookingsClicked() {
+	public void handleBookingsClicked() {
 		mainApp.showOwnerBookingsPage();
 	}
 
-	public void handleManageServicesClicked() {
+	public void handleServicesClicked() {
 		mainApp.showServicesPage();
 	}
 	
-	public void handleManageBusinessHoursClicked(){
+	public void handleBusinessHoursClicked(){
 		mainApp.showBusinessHoursPage();
 	}
 

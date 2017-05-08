@@ -10,15 +10,15 @@
    <children>
       <Pane layoutX="259.0" layoutY="179.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button layoutX="200.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleManageEmployeesClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Employees">
+            <Button layoutX="200.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleEmployeesClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Employees">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Button layoutX="200.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleManageBookingsClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Bookings">
+            <Button layoutX="200.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleBookingsClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Bookings">
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Button layoutX="200.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleManageServicesClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Services">
+            <Button layoutX="200.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleServicesClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Services">
                <font>
                   <Font size="18.0" />
                </font></Button>
@@ -27,7 +27,7 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Button layoutX="200.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleManageBusinessHoursClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Business Hours">
+            <Button layoutX="200.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleBusinessHoursClicked" prefHeight="50.0" prefWidth="400.0" text="Manage Business Hours">
                <font>
                   <Font size="18.0" />
                </font>
