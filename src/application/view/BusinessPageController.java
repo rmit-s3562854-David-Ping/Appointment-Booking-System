@@ -86,7 +86,6 @@ public class BusinessPageController {
 				|| currentTime.equals(LocalTime.MIDNIGHT.minusMinutes(util.MIN_TOTAL_LENGTH))) {
 			for (int i = 0; i < startTimes.size(); i++) {
 				startTimes.get(i).getItems().add(currentTime);
-				System.out.println(startTimes.get(i).getValue());
 				if (startTimes.get(i).getValue() != null) {
 					if (currentTime.isAfter(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))
 							|| currentTime.equals(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))) {

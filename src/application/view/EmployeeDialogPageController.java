@@ -130,14 +130,14 @@ public class EmployeeDialogPageController {
 					currentTime = mainApp.getBusinessWorkTimes().get(i).getStartTime();
 					while (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime())
 							|| currentTime.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime())) {
-						if (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusHours(3))
+						if (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusMinutes(util.MIN_TOTAL_LENGTH))
 								|| currentTime
-										.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusHours(3))) {
+										.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusMinutes(util.MIN_TOTAL_LENGTH))) {
 							startTimes.get(j).getItems().add(currentTime);
 						}
 						if (startTimes.get(j).getValue() != null
-								&& (currentTime.isAfter(startTimes.get(j).getValue().plusHours(3))
-										|| currentTime.equals(startTimes.get(j).getValue().plusHours(3)))) {
+								&& (currentTime.isAfter(startTimes.get(j).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))
+										|| currentTime.equals(startTimes.get(j).getValue().plusMinutes(util.MIN_TOTAL_LENGTH)))) {
 							endTimes.get(j).getItems().add(currentTime);
 						}
 						currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
@@ -180,9 +180,9 @@ public class EmployeeDialogPageController {
 					currentTime = mainApp.getBusinessWorkTimes().get(i).getStartTime();
 					while (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime())
 							|| currentTime.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime())) {
-						if (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusHours(3))
+						if (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusMinutes(util.MIN_TOTAL_LENGTH))
 								|| currentTime
-										.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusHours(3))) {
+										.equals(mainApp.getBusinessWorkTimes().get(i).getEndTime().minusMinutes(util.MIN_TOTAL_LENGTH))) {
 							startTimes.get(j).getItems().add(currentTime);
 						}
 						currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
@@ -297,15 +297,9 @@ public class EmployeeDialogPageController {
 				if(workTimes.isEmpty()){
 					return false;
 				}
-				// if the employee matches the appointment
 				for (int j = 0; j < workTimes.size(); j++) {
 					if (workTimes.get(j).getDayOfWeek()
 							.equals(mainApp.getAppointmentArray().get(i).getDateAndTime().getDayOfWeek())) {
-						// if the workTime day of week matches the appointment
-						// check if the day of the week of the work time exists
-						// for the appointment day of week
-						// then check if the times are still valid for that day
-						// if any of these are invalid then error and return;
 						if (workTimes.get(j).getStartTime()
 								.isBefore(mainApp.getAppointmentArray().get(i).getDateAndTime().toLocalTime())
 								|| workTimes.get(j).getStartTime()
@@ -368,8 +362,8 @@ public class EmployeeDialogPageController {
 					if (mainApp.getBusinessWorkTimes().get(j).getDayOfWeek().getValue() == i + 1) {
 						while (currentTime.isBefore(mainApp.getBusinessWorkTimes().get(j).getEndTime())
 								|| currentTime.equals(mainApp.getBusinessWorkTimes().get(j).getEndTime())) {
-							if (currentTime.isAfter(startTimes.get(i).getValue().plusHours(3))
-									|| currentTime.equals(startTimes.get(i).getValue().plusHours(3))) {
+							if (currentTime.isAfter(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))
+									|| currentTime.equals(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))) {
 								endTimes.get(i).getItems().add(currentTime);
 							}
 							currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
@@ -378,13 +372,13 @@ public class EmployeeDialogPageController {
 				}
 
 				if (oldTime != null) {
-					if (oldTime.isBefore(startTimes.get(i).getValue().plusHours(3))) {
-						endTimes.get(i).setValue(startTimes.get(i).getValue().plusHours(3));
+					if (oldTime.isBefore(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))) {
+						endTimes.get(i).setValue(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH));
 					} else {
 						endTimes.get(i).setValue(oldTime);
 					}
 				} else {
-					endTimes.get(i).setValue(startTimes.get(i).getValue().plusHours(3));
+					endTimes.get(i).setValue(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH));
 				}
 			} else {
 				endTimes.get(i).getItems().clear();

@@ -17,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -571,7 +570,6 @@ public class MainApp extends Application {
 	public ObservableList<Appointment> getAppointmentArray() {
 		return appointmentArray;
 	}
-	//changed to obs
 	public ObservableList<Service> getServiceArray(){
 		return serviceArray;
 	}
@@ -581,10 +579,10 @@ public class MainApp extends Application {
 	}
 	
 	public void setUsername(String username){
-		this.username=username;
+		MainApp.username=username;
 	}
 	public void setBusinessName(String businessName){
-		this.businessName=businessName;
+		MainApp.businessName=businessName;
 	}
 	public String getBusinessName(){
 		return businessName;
