@@ -86,6 +86,9 @@ public class RootLayoutController {
 		bookingsButton.setVisible(false);
 		businessButton.setVisible(false);
 		header.setVisible(false);
+		homeButton.setVisible(true);
+    	businessNameButton.setVisible(true);
+    	myDetailsButton.setVisible(true);
 		mainApp.showLoginPage();
 	}
 
