@@ -35,13 +35,14 @@ public class Reader {
 	public void readUsers() {
 		String customerFile = "customerinfo.txt";
 		String ownerFile = "business.txt";
-
+		String adminFile = "admins.txt";
 		Scanner inputStream = null;
 		Scanner inputStream2 = null;
-
+		Scanner inputStream3 = null;
 		try {
 			inputStream = new Scanner(new File(customerFile));
 			inputStream2 = new Scanner(new File(ownerFile));
+			inputStream3 = new Scanner(new File(adminFile));
 
 			while (inputStream.hasNextLine()) {
 				String line = inputStream.nextLine();
@@ -73,6 +74,20 @@ public class Reader {
 				Owner owner = new Owner(username, password, firstName, lastName, address, contactNumber, businessName);
 
 				main.getOwnerArray().add(owner);
+			}
+			while (inputStream3.hasNextLine()) {
+				String line = inputStream3.nextLine();
+				StringTokenizer stringToken = new StringTokenizer(line, ":");
+
+				String username = stringToken.nextToken();
+				String password = stringToken.nextToken();
+				String firstName = stringToken.nextToken();
+				String lastName = stringToken.nextToken();
+				String address = stringToken.nextToken();
+				String contactNumber = stringToken.nextToken();
+				Admin admin = new Admin(username, password, firstName, lastName, address, contactNumber);
+
+				main.getAdminArray().add(admin);
 			}
 
 		} catch (Exception e) {
