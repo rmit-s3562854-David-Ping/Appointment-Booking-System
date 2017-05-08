@@ -141,7 +141,15 @@ public class MainApp extends Application {
     public void showOwnerHomePage(){
 		Scene scene = rootLayout.getScene();
 		AnchorPane header = (AnchorPane) scene.lookup("#header");
+		Button employeeButton = (Button) scene.lookup("#employeeButton");
+		Button servicesButton = (Button) scene.lookup("#servicesButton");
+		Button bookingsButton = (Button) scene.lookup("#bookingsButton");
+		Button businessButton = (Button) scene.lookup("#businessButton");
     	header.setVisible(true);
+    	employeeButton.setVisible(true);
+		servicesButton.setVisible(true);
+		bookingsButton.setVisible(true);
+		businessButton.setVisible(true);
     	
 		Button homeBtn = (Button) scene.lookup("#businessNameButton");
 		Label welcomeText = (Label)scene.lookup("#welcomeText");
