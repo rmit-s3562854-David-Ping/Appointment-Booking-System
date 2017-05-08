@@ -181,7 +181,15 @@ public class MainApp extends Application {
     public void showNewBusinessPage(){
 		Scene scene = rootLayout.getScene();
 		AnchorPane header = (AnchorPane) scene.lookup("#header");
+		Button homeButton = (Button) scene.lookup("#homeButton");
+		Button businessNameButton = (Button) scene.lookup("#businessNameButton");
+		Button myDetailsButton = (Button) scene.lookup("#myDetailsButton");
+		Label welcomeText = (Label) scene.lookup("#welcomeText");
     	header.setVisible(true);
+    	homeButton.setVisible(false);
+    	businessNameButton.setVisible(false);
+    	myDetailsButton.setVisible(false);
+    	welcomeText.setText("");
     	try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/makeBusinessPage.fxml"));
