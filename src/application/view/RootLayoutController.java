@@ -7,7 +7,6 @@ import application.MainApp;
 import application.main.Reader;
 import application.main.Writer;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -29,6 +28,14 @@ public class RootLayoutController {
 	private Button logoutButton;
 	@FXML
 	private Button myDetailsButton;
+	@FXML
+	private Button employeeButton;
+	@FXML
+	private Button businessButton;
+	@FXML
+	private Button servicesButton;
+	@FXML
+	private Button bookingsButton;
 	@FXML
 	private AnchorPane header;
 	@FXML
@@ -74,6 +81,10 @@ public class RootLayoutController {
 		mainApp.getOwnerArray().clear();
 		mainApp.getCustomerArray().clear();
 		reader.readUsers();
+		employeeButton.setVisible(false);
+		servicesButton.setVisible(false);
+		bookingsButton.setVisible(false);
+		businessButton.setVisible(false);
 		header.setVisible(false);
 		mainApp.showLoginPage();
 	}
@@ -111,5 +122,21 @@ public class RootLayoutController {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void handleEmployeesClicked() {
+		mainApp.showEmployeePage();
+	}
+
+	public void handleBookingsClicked() {
+		mainApp.showOwnerBookingsPage();
+	}
+
+	public void handleServicesClicked() {
+		mainApp.showServicesPage();
+	}
+	
+	public void handleBusinessHoursClicked(){
+		mainApp.showBusinessHoursPage();
 	}
 }

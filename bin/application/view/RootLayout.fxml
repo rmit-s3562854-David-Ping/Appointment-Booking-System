@@ -27,7 +27,27 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleHome" prefHeight="30.0" prefWidth="80.0" text="Home">
+                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#handleHome" prefHeight="30.0" text="Home">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="employeeButton" layoutX="58.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleEmployeesClicked" prefHeight="30.0" text="Employees" visible="false">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="bookingsButton" layoutX="144.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleBookingsClicked" prefHeight="30.0" text="Bookings" visible="false">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="businessButton" layoutX="221.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleBusinessHoursClicked" prefHeight="30.0" text="Business Hours" visible="false">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="servicesButton" layoutX="334.0" layoutY="1.0" mnemonicParsing="false" onAction="#handleServicesClicked" prefHeight="30.0" text="Services" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
