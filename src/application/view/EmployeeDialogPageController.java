@@ -424,7 +424,6 @@ public class EmployeeDialogPageController {
 		alert.setTitle("Invalid Edit");
 		alert.setHeaderText("Invalid Edit");
 		alert.setContentText("New employee attributes conflict with existing bookings");
-
 		alert.showAndWait();
 	}
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.MainApp;
+import application.main.Employee;
 import application.main.Utility;
 import application.main.WorkTime;
 import application.main.Writer;
@@ -85,23 +86,40 @@ public class BusinessPageController {
 				|| currentTime.equals(LocalTime.MIDNIGHT.minusMinutes(util.MIN_TOTAL_LENGTH))) {
 			for (int i = 0; i < startTimes.size(); i++) {
 				startTimes.get(i).getItems().add(currentTime);
+				System.out.println(startTimes.get(i).getValue());
+				if (startTimes.get(i).getValue() != null) {
+					if (currentTime.isAfter(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))
+							|| currentTime.equals(startTimes.get(i).getValue().plusMinutes(util.MIN_TOTAL_LENGTH))) {
+						endTimes.get(i).getItems().add(currentTime);
+					}
+				}
 			}
 			currentTime = currentTime.plusMinutes(util.TIME_BLOCK);
 		}
 	}
-	
+
 	@FXML
 	private void handleSave() {
 		MainApp mainApp = new MainApp();
 		Writer writer = new Writer();
-		mainApp.getBusinessWorkTimes().clear();
-		for(int i=0;i<startTimes.size();i++){
+		List<WorkTime> businessTimes = new ArrayList<WorkTime>();
+
+		for (int i = 0; i < startTimes.size(); i++) {
 			if (startTimes.get(i).getValue() != null) {
 				WorkTime newTime = new WorkTime(DayOfWeek.of(i + 1), startTimes.get(i).getValue(),
 						endTimes.get(i).getValue());
-				mainApp.getBusinessWorkTimes().add(newTime);
+				businessTimes.add(newTime);
 			}
 		}
+
+		if (isBusinessTimesValid(businessTimes, mainApp.getEmployeeData())) {
+			mainApp.getBusinessWorkTimes().clear();
+			mainApp.setBusinessTimes(businessTimes);
+		} else {
+			errorMessage();
+			return;
+		}
+
 		try {
 			writer.saveWorkTimes(mainApp.getBusinessWorkTimes());
 		} catch (IOException e) {
@@ -147,12 +165,53 @@ public class BusinessPageController {
 		}
 	}
 
+	public boolean isBusinessTimesValid(List<WorkTime> businessTimes, List<Employee> employees) {
+		// for every employee, they must start at or before the start time for
+		// the corresponding day in businessTimes
+		// and end at or before the closing time
+		// if the day does not exist in business times, then return false
+		boolean validDay;
+		for (int i = 0; i < employees.size(); i++) {
+			for (int j = 0; j < employees.get(i).getWorkTimes().size(); j++) {
+				validDay = false;
+				for (int k = 0; k < businessTimes.size(); k++) {
+					if (employees.get(i).getWorkTimes().get(j).getDayOfWeek()
+							.equals(businessTimes.get(k).getDayOfWeek())) {
+						validDay = true;
+						// found the day they work on, now check if the work
+						// hours are valid
+						if (employees.get(i).getWorkTimes().get(j).getStartTime()
+								.isBefore(businessTimes.get(k).getStartTime())) {
+							return false;
+						}
+						if (employees.get(i).getWorkTimes().get(j).getEndTime()
+								.isAfter(businessTimes.get(k).getEndTime())) {
+							return false;
+						}
+					}
+				}
+				if (validDay == false) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public void clearWorkingTimes() {
 		for (int i = 0; i < startTimes.size(); i++) {
 			startTimes.get(i).setValue(null);
 			endTimes.get(i).setValue(null);
 			endTimes.get(i).getItems().clear();
 		}
+	}
+
+	public void errorMessage() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Invalid Edit");
+		alert.setHeaderText("Invalid business times");
+		alert.setContentText("New business times conflict with existing employee work times");
+		alert.showAndWait();
 	}
 
 }

@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -587,6 +588,9 @@ public class MainApp extends Application {
 	}
 	public String getBusinessName(){
 		return businessName;
+	}
+	public void setBusinessTimes(List<WorkTime> newBusinessTimes){
+		this.getBusinessWorkTimes().addAll(newBusinessTimes);
 	}
 	public BorderPane getRootLayout(){
 		return rootLayout;
