@@ -1,10 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-	<!-- TODO Add Nodes -->
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.BusinessPageController">
+   <children>
+      <Label layoutX="285.0" layoutY="47.0" prefHeight="53.0" prefWidth="270.0" text="Business Hours">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Button layoutX="440.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="40.0" prefWidth="100.0" text="Save">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <GridPane layoutX="190.0" layoutY="100.0" prefHeight="300.0" prefWidth="350.0">
+         <children>
+            <Label text="Monday" GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Tuesday" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Wednesday" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Thursday" GridPane.rowIndex="4">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Friday" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Saturday" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Sunday" GridPane.rowIndex="7">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="mondayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="mondayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ComboBox fx:id="tuesdayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="tuesdayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <ComboBox fx:id="wednesdayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="wednesdayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <ComboBox fx:id="thursdayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ComboBox fx:id="thursdayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <ComboBox fx:id="fridayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBox fx:id="fridayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <ComboBox fx:id="saturdayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ComboBox fx:id="saturdayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <ComboBox fx:id="sundayStart" onAction="#changeEndTime" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <ComboBox fx:id="sundayEnd" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+            <Label text="Start times" GridPane.columnIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label text="Closing times" GridPane.columnIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="90.0" />
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="20.0" />
+            <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <Button layoutX="555.0" layoutY="369.0" mnemonicParsing="false" onAction="#clearWorkingTimes" text="Clear all" />
+   </children>
 </AnchorPane>

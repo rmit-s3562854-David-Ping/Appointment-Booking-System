@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -427,6 +427,7 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+    
     public void showChooseBusinessPage(){
 		Scene scene = rootLayout.getScene();
 
@@ -528,6 +529,23 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
 	}
+    
+    public void showBusinessHoursPage(){		
+    	try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/BusinessPage.fxml"));
+            AnchorPane businessPage = (AnchorPane) loader.load();
+
+            rootLayout.setCenter(businessPage);
+
+            BusinessPageController controller = loader.getController();
+            controller.setMainApp(this);
+            LOGGER.info("Customer home page displayed");
+        } catch (IOException e) {
+        	LOGGER.log(Level.SEVERE, e.toString(), e);
+            e.printStackTrace();
+        }
+    }
 
     public Stage getPrimaryStage() {
         return primaryStage;
@@ -552,7 +570,6 @@ public class MainApp extends Application {
 	public ObservableList<Appointment> getAppointmentArray() {
 		return appointmentArray;
 	}
-	//changed to obs
 	public ObservableList<Service> getServiceArray(){
 		return serviceArray;
 	}
@@ -562,13 +579,16 @@ public class MainApp extends Application {
 	}
 	
 	public void setUsername(String username){
-		this.username=username;
+		MainApp.username=username;
 	}
 	public void setBusinessName(String businessName){
-		this.businessName=businessName;
+		MainApp.businessName=businessName;
 	}
 	public String getBusinessName(){
 		return businessName;
+	}
+	public void setBusinessTimes(List<WorkTime> newBusinessTimes){
+		this.getBusinessWorkTimes().addAll(newBusinessTimes);
 	}
 	public BorderPane getRootLayout(){
 		return rootLayout;
