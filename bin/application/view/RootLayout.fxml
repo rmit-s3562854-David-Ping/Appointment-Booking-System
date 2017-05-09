@@ -8,7 +8,7 @@
 
 <BorderPane fx:id="border" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.RootLayoutController">
    <top>
-      <AnchorPane fx:id="header">
+      <AnchorPane fx:id="header" visible="false">
          <children>
             <Pane layoutY="50.0" prefHeight="30.0" prefWidth="800.0" styleClass="background-grey" stylesheets="@../../styles/application.css" BorderPane.alignment="CENTER">
                <children>
@@ -32,22 +32,22 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="employeeButton" layoutX="58.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleEmployeesClicked" prefHeight="30.0" text="Employees">
+                  <Button fx:id="employeeButton" layoutX="58.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleEmployeesClicked" prefHeight="30.0" text="Employees" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="bookingsButton" layoutX="144.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBookingsClicked" prefHeight="30.0" text="Bookings">
+                  <Button fx:id="bookingsButton" layoutX="144.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBookingsClicked" prefHeight="30.0" text="Bookings" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="businessButton" layoutX="221.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBusinessHoursClicked" prefHeight="30.0" text="Business Hours">
+                  <Button fx:id="businessButton" layoutX="221.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBusinessHoursClicked" prefHeight="30.0" text="Business Hours" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="servicesButton" layoutX="334.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleServicesClicked" prefHeight="30.0" text="Services">
+                  <Button fx:id="servicesButton" layoutX="334.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleServicesClicked" prefHeight="30.0" text="Services" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
