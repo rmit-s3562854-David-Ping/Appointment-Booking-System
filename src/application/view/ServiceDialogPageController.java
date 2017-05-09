@@ -104,6 +104,11 @@ public class ServiceDialogPageController {
 		if (util.checkString(serviceNameF.getText()) == false) {
 			errorMsg += "Invalid service name\n";
 		}
+		for(int i =0; i < mainApp.getServiceArray().size(); i++){
+			if(serviceNameF.getText().equalsIgnoreCase(mainApp.getServiceArray().get(i).getServiceName())){
+				errorMsg += "service name already exists \n";
+			}
+		}
 		if (optionIsEmpty == true) {
 			errorMsg += "must select a duration\n";
 		}
