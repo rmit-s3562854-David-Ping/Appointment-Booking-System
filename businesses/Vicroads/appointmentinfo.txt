@@ -1,1 +1,2 @@
 username1|e00001|2017-05-08T08:00|Driving Test
+username1|e00001|2017-05-23T08:30|Hazard Perception Test
