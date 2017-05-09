@@ -42,17 +42,9 @@ public class LoginPageController {
 		Customer customer = new Customer();
 		Owner owner = new Owner();
 		Admin admin = new Admin();
-		if (owner.checkLogin(usernameField.getText(), passwordField.getText())) {
-			mainApp.setUsername(usernameField.getText());
-			mainApp.showOwnerHomePage();
-		} else if (customer.checkLogin(usernameField.getText(), passwordField.getText())) {
-			mainApp.setUsername(usernameField.getText());
-			mainApp.showChooseBusinessPage();
-		}
-		else if (admin.checkLogin(usernameField.getText(), passwordField.getText())) {
-			mainApp.showNewBusinessPage();
-		}
-		else {
+		Facade facade = new Facade(usernameField.getText(), passwordField.getText());
+		
+		if(facade.login(usernameField.getText(), passwordField.getText())== false) {
 			invalid.setText("Invalid username/password");
 			invalid.setTextFill(Color.RED);
 		}
