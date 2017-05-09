@@ -60,7 +60,7 @@ public class makeBusinessPageController {
 				ownerArray.add(newOwner);
 				writer.saveOwner();
 
-				Alert alert = new Alert(AlertType.CONFIRMATION);
+				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Success");
 				alert.setHeaderText("Registration complete");
 				alert.setContentText("Business registration successful!");
