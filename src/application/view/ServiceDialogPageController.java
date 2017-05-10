@@ -98,6 +98,7 @@ public class ServiceDialogPageController {
 
 	private boolean isInputValid() {
 		Utility util = new Utility();
+		mainApp = new MainApp();
 		String errorMsg = "";
 		boolean optionIsEmpty = (duration.getValue() == null);
 
