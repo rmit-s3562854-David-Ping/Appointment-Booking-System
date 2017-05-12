@@ -252,7 +252,7 @@ public class BookingsDialogPageController {
 		}
 		List<LocalTime> unavailableTimeBlocks = new ArrayList<LocalTime>();
 		for (int i = 0; i < mainApp.getAppointmentArray().size(); i++) {
-			if (mainApp.getAppointmentArray().get(i).getEmployeeId().equals(employee) && mainApp.getAppointmentArray()
+			if (mainApp.getAppointmentArray().get(i).getEmployeeId().equals(employee.getEmployee(employeeId).getId()) && mainApp.getAppointmentArray()
 					.get(i).getDateAndTime().toLocalDate().equals(datePicker.getValue())) {
 				int thisDuration = service.getService(mainApp.getAppointmentArray().get(i).getServiceName())
 						.getDuration();
