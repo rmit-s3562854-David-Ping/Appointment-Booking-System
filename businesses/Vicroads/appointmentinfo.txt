@@ -7,3 +7,4 @@ username1|e00001|2017-05-12T09:00|Driving Test
 username1|e00001|2017-05-12T10:00|Driving Test
 username1|e00001|2017-05-12T11:00|Learners' Test
 username1|e00001|2017-05-26T07:00|Learners' Test
+username1|e00002|2017-05-31T09:30|Driving Test
