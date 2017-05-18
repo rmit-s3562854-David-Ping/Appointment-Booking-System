@@ -31,12 +31,12 @@
                <children>
                   <AnchorPane layoutX="79.0" layoutY="162.0" prefHeight="600.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label layoutX="30.0" layoutY="30.0" text="Employee Details">
+                        <Label layoutX="30.0" layoutY="20.0" text="Employee Details">
                            <font>
-                              <Font size="24.0" />
+                              <Font name="System Bold" size="36.0" />
                            </font>
                         </Label>
-                        <GridPane layoutX="30.0" layoutY="70.0" prefHeight="90.0" prefWidth="260.0">
+                        <GridPane layoutX="30.0" layoutY="90.0" prefHeight="90.0" prefWidth="260.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -79,12 +79,12 @@
                               </Label>
                            </children>
                         </GridPane>
-                        <Label layoutX="30.0" layoutY="180.0" text="Work Times" underline="true">
+                        <Label layoutX="30.0" layoutY="200.0" text="Work Times" underline="true">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <GridPane layoutX="30.0" layoutY="220.0" prefHeight="210.0" prefWidth="260.0">
+                        <GridPane layoutX="30.0" layoutY="245.0" prefHeight="175.0" prefWidth="260.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="83.0" prefWidth="94.0" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="177.0" minWidth="135.0" prefWidth="166.0" />
@@ -171,7 +171,7 @@
                               </Label>
                            </children>
                         </GridPane>
-                        <GridPane layoutX="350.0" layoutY="450.0" prefHeight="40.0" prefWidth="180.0">
+                        <GridPane layoutX="334.0" layoutY="440.0" prefHeight="40.0" prefWidth="180.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#handleNew" text="New">
                                  <font>
@@ -198,8 +198,8 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
-                        <ListView fx:id="servicesList" layoutX="315.0" layoutY="230.0" prefHeight="200.0" prefWidth="200.0" />
-                        <Label layoutX="315.0" layoutY="180.0" text="Services" underline="true">
+                        <ListView fx:id="servicesList" layoutX="315.0" layoutY="245.0" prefHeight="175.0" prefWidth="200.0" />
+                        <Label layoutX="315.0" layoutY="200.0" text="Services" underline="true">
                            <font>
                               <Font size="18.0" />
                            </font>
