@@ -10,44 +10,44 @@
    <top>
       <AnchorPane fx:id="header" visible="false">
          <children>
-            <Pane layoutY="50.0" prefHeight="30.0" prefWidth="800.0" styleClass="background-grey" stylesheets="@../../styles/application.css" BorderPane.alignment="CENTER">
+            <Pane layoutY="50.0" prefHeight="32.0" prefWidth="800.0" styleClass="background-grey" stylesheets="@../../styles/application.css" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="logoutButton" layoutX="720.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="30.0" prefWidth="80.0" text="Logout">
+                  <Button fx:id="logoutButton" layoutX="720.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="32.0" prefWidth="80.0" styleClass="button-nav" stylesheets="@../../styles/application.css" text="Logout">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="myDetailsButton" layoutX="620.0" mnemonicParsing="false" onAction="#handleMyDetails" prefHeight="30.0" prefWidth="100.0" text="My Details">
+                  <Button fx:id="myDetailsButton" layoutX="620.0" mnemonicParsing="false" onAction="#handleMyDetails" prefHeight="32.0" prefWidth="100.0" styleClass="button-nav" stylesheets="@../../styles/application.css" text="My Details">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Label fx:id="welcomeText" layoutX="460.0" prefHeight="30.0" text="Welcome User">
+                  <Label fx:id="welcomeText" layoutX="460.0" prefHeight="32.0" text="Welcome User">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="homeButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleHome" prefHeight="30.0" text="Home">
+                  <Button fx:id="homeButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleHome" prefHeight="32.0" styleClass="button-nav" stylesheets="@../../styles/application.css" text="Home">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="employeeButton" layoutX="58.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleEmployeesClicked" prefHeight="30.0" text="Employees" visible="false">
+                  <Button fx:id="employeeButton" layoutX="58.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleEmployeesClicked" prefHeight="32.0" styleClass="button-nav" stylesheets="@../../styles/application.css" text="Employees" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="bookingsButton" layoutX="144.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBookingsClicked" prefHeight="30.0" text="Bookings" visible="false">
+                  <Button fx:id="bookingsButton" layoutX="144.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBookingsClicked" prefHeight="32.0" styleClass="button-nav" stylesheets="@../../styles/application.css" text="Bookings" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="businessButton" layoutX="221.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBusinessHoursClicked" prefHeight="30.0" text="Business Hours" visible="false">
+                  <Button fx:id="businessButton" layoutX="221.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleBusinessHoursClicked" prefHeight="32.0" styleClass="button-nav" stylesheets="@../../styles/application.css" text="Business Hours" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="servicesButton" layoutX="334.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleServicesClicked" prefHeight="30.0" text="Services" visible="false">
+                  <Button fx:id="servicesButton" layoutX="334.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleServicesClicked" prefHeight="32.0" styleClass="button-nav" stylesheets="@../../styles/application.css" text="Services" visible="false">
                      <font>
                         <Font size="14.0" />
                      </font>
