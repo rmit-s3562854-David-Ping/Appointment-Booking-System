@@ -13,15 +13,30 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <Button layoutX="200.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleMakeAppointmentClicked" prefHeight="50.0" prefWidth="400.0" text="Make an Appointment">
+      <Button layoutX="200.0" layoutY="100.0" mnemonicParsing="false" onAction="#handleMakeAppointmentClicked" prefHeight="50.0" prefWidth="400.0" text="Make an Appointment">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="200.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleViewAppointmentsClicked" prefHeight="50.0" prefWidth="400.0" text="View Appointments">
+      <Button layoutX="200.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleViewAppointmentsClicked" prefHeight="50.0" prefWidth="400.0" text="View Appointments">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+      <Label fx:id="businessName" layoutX="200.0" layoutY="240.0" prefHeight="20.0" text="Business Name">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="address" layoutX="200.0" layoutY="265.0" text="Address">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="contactNumber" layoutX="200.0" layoutY="290.0" text="Contact Number">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -8,6 +8,7 @@ import application.MainApp;
 import application.main.Appointment;
 import application.main.Writer;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 /**
  * @author David Ping
@@ -16,6 +17,13 @@ import javafx.fxml.FXML;
 
 public class CustomerHomePageController {
 
+	@FXML
+	private Label businessName;
+	@FXML
+	private Label address;
+	@FXML
+	private Label contactNumber;
+	
 	public CustomerHomePageController() {
 	}
 
@@ -28,6 +36,13 @@ public class CustomerHomePageController {
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
+		businessName.setText(mainApp.getBusinessName());
+		for(int i=0;i<mainApp.getOwnerArray().size();i++){
+			if(mainApp.getOwnerArray().get(i).getBusinessName().equals(mainApp.getBusinessName())){
+				address.setText(mainApp.getOwnerArray().get(i).getAddress());
+				contactNumber.setText("Tel: "+mainApp.getOwnerArray().get(i).getContactNumber());
+			}
+		}
 	}
 
 	public void handleMakeAppointmentClicked() {

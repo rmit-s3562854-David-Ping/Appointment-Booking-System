@@ -1,4 +1,4 @@
 e00001|Hayley|Smith|[Driving Test, Learners' Test, Hazard Perception Test]|MONDAY-08:00-19:00,TUESDAY-08:00-15:00,WEDNESDAY-09:00-12:00,THURSDAY-10:00-16:30,FRIDAY-07:00-13:30
-e00002|Stan|Smith|[]|
+e00002|Stan|Smith|[Driving Test, Hazard Perception Test]|MONDAY-08:00-17:30,TUESDAY-08:00-14:30,WEDNESDAY-09:00-15:00,THURSDAY-10:00-20:00
 e00003|Francine|Smith|[]|
 e00004|Steve|Smith|[]|
