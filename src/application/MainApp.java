@@ -502,7 +502,7 @@ public class MainApp extends Application {
     public boolean showMyDetailsPage(Member member) {
     	try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/myDetailsPage.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/MyDetailsPage.fxml"));
             AnchorPane detailsPage = (AnchorPane) loader.load();
 
             Stage memberStage = new Stage();
